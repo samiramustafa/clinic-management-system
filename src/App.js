@@ -6,6 +6,7 @@ import Footer from './component/Footer.js';
 import "./component/style.css";
 import Hero from './component/Hero.js';
 import About from './pages/About.js';
+import Register from './component/Register.js'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Switch>
           <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />
+          <Route path="/Register" component={Register} exact />
    
         </Switch>
         
