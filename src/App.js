@@ -1,3 +1,14 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import './css/style.css';
+
+import './scss/bootstrap/scss/bootstrap.scss';
+import './scss/bootstrap/scss/bootstrap-utilities.scss';
+import './scss/bootstrap/scss/bootstrap-reboot.scss';
+import './scss/bootstrap/scss/bootstrap-grid.scss';
+import './scss/bootstrap.scss';
+
+import Details from './api/Details';
+import ListDoctors from './api/list';
 
 import './App.css';
 import Navbar from './component/Navbar.js';
@@ -16,9 +27,9 @@ function App() {
         <Switch>
           <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />
-   
+          {/* Add more routes if needed */}
         </Switch>
-        
+
         <Footer />
       </BrowserRouter>
     </div>
