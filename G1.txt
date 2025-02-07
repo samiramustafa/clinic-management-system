@@ -1,0 +1,46 @@
+Users: 
+    Admin 
+    Doctor 
+    Patient 
+    Guest 
+    "Staff"
+                    "Each Task has Branch"
+
+        1- meeting --> repo github --> clone --> branch 
+        2- choose ui library 
+        3- choose colors --> template 
+
+    1- Home Page --> serviecs ---- 
+
+    2- login page 
+
+    3- register page --> username email password national id dropdown menu (doctor or patient): 
+      if he select -->  patient: 
+               gender
+               birthdate 
+               address
+               phone number
+
+    4- list doctors --> from fake API 
+
+    5- details doctor --> name specilist availble time
+
+---> All Taskes Merged 
+
+        Next Meeting: 7 Feb
+    __________________________________________________________
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
