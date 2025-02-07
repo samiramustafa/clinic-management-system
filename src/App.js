@@ -11,6 +11,7 @@ import Details from './api/Details';
 import ListDoctors from './api/list';
 
 import './App.css';
+import Login from './pages/Login';
 import Navbar from './component/Navbar.js';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Footer from './component/Footer.js';
@@ -27,6 +28,7 @@ function App() {
         <Switch>
           <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />
+          <Route path="/login" component={Login} exact />
           {/* Add more routes if needed */}
         </Switch>
 
