@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Details from '../api/Details';
+import ListDoctors from '../api/list';
+import Login from './Login';
 
 function Navbar() {
     const [isPagesDropdownOpen, setPagesDropdownOpen] = useState(false);
@@ -50,7 +53,7 @@ function Navbar() {
                             <NavLink exact to="/" className="nav-item nav-link" activeClassName="active">Home</NavLink>
                             <NavLink to="/about" className="nav-item nav-link" activeClassName="active">About</NavLink>
                             <NavLink to="/service" className="nav-item nav-link" activeClassName="active">Service</NavLink>
-                            <NavLink to="/contact" className="nav-item nav-link" activeClassName="active">Contact</NavLink>
+                            <NavLink to="/login" className="nav-item nav-link" activeClassName="active">login</NavLink>
 
 
                             <div className="nav-item dropdown" ref={pagesDropdownRef}>
@@ -58,8 +61,8 @@ function Navbar() {
                                     Pages
                                 </button>
                                 <div className={`dropdown-menu m-0 ${isPagesDropdownOpen ? "show" : ""}`}>
-                                    <NavLink to="/blog" className="dropdown-item">Blog Grid</NavLink>
-                                    <NavLink to="/detail" className="dropdown-item">Blog Detail</NavLink>
+                                    <NavLink to="/ListDoctors" className="dropdown-item">ListDoctors</NavLink>
+                                    <NavLink to="/Details" className="dropdown-item">Details</NavLink>
                                     <NavLink to="/team" className="dropdown-item">The Team</NavLink>
                                     <NavLink to="/testimonial" className="dropdown-item">Testimonial</NavLink>
                                     <NavLink to="/appointment" className="dropdown-item">Appointment</NavLink>

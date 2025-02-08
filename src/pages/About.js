@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import "../component/style.css";
-import  help from './img/about.jpg'
+import "../css/style.css";
+import  help from './img/about.jpg';
 function About() {
     return (
         <div className="container-fluid py-5">
