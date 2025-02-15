@@ -1,311 +1,271 @@
-// import React, { useState } from "react";
-// // import Title from './components/Title';
-// // import Input from '../components/Input';
-// // import './App.css'; 
- 
-// const PasswordErrorMessage = () => { 
-//  return ( 
-//    <p className="FieldError">Password should have at least 8 characters</p> 
-//  ); 
-// }; 
- 
-// function Register() { 
-//  const [firstName, setFirstName] = useState(""); 
-//  const [lastName, setLastName] = useState(""); 
-//  const [email, setEmail] = useState(""); 
-//  const [password, setPassword] = useState({ 
-//    value: "", 
-//    isTouched: false, 
-//  }); 
-//  const [role, setRole] = useState("role"); 
-
-//  const getIsFormValid = () => { 
-//    return ( 
-//      firstName  
-//     //  validateEmail(email) && 
-//     //  password.value.length >= 8 && 
-//     //  role !== "role" 
-//    ); 
-//  }; 
- 
-//  const clearForm = () => { 
-//    setFirstName(""); 
-//    setLastName(""); 
-//    setEmail(""); 
-//    setPassword({ 
-//      value: "", 
-//      isTouched: false, 
-//    }); 
-//    setRole("role"); 
-//  }; 
- 
-//  const handleSubmit = (e) => { 
-//    e.preventDefault(); 
-//    alert("Account created!"); 
-//    clearForm(); 
-//  }; 
- 
-//  return ( 
-//    <div className="App"> 
-//      <form onSubmit={handleSubmit}> 
-//        <fieldset> 
-//          <h2>Sign Up</h2> 
-//          <div className="Field"> 
-//            <label> 
-//              First name <sup>*</sup> 
-//            </label> 
-//            <input 
-//              value={firstName} 
-//              onChange={(e) => { 
-//                setFirstName(e.target.value); 
-//              }} 
-//              placeholder="First name" 
-//            /> 
-//          </div> 
-//          <div className="Field"> 
-//            <label>Last name</label> 
-//            <input 
-//              value={lastName} 
-//              onChange={(e) => { 
-//                setLastName(e.target.value); 
-//              }} 
-//              placeholder="Last name" 
-//            /> 
-//          </div> 
-//          <div className="Field"> 
-//            <label> 
-//              Email address <sup>*</sup> 
-//            </label> 
-//            <input 
-//              value={email} 
-//              onChange={(e) => { 
-//                setEmail(e.target.value); 
-//              }} 
-//              placeholder="Email address" 
-//            /> 
-//          </div> 
-//          <div className="Field"> 
-//            <label> 
-//              Password <sup>*</sup> 
-//            </label> 
-//            <input 
-//              value={password.value} 
-//              type="password" 
-//              onChange={(e) => { 
-//                setPassword({ ...password, value: e.target.value }); 
-//              }} 
-//              onBlur={() => { 
-//                setPassword({ ...password, isTouched: true }); 
-//              }} 
-//              placeholder="Password" 
-//            /> 
-//            {password.isTouched && password.value.length < 8 ? ( 
-//              <PasswordErrorMessage /> 
-//            ) : null} 
-//          </div> 
-//          <div className="Field"> 
-//            <label> 
-//              Role <sup>*</sup> 
-//            </label> 
-//            <select value={role} onChange={(e) => setRole(e.target.value)}> 
-//              <option value="role">Role</option> 
-//              <option value="individual">Individual</option> 
-//              <option value="business">Business</option> 
-//            </select> 
-//          </div> 
-//          <button type="submit" disabled={!getIsFormValid()}> 
-//            Create account 
-//          </button> 
-//        </fieldset> 
-//      </form> 
-//    </div> 
-//  ); 
-// } 
 
 
-
-
-
-
-
-// export default Register;
-
-
-
-
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import InputField from "./Input";
+import { useHistory, Link } from "react-router-dom";
+import Title from "./Title";
 
 const Register = () => {
     const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        nationalId: '',
-        role: 'patient', // Default role
-        gender: '',
-        birthdate: '',
-        address: '',
-        phoneNumber: '',
+        username: "",
+        email: "",
+        password: "",
+        nationalId: "",
+        role: "patient",
+        gender: "",
+        birthdate: "",
+        address: "",
+        phoneNumber: "",
     });
 
+    const [errors, setErrors] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
+
+    const [showSnackbar, setShowSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [alertVariant, setAlertVariant] = useState("danger");
+    const history = useHistory();
+
+    const regexPatterns = {
+        email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+        phoneNumber: /^(010|011|012|015)\d{8}$/,
+        username: /^[a-zA-Z0-9]{5,20}$/,
+        nationalId: /^(2|3)\d{13}$/
+
+
+    };
+
+    const validateField = (name, value) => {
+        let newerrors = "";
+        if (!value) {
+            return "this field is required"
+        }
+        if (regexPatterns[name] && !regexPatterns[name].test(value)) {
+            switch (name) {
+                case "email":
+                    newerrors = "Invalid email format";
+                    break;
+                case "password":
+                    newerrors = "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number";
+                    break;
+
+                case "phoneNumber":
+                    newerrors = "phone should contain 14 char"
+                    break;
+                case "username":
+                    newerrors = "user name should contain from 5 to 20 char";
+                    break;
+                case "nationalId":
+                    newerrors = "nationalId should contain 14 char"
+                    break;
+                default:
+                    break;
+            }
+            return newerrors
+        }
+    }
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
+        setFormData({ ...formData, [name]: value })
+        let updatedErrors = { ...errors, [name]: validateField(name, value) };
+        setErrors(updatedErrors)
+
     };
+
+    const validate = () => {
+        const tempErrors = {};
+        Object.keys(formData).forEach((key) => {
+            tempErrors[key] = validateField(key, formData[key]);
+        });
+
+        setErrors(tempErrors);
+        return Object.keys(tempErrors).every((key) => !tempErrors[key]);
+    };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Store data in local storage
-        localStorage.setItem('userData', JSON.stringify(formData));
-        alert('Registration successful! Data stored in local storage.'); // Replace with a more user-friendly notification or redirect
+        if (!validate()) return;
+
+
+
+        let users = JSON.parse(localStorage.getItem("clinic_data")) || [];
+        console.log("Stored users:", users);
+        const { confirmPassword, ...userData } = formData;
+
+
+        if (users.some(user => user.username === formData.username)) {
+            setSnackbarMessage("Username already exists!");
+            setShowSnackbar(true);
+            return;
+        }
+        if (users.some(user => user.email === formData.email)) {
+            setSnackbarMessage("Email already exists!");
+            setAlertVariant("danger");
+            setShowSnackbar(true);
+            return;
+        }
+
+        users.push(userData);
+        localStorage.setItem("clinic_data", JSON.stringify(users));
+
+        setSnackbarMessage("Account created successful!...");
+        setAlertVariant("success");
+        setShowSnackbar(true);
+
+        setTimeout(() => {
+            history.push("/");
+        }, 1000);
     };
 
     return (
-        <div className="container mt-5">
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
-                {/* Username */}
-                <div className="mb-3">
-                    <label htmlFor="username" className="form-label">Username</label>
-                    <input
+        <div className="container d-flex flex-column align-items-center py-5">
+            <div className="shadow p-4" style={{ width: "500px" }}>
+                {showSnackbar && (
+                    <div className={`alert alert-${alertVariant} alert-dismissible fade show`} role="alert">
+                        <strong>{snackbarMessage}</strong>
+                        <button type="button" className="btn-close" onClick={() => setShowSnackbar(false)}></button>
+                    </div>
+                )}
+                <Title titleName="Register" />
+                <form onSubmit={handleSubmit}>
+
+                    <InputField
+                        label="Username"
                         type="text"
-                        className="form-control"
-                        id="username"
                         name="username"
                         value={formData.username}
                         onChange={handleChange}
-                        required
+                        isInvalid={Boolean(errors.username)}
+                        feedback={errors.username}
                     />
-                </div>
 
-                {/* Email */}
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input
+
+                    <InputField
+                        label="Email"
                         type="email"
-                        className="form-control"
-                        id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        required
+                        isInvalid={Boolean(errors.email)}
+                        feedback={errors.email}
                     />
-                </div>
 
-                {/* Password */}
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="password"
+
+                    <InputField
+                        label="Password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        required
+                        isInvalid={Boolean(errors.password)}
+                        feedback={errors.password}
+                        showPasswordToggle={true}
+                        onPasswordToggle={() => setShowPassword(!showPassword)}
                     />
-                </div>
 
-                {/* National ID */}
-                <div className="mb-3">
-                    <label htmlFor="nationalId" className="form-label">National ID</label>
-                    <input
+
+                    <InputField
+                        label="National ID"
                         type="text"
-                        className="form-control"
-                        id="nationalId"
                         name="nationalId"
                         value={formData.nationalId}
                         onChange={handleChange}
-                        required
+                        isInvalid={Boolean(errors.nationalId)}
+                        feedback={errors.nationalId}
                     />
-                </div>
 
-                {/* Role (Doctor or Patient) */}
-                <div className="mb-3">
-                    <label htmlFor="role" className="form-label">Role</label>
-                    <select
-                        className="form-select"
-                        id="role"
-                        name="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                    >
-                        <option value="patient">Patient</option>
-                        <option value="doctor">Doctor</option>
-                    </select>
-                </div>
 
-                {/* Patient Specific Fields (Conditionally Rendered) */}
-                {formData.role === 'patient' && (
-                    <>
-                        {/* Gender */}
-                        <div className="mb-3">
-                            <label htmlFor="gender" className="form-label">Gender</label>
-                            <select
-                                className="form-select"
-                                id="gender"
-                                name="gender"
-                                value={formData.gender}
-                                onChange={handleChange}
-                                required // Make gender required if patient is selected
-                            >
-                                <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
+                    <div className="mb-3">
+                        <label className="form-label">Role</label>
+                        <select
+                            className="form-select"
+                            name="role"
+                            value={formData.role}
+                            required
+                            onChange={handleChange}
+                        >
+                            <option value="patient">Patient</option>
+                            <option value="doctor">Doctor</option>
+                        </select>
+                    </div>
 
-                        {/* Birthdate */}
-                        <div className="mb-3">
-                            <label htmlFor="birthdate" className="form-label">Birthdate</label>
-                            <input
+
+                    {formData.role === "patient" && (
+                        <>
+
+                            <div className="mb-3">
+                                <label className="form-label">Gender</label>
+                                <select
+                                    className={`form-select ${errors.gender ? "is-invalid" : ""}`}
+                                    name="gender"
+                                    required
+                                    isInvalid={Boolean(errors.gender)}
+                                    feedback={errors.gender}
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+
+                                </select>
+                                {errors.gender && <div className="invalid-feedback">{errors.gender}</div>}
+                            </div>
+
+                            <InputField
+                                label="Birthdate"
                                 type="date"
-                                className="form-control"
-                                id="birthdate"
                                 name="birthdate"
+                                isInvalid={Boolean(errors.birthdate)}
+                                feedback={errors.birthdate}
                                 value={formData.birthdate}
                                 onChange={handleChange}
-                                required // Make birthdate required if patient is selected
                             />
-                        </div>
 
-                        {/* Address */}
-                        <div className="mb-3">
-                            <label htmlFor="address" className="form-label">Address</label>
-                            <input
+                            <InputField
+                                label="Address"
                                 type="text"
-                                className="form-control"
-                                id="address"
                                 name="address"
                                 value={formData.address}
                                 onChange={handleChange}
-                                required // Make address required if patient is selected
+                                isInvalid={Boolean(errors.address)}
+                                feedback={errors.address}
                             />
-                        </div>
 
-                        {/* Phone Number */}
-                        <div className="mb-3">
-                            <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
-                            <input
-                                type="tel" // Use type="tel" for phone numbers
-                                className="form-control"
-                                id="phoneNumber"
+                            <InputField
+                                label="Phone Number"
+                                type="tel"
+                                isInvalid={Boolean(errors.phoneNumber)}
+                                feedback={errors.phoneNumber}
                                 name="phoneNumber"
                                 value={formData.phoneNumber}
                                 onChange={handleChange}
-                                required // Make phone number required if patient is selected
                             />
-                        </div>
-                    </>
-                )}
+                        </>
+                    )}
 
-                <button type="submit" className="btn btn-primary">Register</button>
-            </form>
+                    <button type="submit" className="btn btn-primary w-100 mt-3 fw-bold fs-3">
+                        Register
+                    </button>
+                </form>
+                <div className="d-flex align-items-center my-3">
+                    <hr className="flex-grow-1" />
+                    <span className="mx-3">I don't have an account</span>
+                    <hr className="flex-grow-1" />
+                </div>
+                <Link to="/Register" className="btn btn-light w-100 border fw-bold fs-5 text-dark text-decoration-none fw-bold fs-4">
+                    Login
+                </Link>
+                <div className="text-center mt-4" style={{ fontSize: '12px' }}>
+                    <a href="#" className="text-decoration-none me-3">Conditions of Use</a>
+                    <a href="#" className="text-decoration-none me-3">Notice of Use</a>
+                    <a href="#" className="text-decoration-none">Help</a>
+                    <p className="mt-2 text-muted">© 1996-2024, Clinic.com, Inc. or its affiliates</p>
+                </div>
+            </div>
         </div>
     );
 };
