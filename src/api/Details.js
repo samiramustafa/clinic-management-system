@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Mycard from "../component/Mycard";
+import Card from "../component/Card";
 
 function Details() {
     const [doctors, setDoctors] = useState([]);
@@ -16,7 +16,7 @@ function Details() {
     return (
         <>
             
-            <Mycard
+            <Card
                 img={doctors.img}
                 name={doctors.full_name}
                 specialization={doctors.Specialization}
