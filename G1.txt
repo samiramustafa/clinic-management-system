@@ -30,6 +30,17 @@ Users:
         Next Meeting: 7 Feb
     __________________________________________________________
 
+    user profile  update git 
+    pagination 
+    admin panel   add  update delete  doctor
+    feedback
+    reat 
+    __________________________________________________________
+
+    API
+    user 
+    feedback 
+
 
 
 
