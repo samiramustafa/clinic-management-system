@@ -35,7 +35,9 @@ function App() {
 
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
-          <Route path="/Details" component={Details} exact />
+          <Route path="/Details/:id" component={Details} exact />
+
+
 
 
 
