@@ -85,11 +85,13 @@ const FeedbackList = () => {
       </div>
 
       <nav className="mt-4">
-        <ul className="pagination justify-content-center">
+        <ul className="pagination justify-content-center flex-wrap">
+       
           <li className={`page-item ${currentfeedback === 1 ? "disabled" : ""}`}>
             <button className="page-link" onClick={() => paginate(currentfeedback - 1)}>Previous</button>
           </li>
 
+        
           {[...Array(Math.ceil(feedbacks.length / feedperpage))].map((_, i) => (
             <li key={i} className={`page-item ${currentfeedback === i + 1 ? "active" : ""}`}>
               <button className="page-link" onClick={() => paginate(i + 1)}>{i + 1}</button>
@@ -101,6 +103,7 @@ const FeedbackList = () => {
           </li>
         </ul>
       </nav>
+
     </div>
   );
 };

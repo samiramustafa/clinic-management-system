@@ -52,7 +52,7 @@ function Navbar() {
                         <div className="navbar-nav ms-auto py-0">
                             <NavLink exact to="/" className="nav-item nav-link" activeClassName="active">Home</NavLink>
                             <NavLink to="/about" className="nav-item nav-link" activeClassName="active">About</NavLink>
-                            <NavLink to="/service" className="nav-item nav-link" activeClassName="active">Service</NavLink>
+                            <NavLink to="/ListDoctors" className="nav-item nav-link" activeClassName="active">All Doctors</NavLink>
                             <NavLink to="/login" className="nav-item nav-link" activeClassName="active">login</NavLink>
 
 
