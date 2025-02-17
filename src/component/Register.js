@@ -201,7 +201,7 @@ const Register = () => {
                                 <select
                                     className={`form-select ${errors.gender ? "is-invalid" : ""}`}
                                     name="gender"
-                                    required
+                                    
                                     isInvalid={Boolean(errors.gender)}
                                     feedback={errors.gender}
                                     value={formData.gender}
