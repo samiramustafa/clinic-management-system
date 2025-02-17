@@ -41,9 +41,11 @@ import  {  useState } from "react";
                   
                         </>
                     )}
+                    {/* <i class="bi bi-check text-success fs-5"></i> */}
+                    {/* style={{ color: "#2ec742", fontSize: "12px" }} */}
                     {props.isAvailable && (
                         <>
-                            <p className="card-text text-success"><i class="bi bi-check text-success fs-5"></i><b> Available</b> {props.isAvailable}
+                            <p className="card-text " style={{ color: "#2ec738", fontSize: "16px" }}><i class="bi bi-record-circle-fill " ></i><b> Available</b> {props.isAvailable}
                             
                             </p>
                   
