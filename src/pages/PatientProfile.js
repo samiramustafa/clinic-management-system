@@ -67,8 +67,22 @@ const PatientProfile = () => {
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          img: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   if (!user) {
-    return <div>Loading...</div>;  
+    return <div>Loading...</div>;
   }
 
   return (
@@ -136,6 +150,13 @@ const PatientProfile = () => {
             name="job_title"
             value={formData.job_title}
             onChange={handleChange}
+            className="form-control mb-2"
+          />
+
+          <label>Profile Picture:</label>
+          <input
+            type="file"
+            onChange={handleImageChange}
             className="form-control mb-2"
           />
 
