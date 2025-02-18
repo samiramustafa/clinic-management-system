@@ -20,7 +20,7 @@ function Details() {
     }, [])
     return (
         <>
-            
+            <p className="text text-dark fw-bold fs-2 text-center mt-5"> {doctors.full_name}</p>
             <Card
                 img={doctors.img}
                 name={doctors.full_name}

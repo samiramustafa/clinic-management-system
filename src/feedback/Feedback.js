@@ -14,32 +14,32 @@ const Feedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [errors, setErrors] = useState([]);
 
-   const queryParams = new URLSearchParams(useLocation().search);
-  const feedbackId = queryParams.get("feedback"); 
+  //  const queryParams = new URLSearchParams(useLocation().search);
+  // const feedbackId = queryParams.get("feedback"); 
   
 
-  // Handle input changes
+ 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!formData.user_name || !formData.feedback) {
-      return; // Ensure the form is complete before submitting
+      return; 
     }
 
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000); // Hide message after 3 sec
+    setTimeout(() => setSubmitted(false), 3000); 
 
-    // Send data to the API when form is submitted
+   
     axios
       .post("https://retoolapi.dev/yXHfgN/feeback_and_rating", formData)
       .then((response) => {
         console.log("Feedback submitted successfully:", response.data);
-        // You can optionally reset form data or handle further logic here
+       
       })
       .catch((error) => {
         setErrors("Error submitting feedback");
@@ -47,13 +47,13 @@ const Feedback = () => {
       });
 
 
-      useEffect(() => {
-        axios.put("https://retoolapi.dev/yXHfgN/feeback_and_rating"+feedbackId)
-            .then((response) => {
-              setFeedbacks(response.data)
-            })
-            .catch((error) => setErrors("Error"))
-    }, [])
+    //   useEffect(() => {
+    //     axios.put("https://retoolapi.dev/yXHfgN/feeback_and_rating"+feedbackId)
+    //         .then((response) => {
+    //           setFeedbacks(response.data)
+    //         })
+    //         .catch((error) => setErrors("Error"))
+    // }, [])
     
 
     // Optionally reset the form after submission
