@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "../component/Card";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import Feedback from "../component/Feedback";
-import FeedbackList from '../component/FeedbackList';
+import Feedback from "../feedback/Feedback";
+import FeedbackList from '../feedback/FeedbackList';
 
 function Details() {
     const [doctors, setDoctors] = useState([]);
@@ -27,7 +27,10 @@ function Details() {
                 specialization={doctors.Specialization}
                 fees={doctors.fees}
             />
-            <FeedbackList/>
+            <FeedbackList
+                doc_id={id}
+
+            />
             <Feedback/>
         </>
     )

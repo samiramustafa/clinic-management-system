@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import Feedback from "../feedback/Feedback";
+
 function Card(props) {
     return (
         <div className="container-fluid py-5">
@@ -15,7 +18,7 @@ function Card(props) {
                             </div>
                             <div className="col-12 col-sm-7 h-100 d-flex flex-column">
                                 <div className="mt-auto p-4">
-                                    <h3>{props.name}</h3>
+                                    <h3>DR. {props.name}</h3>
                                     <h6 className="fw-normal fst-italic text-primary mb-4">
                                         {props.Specialist}
                                     </h6>
@@ -24,21 +27,27 @@ function Card(props) {
                                     </p>
 
                                     <p className="m-0">
-                                        {props.fees}
+                                        {props.fees} $
                                     </p>
 
 
                                 </div>
                                 <div className="d-flex mt-auto border-top p-4">
-                                    <a className="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#">
+                                <Link className="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" style={{ textDecoration: "none" }} to="#">
                                         <i className="fab fa-twitter text-light"></i>
-                                    </a>
+                                        </Link>
                                     <a className="btn btn-lg btn-primary btn-lg-square rounded-circle me-3" href="#">
                                         <i className="fab fa-facebook-f text-light"></i>
                                     </a>
                                     <a className="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#">
                                         <i className="fab fa-linkedin-in text-light"></i>
                                     </a>
+                                    <Link 
+                                        className="btn btn-lg btn-primary text-light ms-5 rounded-pill" 
+                                        to= {<Feedback/>}
+                                        > 
+                                        Feedback
+                                    </Link>
                                 </div>
                             </div>
                         </div>
