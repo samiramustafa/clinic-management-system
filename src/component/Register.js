@@ -256,7 +256,7 @@ const Register = () => {
                     <span className="mx-3">I don't have an account</span>
                     <hr className="flex-grow-1" />
                 </div>
-                <Link to="/Register" className="btn btn-light w-100 border fw-bold fs-5 text-dark text-decoration-none fw-bold fs-4">
+                <Link to="/login" className="btn btn-light w-100 border fw-bold fs-5 text-dark text-decoration-none fw-bold fs-4">
                     Login
                 </Link>
                 <div className="text-center mt-4" style={{ fontSize: '12px' }}>
