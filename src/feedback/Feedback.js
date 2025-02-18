@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 const Feedback = () => {
 
@@ -47,13 +48,13 @@ const Feedback = () => {
       });
 
 
-      useEffect(() => {
-        axios.put("https://retoolapi.dev/yXHfgN/feeback_and_rating"+feedbackId)
-            .then((response) => {
-              setFeedbacks(response.data)
-            })
-            .catch((error) => setErrors("Error"))
-    }, [])
+    //   useEffect(() => {
+    //     axios.put("https://retoolapi.dev/yXHfgN/feeback_and_rating"+feedbackId)
+    //         .then((response) => {
+    //           setFeedbacks(response.data)
+    //         })
+    //         .catch((error) => setErrors("Error"))
+    // }, [])
     
 
     // Optionally reset the form after submission

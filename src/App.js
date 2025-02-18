@@ -21,7 +21,10 @@ import Register from './component/Register.js'
 import ListDoctors from './api/list.js'
 import Details from './api/Details.js'
 import FeedbackList from './feedback/FeedbackList.js';
-
+import DoctorProfile from './pages/DoctorProfile.js';
+// import PatientProfile from './pages/PatientProfile'
+import PatientProfile from './pages/PatientProfile'
+ import AppointmentForm from './pages/AppointmentForm'
 function App() {
   return (
     <div>
@@ -32,7 +35,13 @@ function App() {
           <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />
           <Route path="/Register" component={Register} exact />
+          <Route path="/DoctorProfile" component={DoctorProfile} exact />
 
+          <Route path="/PatientProfile" component={PatientProfile} exact />
+          <Route path="/AppointmentForm" component={AppointmentForm} exact />
+
+
+          
 
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />

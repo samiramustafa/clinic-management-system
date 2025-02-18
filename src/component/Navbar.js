@@ -78,8 +78,10 @@ function Navbar() {
                                     <img src="path_to_image" alt="Profile" className="rounded-circle" width="30" height="30" />
                                 </button>
                                 <div className={`dropdown-menu dropdown-menu-end m-0 ${isProfileDropdownOpen ? "show" : ""}`}>
-                                    <NavLink to="/profile" className="dropdown-item">My Profile</NavLink>
-                                    <NavLink to="/myappointment" className="dropdown-item">My Appointment</NavLink>
+                                    <NavLink to="/DoctorProfile" className="dropdown-item">D Profile</NavLink>
+                                    <NavLink to="/PatientProfile" className="dropdown-item">p Profile</NavLink>
+
+                                    <NavLink to="/AppointmentForm" className="dropdown-item">My Appointment</NavLink>
                                     <NavLink to="/logout" className="dropdown-item">Logout</NavLink>
                                 </div>
                             </div>
