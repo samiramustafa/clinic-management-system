@@ -257,7 +257,7 @@ const PatientProfile = () => {
 
       const response = await axios.put(
         `https://retoolapi.dev/Lv7u78/user/${user.id}`,
-        updatedData
+        updatedDatagit
       );
 
       if (response.status === 200) {
