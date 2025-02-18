@@ -20,6 +20,7 @@ import About from './pages/About.js';
 import Register from './component/Register.js'
 import ListDoctors from './api/list.js'
 import Details from './api/Details.js'
+import FeedbackList from './feedback/FeedbackList.js';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
           <Route path="/Details/:id" component={Details} exact />
+
+          <Route path="/Details/:id?feedback=feedbackId" component={FeedbackList} exact />
+
 
 
 
