@@ -30,6 +30,17 @@ function Card(props) {
                                         {props.fees} $
                                     </p>
 
+                                    <div className="mt-auto">
+                       
+                       {props.rate && (
+                     <p className="text-warning fs-5">
+                         {"⭐".repeat(props.rate)}{" "}
+                         <div className="text-muted fs-6">overall rating({props.rate}/5)</div>
+                     </p>
+                 )}
+
+                 </div>
+
 
                                 </div>
                                 <div className="d-flex mt-auto border-top p-4">
