@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const PatientProfile = () => {
-  const [user, setUser] = useState(null);  // ضبط الحالة لتكون null أولاً
+  const [user, setUser] = useState(null); 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     user_name: "",
@@ -16,8 +16,7 @@ const PatientProfile = () => {
   });
 
   useEffect(() => {
-    // جلب بيانات الـ API
-    axios.get(`https://retoolapi.dev/Lv7u78/user/2`)  // تأكد من اختيار ID المريض الصحيح
+    axios.get(`https://retoolapi.dev/Lv7u78/user/2`) 
     .then(response => {
         const apiUserData = response.data;
         setUser(apiUserData);
@@ -69,7 +68,7 @@ const PatientProfile = () => {
   };
 
   if (!user) {
-    return <div>Loading...</div>;  // إذا كانت البيانات غير محملة بعد
+    return <div>Loading...</div>;  
   }
 
   return (

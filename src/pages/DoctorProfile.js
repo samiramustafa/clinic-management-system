@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const DoctorProfile = () => {
-  const [user, setUser] = useState(null);  // ضبط الحالة لتكون null أولاً
+  const [user, setUser] = useState(null);  
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     user_name: "",
@@ -16,7 +16,6 @@ const DoctorProfile = () => {
   });
 
   useEffect(() => {
-    // جلب بيانات الـ API
     axios.get(`https://retoolapi.dev/Lv7u78/user/1`)
     .then(response => {
         const apiUserData = response.data;
@@ -42,13 +41,12 @@ const DoctorProfile = () => {
   };
 
   const handleSave = () => {
-    // هنا يمكنك إرسال البيانات المعدلة عبر API أو حفظها محلياً
-    setUser(formData);  // حفظ البيانات الجديدة
+    setUser(formData);  
     setEditMode(false);
   };
 
   if (!user) {
-    return <div>Loading...</div>;  // إذا كانت البيانات غير محملة بعد
+    return <div>Loading...</div>;  
   }
 
   return (
