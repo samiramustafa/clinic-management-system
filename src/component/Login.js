@@ -78,14 +78,16 @@ function Login() {
             setAlertVariant("danger");
             setShowSnackbar(true);
             return;
-           
+
         }
 
         localStorage.setItem("loginSession", JSON.stringify({ username: user.username, isAdmin: user.isAdmin }));
 
+
         setSnackbarMessage("Login successful! Redirecting...");
         setAlertVariant("success");
         setShowSnackbar(true);
+
 
         setTimeout(() => {
             if (user.role === "doctor") {
@@ -95,6 +97,7 @@ function Login() {
             }
         }, 1000);
     };
+
 
 
     return (
@@ -156,4 +159,10 @@ function Login() {
 }
 
 export default Login;
+
+
+
+
+
+
 
