@@ -16,26 +16,49 @@ function FeedbackList(props) {
   const { pageNumber } = useParams();
     const [currentfeedback, setcurrentfeedback] = useState(Number(pageNumber) || 1);
     const [feedperpage] = useState(3);
+    const [successMessage, setSuccessMessage] = useState("");
 
+
+  // useEffect(() => {
+  //   axios.get("https://retoolapi.dev/yXHfgN/feeback_and_rating")
+  //     .then((response) => {
+  //       setFeedbacks(response.data)
+  //     })
+  //     .catch((error) => setErrors("Error"))
+  // }, [])
+
+  // useEffect(() => {
+  //   if (feedbackId) {
+  //     axios.delete(`https://retoolapi.dev/yXHfgN/feeback_and_rating/${feedbackId}`)
+  //       .then((response) => {
+  //         console.log("Deleted feedback successfully!");
+  //         setFeedbacks(prevFeedbacks => prevFeedbacks.filter(fb => fb.id !== feedbackId));
+  //       })
+  //       .catch((error) => setErrors("Error deleting feedback"));
+  //   }
+  // }, [feedbackId]);
 
   useEffect(() => {
     axios.get("https://retoolapi.dev/yXHfgN/feeback_and_rating")
-      .then((response) => {
-        setFeedbacks(response.data)
-      })
-      .catch((error) => setErrors("Error"))
-  }, [])
-
+      .then((response) => setFeedbacks(response.data))
+      .catch(() => setErrors("Error fetching feedbacks"));
+  }, []);
+  
   useEffect(() => {
     if (feedbackId) {
       axios.delete(`https://retoolapi.dev/yXHfgN/feeback_and_rating/${feedbackId}`)
-        .then((response) => {
-          console.log("Deleted feedback successfully!");
-          setFeedbacks(prevFeedbacks => prevFeedbacks.filter(fb => fb.id !== feedbackId));
+        .then(() => {
+          setFeedbacks(prevFeedbacks => prevFeedbacks.filter(fb => fb.id !== Number(feedbackId))); // Convert ID to number
+          return axios.get("https://retoolapi.dev/yXHfgN/feeback_and_rating"); // Refresh feedback list
         })
-        .catch((error) => setErrors("Error deleting feedback"));
+        .then((response) => {
+          setFeedbacks(response.data);
+          setSuccessMessage("Feedback deleted successfully!"); // Show success message
+        })
+        .catch(() => setErrors("Error deleting feedback"));
     }
   }, [feedbackId]);
+
 
   useEffect(() => {
     axios.put("https://retoolapi.dev/yXHfgN/feeback_and_rating" + feedbackId)
@@ -64,6 +87,11 @@ function FeedbackList(props) {
       <h3 className="mb-3 text-primary">
         <i className="bi bi-star-half me-1"></i>
         Patients’s Reviews </h3>
+        
+        {successMessage && (
+        <div className="alert alert-success mt-3">{successMessage}</div>
+      )}
+
 
       {feedbacks.length > 0 ? (
         currentfeed.map((fb) => (

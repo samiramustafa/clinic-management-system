@@ -78,19 +78,26 @@ function Login() {
             setAlertVariant("danger");
             setShowSnackbar(true);
             return;
-           
+
         }
 
         localStorage.setItem("loginSession", JSON.stringify({ username: user.username, isAdmin: user.isAdmin }));
+
 
         setSnackbarMessage("Login successful! Redirecting...");
         setAlertVariant("success");
         setShowSnackbar(true);
 
+
         setTimeout(() => {
-            history.push("/");
+            if (user.role === "doctor") {
+                history.push("/DoctorProfile");
+            } else if (user.role === "patient") {
+                history.push("/PatientProfile"); 
+            }
         }, 1000);
     };
+
 
 
     return (
@@ -152,4 +159,10 @@ function Login() {
 }
 
 export default Login;
+
+
+
+
+
+
 
