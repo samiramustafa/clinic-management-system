@@ -88,7 +88,11 @@ function Login() {
         setShowSnackbar(true);
 
         setTimeout(() => {
-            history.push("/");
+            if (user.role === "doctor") {
+                history.push("/DoctorProfile");
+            } else if (user.role === "patient") {
+                history.push("/PatientProfile"); 
+            }
         }, 1000);
     };
 
