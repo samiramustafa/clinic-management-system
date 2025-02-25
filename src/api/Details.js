@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "../component/Card";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import Feedback from "../feedback/Feedback";
-import FeedbackList from '../feedback/FeedbackList';
+import Feedback from "../feedback/feedback";
+import FeedbackList from '../feedback/feedbacklist'
 
 function Details() {
     const [doctors, setDoctors] = useState([]);

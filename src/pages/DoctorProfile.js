@@ -187,10 +187,10 @@ const DoctorProfile = () => {
       reader.onloadend = () => {
         setFormData({
           ...formData,
-          img: reader.result // هنا يتم تحديث الصورة
+          img: reader.result
         });
       };
-      reader.readAsDataURL(file); // تحويل الصورة إلى Base64
+      reader.readAsDataURL(file); 
     }
   };
 

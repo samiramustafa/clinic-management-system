@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import Feedback from "../feedback/Feedback";
+import Feedback from "../feedback/feedback";
 
 function Card(props) {
     return (
@@ -44,7 +44,7 @@ function Card(props) {
                                     </a>
                                     <Link 
                                         className="btn btn-lg btn-primary text-light ms-5 rounded-pill" 
-                                        to= {<Feedback/>}
+                                        to= {"/feedback"}
                                         > 
                                         Feedback
                                     </Link>
