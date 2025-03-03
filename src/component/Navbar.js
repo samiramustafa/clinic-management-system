@@ -65,7 +65,7 @@ function Navbar() {
                                     <NavLink to="/Details" className="dropdown-item">Details</NavLink>
                                     <NavLink to="/team" className="dropdown-item">The Team</NavLink>
                                     <NavLink to="/testimonial" className="dropdown-item">Testimonial</NavLink>
-                                    <NavLink to="/appointment" className="dropdown-item">Appointment</NavLink>
+                                    <NavLink to="/Appointment" className="dropdown-item">Appointment</NavLink>
                                     <NavLink to="/search" className="dropdown-item">Search</NavLink>
                                 </div>
                             </div>

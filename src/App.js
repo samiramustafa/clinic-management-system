@@ -40,6 +40,8 @@ function App() {
 
           <Route path="/PatientProfile" component={PatientProfile} exact />
           <Route path="/AppointmentForm" component={AppointmentForm} exact />
+          <Route path="/Appointment" component={ClinicSchedule} exact />
+
 
 
           
