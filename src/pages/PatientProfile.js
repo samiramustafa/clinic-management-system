@@ -203,7 +203,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const PatientProfile = () => {
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);  // ضبط الحالة لتكون null أولاً
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     user_name: "",
@@ -217,7 +217,8 @@ const PatientProfile = () => {
   });
 
   useEffect(() => {
-    axios.get(`https://retoolapi.dev/Lv7u78/user/2`) 
+    // جلب بيانات الـ API
+    axios.get(`https://retoolapi.dev/Lv7u78/user/2`)  // تأكد من اختيار ID المريض الصحيح
     .then(response => {
         const apiUserData = response.data;
         setUser(apiUserData);
@@ -268,22 +269,8 @@ const PatientProfile = () => {
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({
-          ...formData,
-          img: reader.result
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   if (!user) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>;  // إذا كانت البيانات غير محملة بعد
   }
 
   return (
@@ -351,13 +338,6 @@ const PatientProfile = () => {
             name="job_title"
             value={formData.job_title}
             onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>Profile Picture:</label>
-          <input
-            type="file"
-            onChange={handleImageChange}
             className="form-control mb-2"
           />
 

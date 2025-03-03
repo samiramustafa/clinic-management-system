@@ -87,11 +87,6 @@ function FeedbackList(props) {
       <h3 className="mb-3 text-primary">
         <i className="bi bi-star-half me-1"></i>
         Patients’s Reviews </h3>
-        
-        {successMessage && (
-        <div className="alert alert-success mt-3">{successMessage}</div>
-      )}
-
 
       {feedbacks.length > 0 ? (
         currentfeed.map((fb) => (
