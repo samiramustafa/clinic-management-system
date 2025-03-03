@@ -20,13 +20,12 @@ import About from './pages/About.js';
 import Register from './component/Register.js'
 import ListDoctors from './api/list.js'
 import Details from './api/Details.js'
-import FeedbackList from './feedback/FeedbackList.js';
+import FeedbackList from './feedback/feedbacklist.jsx';
 import DoctorProfile from './pages/DoctorProfile.js';
 // import PatientProfile from './pages/PatientProfile'
 import PatientProfile from './pages/PatientProfile'
- import AppointmentForm from './pages/AppointmentForm'
- import ClinicSchedule from './component/ClinicSchedule.js'
-
+import AppointmentForm from './pages/AppointmentForm'
+import feedback from './feedback/feedback.jsx'
 function App() {
   return (
     <div>
@@ -47,11 +46,13 @@ function App() {
 
           
 
+          <Route path="/feedback" component={feedback} exact />
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
           <Route path="/Details/:id" component={Details} exact />
 
           <Route path="/Details/:id?feedback=feedbackId" component={FeedbackList} exact />
+          <Route path="/feedbacklist" component={FeedbackList} exact />
 
 
 

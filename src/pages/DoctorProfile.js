@@ -114,6 +114,20 @@ const DoctorProfile = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          img: reader.result
+        });
+      };
+      reader.readAsDataURL(file); 
+    }
+  };
+
   const handleSave = () => {
     setUser(formData);  
     setEditMode(false);
