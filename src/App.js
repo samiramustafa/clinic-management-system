@@ -25,6 +25,8 @@ import DoctorProfile from './pages/DoctorProfile.js';
 // import PatientProfile from './pages/PatientProfile'
 import PatientProfile from './pages/PatientProfile'
  import AppointmentForm from './pages/AppointmentForm'
+ import ClinicSchedule from './component/ClinicSchedule.js'
+
 function App() {
   return (
     <div>
@@ -39,6 +41,8 @@ function App() {
 
           <Route path="/PatientProfile" component={PatientProfile} exact />
           <Route path="/AppointmentForm" component={AppointmentForm} exact />
+          <Route path="/Appointment" component={ClinicSchedule} exact />
+
 
 
           
