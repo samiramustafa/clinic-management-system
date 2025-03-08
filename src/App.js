@@ -6,9 +6,6 @@ import './scss/bootstrap/scss/bootstrap-utilities.scss';
 import './scss/bootstrap/scss/bootstrap-reboot.scss';
 import './scss/bootstrap/scss/bootstrap-grid.scss';
 import './scss/bootstrap.scss';
-
-
-
 import './App.css';
 import Login from './component/Login.js';
 import Navbar from './component/Navbar.js';
@@ -22,10 +19,14 @@ import ListDoctors from './api/list.js'
 import Details from './api/Details.js'
 import FeedbackList from './feedback/feedbacklist.jsx';
 import DoctorProfile from './pages/DoctorProfile.js';
-// import PatientProfile from './pages/PatientProfile'
 import PatientProfile from './pages/PatientProfile'
-import AppointmentForm from './pages/AppointmentForm'
+import DoctorAvailability from './pages/DoctorAvailability'; 
+import PatientAppointment from './pages/PatientAppointment'; 
+import DoctorAppointments from './pages/DoctorAppointments';
+// import Profile from './component/doctor_Profile .js';
+import Booking from './pages/Booking.js';
 import feedback from './feedback/feedback.jsx'
+import ClinicSchedule from './component/ClinicSchedule.js'
 function App() {
   return (
     <div>
@@ -37,20 +38,18 @@ function App() {
           <Route path="/about" component={About} exact />
           <Route path="/Register" component={Register} exact />
           <Route path="/DoctorProfile" component={DoctorProfile} exact />
-
+          <Route path="/booking" component={Booking} exact />
           <Route path="/PatientProfile" component={PatientProfile} exact />
-          <Route path="/AppointmentForm" component={AppointmentForm} exact />
-          <Route path="/Appointment" component={ClinicSchedule} exact />
-
-
-
-          
-
+          {/* <Route path="/AppointmentForm" component={AppointmentForm} exact /> */}
+          <Route path="/ClinicSchedule" component={ClinicSchedule} exact />
+          {/* <Route path="/profile" component={Profile} exact /> */}
+          <Route path="/doctor-availability" component={DoctorAvailability} /> 
+          <Route path="/patient-appointment" component={PatientAppointment} />
+          <Route path="/doctor-appointments" component={DoctorAppointments} />
           <Route path="/feedback" component={feedback} exact />
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
           <Route path="/Details/:id" component={Details} exact />
-
           <Route path="/Details/:id?feedback=feedbackId" component={FeedbackList} exact />
           <Route path="/feedbacklist" component={FeedbackList} exact />
 
