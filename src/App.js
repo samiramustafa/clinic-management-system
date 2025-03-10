@@ -20,7 +20,13 @@ import About from './pages/About.js';
 import Register from './component/Register.js'
 import ListDoctors from './api/list.js'
 import Details from './api/Details.js'
-
+import Profile from './component/doctor_Profile .js';
+import Booking from './pages/Booking.js';
+import DoctorProfile from "./component/DoctorProfile";
+import PatientProfile from "./component/PatientProfile";
+import DoctorAvailability from './pages/DoctorAvailability'; 
+import PatientAppointment from './pages/PatientAppointment'; 
+import DoctorAppointments from './pages/DoctorAppointments'; 
 function App() {
   return (
     <div>
@@ -31,13 +37,17 @@ function App() {
           <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />
           <Route path="/Register" component={Register} exact />
-
-
+          <Route path="/profile" component={Profile} exact />
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
           <Route path="/Details/:id" component={Details} exact />
-
-
+          <Route path="/booking" component={Booking} exact />
+          <Route path="/doctor-profile" component={DoctorProfile} />
+          <Route path="/patient-profile" component={PatientProfile} />
+          <Route path="/doctor-availability" component={DoctorAvailability} /> 
+          <Route path="/patient-appointment" component={PatientAppointment} /> 
+          <Route path="/doctor-appointments" component={DoctorAppointments} /> 
+          {/* <Route path="/Details/:id" component={Details} exact /> */}
 
 
 
