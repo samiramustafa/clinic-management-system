@@ -10,44 +10,60 @@ Users:
         2- choose ui library 
         3- choose colors --> template 
 
-    1- Home Page --> serviecs ---- 
+    1- Home Page --> serviecs ----  --> DONE --> Abdelrhman 
 
-    2- login page 
+    2- login page  --> DONE "validation msg if empty" --> Nasser 
 
-    3- register page --> username email password national id dropdown menu (doctor or patient): 
+    3- register page --> username email password national id dropdown menu (doctor or patient) -->  --> DONE "validation msg if empty" --> Omar 
       if he select -->  patient: 
                gender
                birthdate 
                address
                phone number
 
-    4- list doctors --> from fake API 
+    4- list doctors --> from fake API  --> DONE - "Pagination" --> Samira
 
-    5- details doctor --> name specilist availble time
+   
 
 ---> All Taskes Merged 
 
         Next Meeting: 7 Feb
     __________________________________________________________
 
-    user profile  update git 
-    pagination 
-    admin panel   add  update delete  doctor
-    feedback
-    reat 
-    __________________________________________________________
+ 5- details doctor --> name specilist availble time --> edit --> Samira   --> Done 
 
-    API
-    user 
-    feedback 
+ 1- search in API  using name of doctor  --> Done 
 
+ 2- feedback for each doctor  (list and add, api delete (confirmation), get, post, edit) --> Done 
 
+ 3- rate for each doctor (star)  (get and add, api edit (confirmation))
+
+ 4- proile for each user (patient or Doctor) --> 
+        edit his data username ...., upload image  -->  
 
 
+        Next Meeting: 14 Feb
+___________________________________________________________________________________
+    dep, doc, dates,    
 
-        
+Condition --> 
+        if he a doctor --> doctor Profile --nasser
+        if he a patient --> patient Profile --nasser
+
+1- list all of appiontments --> for each doctor --samira
+ 
+2- doctor can add/edit his available time --> (this info must view in details doctor )--samira
+
+3- as a patient -->  can make appiontment depend on the avilable time for each doctor so, he can select the sutable time --abdo
+
+4- doctor can confirm or reject the appiontment --> 
+    if he reject or confirm --> send email to the patient abdo +ommar 
+
+    Next Meeting: 28 feb 
+__________________________________________________________
 
 
+ 
 
 
 

@@ -52,7 +52,8 @@ function App() {
           <Route path="/Details/:id" component={Details} exact />
           <Route path="/Details/:id?feedback=feedbackId" component={FeedbackList} exact />
           <Route path="/feedbacklist" component={FeedbackList} exact />
-
+          <Route path="/doctor-profile" component={DoctorProfile} />
+          <Route path="/patient-profile" component={PatientProfile} />
 
 
 

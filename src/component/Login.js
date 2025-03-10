@@ -63,38 +63,82 @@ function Login() {
     };
 
 
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (!validate()) return;
+
+    //     const users = JSON.parse(localStorage.getItem("clinic_data")) || [];
+
+    //     const user = users.find(
+    //         (user) => user.email === formData.email && user.password === formData.password
+    //     );
+
+    //     if (!user) {
+    //         setSnackbarMessage("Invalid email or password! Please try again.");
+    //         setAlertVariant("danger");
+    //         setShowSnackbar(true);
+    //         return;
+
+    //     }
+
+    //     localStorage.setItem("loginSession", JSON.stringify({ username: user.username, isAdmin: user.isAdmin }));
+
+
+    //     setSnackbarMessage("Login successful! Redirecting...");
+    //     setAlertVariant("success");
+    //     setShowSnackbar(true);
+
+
+    //     setTimeout(() => {
+    //         if (user.role === "doctor") {
+    //             history.push("/DoctorProfile");
+    //         } else if (user.role === "patient") {
+    //             history.push("/PatientProfile"); 
+    //         }
+    //     }, 1000);
+    // };
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!validate()) return;
-
+        console.log("handleSubmit called");
+        if (!validate()) {
+            console.log("Validation failed");
+            return;
+        }
+        console.log("Validation passed");
+    
         const users = JSON.parse(localStorage.getItem("clinic_data")) || [];
-
+        console.log("Users from localStorage:", users);
+    
         const user = users.find(
             (user) => user.email === formData.email && user.password === formData.password
         );
-
+    
         if (!user) {
+            console.log("User not found");
             setSnackbarMessage("Invalid email or password! Please try again.");
             setAlertVariant("danger");
             setShowSnackbar(true);
             return;
-
         }
-
-        localStorage.setItem("loginSession", JSON.stringify({ username: user.username, isAdmin: user.isAdmin }));
-
-
+    
+        console.log("User found:", user);
+        localStorage.setItem("loginSession", JSON.stringify({ username: user.username, isAdmin: user.isAdmin, role: user.role })); // تم إضافة دور المستخدم
+        // تم استبدال isAdmin ب role
+    
         setSnackbarMessage("Login successful! Redirecting...");
         setAlertVariant("success");
         setShowSnackbar(true);
-
-
+        console.log("Redirecting to profile page");
+    
+        // تحديد مسار إعادة التوجيه بناءً على دور المستخدم
+        const profilePath = user.role === "doctor" ? "/doctor-profile" : "/patient-profile";
+    
         setTimeout(() => {
-            if (user.role === "doctor") {
-                history.push("/DoctorProfile");
-            } else if (user.role === "patient") {
-                history.push("/PatientProfile"); 
-            }
+            // تمرير بيانات المستخدم إلى صفحة الملف الشخصي باستخدام state
+            history.push({
+                pathname: profilePath,
+                state: { user: user }
+            });
         }, 1000);
     };
 
