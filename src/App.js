@@ -32,9 +32,16 @@ import Appoint from './component/Appoint.js'
 import PatientAppointment from './pages/PatientAppointment'; 
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 // import Profile from './component/doctor_Profile .js';
+<<<<<<< HEAD
 
 // import feedback from './feedback/feedback.jsx'
 import NotFound from './pages/NotFound.jsx';
+=======
+import Booking from './pages/Booking.js';
+import feedback from './feedback/feedback.jsx'
+import ClinicSchedule from './component/ClinicSchedule.js'
+import NotFound from './component/NotFound.js'
+>>>>>>> main
 function App() {
   return (
     <div>
@@ -60,6 +67,7 @@ function App() {
           <Route path="/feedbacklist" component={FeedbackList} exact />
           <Route path="/doctor-profile" component={DoctorProfile} />
           <Route path="/patient-profile" component={PatientProfile} />
+          <Route path="*" component={NotFound} />
 
 
           {/* will delite it */}
