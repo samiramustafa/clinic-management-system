@@ -23,11 +23,8 @@ import PatientProfile from './pages/PatientProfile'
 import DoctorAvailability from './pages/DoctorAvailability'; 
 import PatientAppointment from './pages/PatientAppointment'; 
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
-// import Profile from './component/doctor_Profile .js';
-import Booking from './pages/Booking.js';
 import feedback from './feedback/feedback.jsx'
-import ClinicSchedule from './component/ClinicSchedule.js'
-import NotFound from './component/NotFound.js'
+import NotFound from './pages/NotFound.jsx'
 function App() {
   return (
     <div>
@@ -39,11 +36,10 @@ function App() {
           <Route path="/about" component={About} exact />
           <Route path="/Register" component={Register} exact />
           <Route path="/DoctorProfile" component={DoctorProfile} exact />
-          <Route path="/booking" component={Booking} exact />
           <Route path="/PatientProfile" component={PatientProfile} exact />
           <Route path="/doctor-availability" component={DoctorAvailability} /> 
           <Route path="/patient-appointment" component={PatientAppointment} />
-          <Route path="/doctor-appointments" component={DoctorAppointments} />
+          {/* <Route path="/doctor-appointments" component={DoctorAppointments} /> */}
           <Route path="/feedback" component={feedback} exact />
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
@@ -52,7 +48,6 @@ function App() {
           <Route path="/feedbacklist" component={FeedbackList} exact />
           <Route path="/doctor-profile" component={DoctorProfile} />
           <Route path="/patient-profile" component={PatientProfile} />
-          <Route path="*" component={NotFound} />
 
 
           {/* will delite it */}
