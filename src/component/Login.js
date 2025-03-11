@@ -241,27 +241,14 @@ function Login() {
     //         setAlertVariant("danger");
     //         setShowSnackbar(true);
     //         return;
-<<<<<<< HEAD
-           
-=======
-
->>>>>>> main
     //     }
 
     //     localStorage.setItem("loginSession", JSON.stringify({ username: user.username, isAdmin: user.isAdmin }));
 
-<<<<<<< HEAD
-=======
-
->>>>>>> main
     //     setSnackbarMessage("Login successful! Redirecting...");
     //     setAlertVariant("success");
     //     setShowSnackbar(true);
 
-<<<<<<< HEAD
-    //     setTimeout(() => {
-    //         history.push("/");
-=======
 
     //     setTimeout(() => {
     //         if (user.role === "doctor") {
@@ -269,7 +256,6 @@ function Login() {
     //         } else if (user.role === "patient") {
     //             history.push("/PatientProfile"); 
     //         }
->>>>>>> main
     //     }, 1000);
     // };
     const handleSubmit = (e) => {

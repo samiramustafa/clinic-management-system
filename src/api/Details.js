@@ -9,7 +9,7 @@ import FeedbackList from '../feedback/feedbacklist'
 import Appoint from "../component/Appoint";
 
 function Details() {
-    const [doctor, setDoctor] = useState(null);  
+    const [doctor, setDoctor] = useState(null);
     const [errors, setErrors] = useState(null);
 
     const { id } = useParams();
@@ -55,8 +55,17 @@ function Details() {
                 fees={doctor.fees}
                 rate={doctor.rate}
             />
+            <div className="w-50 mx-auto">
+                <hr className="border border-primary opacity-75" />
+            </div>
             <Appoint />
+            <div className="w-50 mx-auto">
+                <hr className="border border-primary opacity-75" />
+            </div>
             <FeedbackList doc_id={id} />
+            <div className="w-50 mx-auto mt-5">
+                <hr className="border border-primary opacity-75" />
+            </div>
             <Feedback />
         </>
     );
