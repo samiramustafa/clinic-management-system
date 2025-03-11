@@ -20,6 +20,7 @@ import Details from './api/Details.js'
 import FeedbackList from './feedback/feedbacklist.jsx';
 import DoctorProfile from './pages/DoctorProfile.js';
 import PatientProfile from './pages/PatientProfile'
+<<<<<<< HEAD
 import DoctorAvailability from './pages/DoctorAvailability';
 import PatientAppointment from './pages/PatientAppointment';
 import DoctorAppointments from './pages/DoctorAppointments';
@@ -28,6 +29,15 @@ import Booking from './pages/Booking.js';
 import feedback from './feedback/feedback.jsx'
 import ClinicSchedule from './component/ClinicSchedule.js'
 import Appoint from './component/Appoint.js'
+=======
+import DoctorAvailability from './pages/DoctorAvailability'; 
+import PatientAppointment from './pages/PatientAppointment'; 
+import DoctorAppointments from './appointment/DoctorAppointment.jsx';
+// import Profile from './component/doctor_Profile .js';
+import Booking from './pages/Booking.js';
+import feedback from './feedback/feedback.jsx'
+import NotFound from './pages/NotFound.jsx';
+>>>>>>> main
 function App() {
   return (
     <div>
@@ -42,10 +52,14 @@ function App() {
           <Route path="/DoctorProfile" component={DoctorProfile} exact />
           <Route path="/booking" component={Booking} exact />
           <Route path="/PatientProfile" component={PatientProfile} exact />
+<<<<<<< HEAD
           {/* <Route path="/AppointmentForm" component={AppointmentForm} exact /> */}
           <Route path="/ClinicSchedule" component={ClinicSchedule} exact />
           {/* <Route path="/profile" component={Profile} exact /> */}
           <Route path="/doctor-availability" component={DoctorAvailability} />
+=======
+          <Route path="/doctor-availability" component={DoctorAvailability} /> 
+>>>>>>> main
           <Route path="/patient-appointment" component={PatientAppointment} />
           <Route path="/doctor-appointments" component={DoctorAppointments} />
           <Route path="/feedback" component={feedback} exact />
@@ -54,6 +68,15 @@ function App() {
           <Route path="/Details/:id" component={Details} exact />
           <Route path="/Details/:id?feedback=feedbackId" component={FeedbackList} exact />
           <Route path="/feedbacklist" component={FeedbackList} exact />
+          <Route path="/doctor-profile" component={DoctorProfile} />
+          <Route path="/patient-profile" component={PatientProfile} />
+
+
+          {/* will delite it */}
+          <Route path="/clinic" component={DoctorAppointments} exact />
+          <Route path="*" component={NotFound} />
+
+
 
 
 

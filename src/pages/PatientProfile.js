@@ -199,166 +199,190 @@
 
 // export default PatientProfile;
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+
+// const PatientProfile = () => {
+//   const [user, setUser] = useState(null);  // ضبط الحالة لتكون null أولاً
+//   const [editMode, setEditMode] = useState(false);
+//   const [formData, setFormData] = useState({
+//     user_name: "",
+//     email: "",
+//     phone: "",
+//     N_ID: "",
+//     img: "",
+//     age: "",
+//     address: "",
+//     job_title: "",
+//   });
+
+//   useEffect(() => {
+//     // جلب بيانات الـ API
+//     axios.get(`https://retoolapi.dev/Lv7u78/user/2`)  // تأكد من اختيار ID المريض الصحيح
+//     .then(response => {
+//         const apiUserData = response.data;
+//         setUser(apiUserData);
+//         setFormData({
+//           user_name: apiUserData.user_name,
+//           email: apiUserData.email,
+//           phone: apiUserData.phone,
+//           N_ID: apiUserData.N_ID,
+//           img: apiUserData.img,
+//           age: apiUserData.age,
+//           address: apiUserData.address,
+//           job_title: apiUserData.job_title
+//         });
+//       })
+//       .catch(error => {
+//         console.error("Error fetching data:", error);
+//       });
+//   }, []);
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSave = async () => {
+//     try {
+//       const updatedData = {
+//         user_name: formData.user_name,
+//         email: formData.email,
+//         phone: formData.phone,
+//         N_ID: formData.N_ID,
+//         img: formData.img || user.img,
+//         age: formData.age,
+//         address: formData.address,
+//         job_title: formData.job_title
+//       };
+
+//       const response = await axios.put(
+//         `https://retoolapi.dev/Lv7u78/user/${user.id}`,
+//         updatedData
+//       );
+
+//       if (response.status === 200) {
+//         setUser(updatedData);
+//         setEditMode(false);
+//       }
+//     } catch (error) {
+//       console.error("Error updating profile:", error);
+//     }
+//   };
+
+//   if (!user) {
+//     return <div>Loading...</div>;  // إذا كانت البيانات غير محملة بعد
+//   }
+
+//   return (
+//     <div className="container mt-5">
+//       <h2>Patient Profile</h2>
+//       {editMode ? (
+//         <div>
+//           <label>Username:</label>
+//           <input
+//             type="text"
+//             name="user_name"
+//             value={formData.user_name}
+//             onChange={handleChange}
+//             className="form-control mb-2"
+//           />
+
+//           <label>Email:</label>
+//           <input
+//             type="email"
+//             name="email"
+//             value={formData.email}
+//             onChange={handleChange}
+//             className="form-control mb-2"
+//           />
+
+//           <label>Phone:</label>
+//           <input
+//             type="text"
+//             name="phone"
+//             value={formData.phone}
+//             onChange={handleChange}
+//             className="form-control mb-2"
+//           />
+
+//           <label>National ID:</label>
+//           <input
+//             type="text"
+//             name="N_ID"
+//             value={formData.N_ID}
+//             className="form-control mb-2"
+//             disabled
+//           />
+
+//           <label>Age:</label>
+//           <input
+//             type="number"
+//             name="age"
+//             value={formData.age}
+//             onChange={handleChange}
+//             className="form-control mb-2"
+//           />
+
+//           <label>Address:</label>
+//           <input
+//             type="text"
+//             name="address"
+//             value={formData.address}
+//             onChange={handleChange}
+//             className="form-control mb-2"
+//           />
+
+//           <label>Job Title:</label>
+//           <input
+//             type="text"
+//             name="job_title"
+//             value={formData.job_title}
+//             onChange={handleChange}
+//             className="form-control mb-2"
+//           />
+
+//           <button className="btn btn-success" onClick={handleSave}>Confirm</button>
+//           <button className="btn btn-secondary ms-2" onClick={() => setEditMode(false)}>Cancel</button>
+//         </div>
+//       ) : (
+//         <div>
+//           <img src={user.img} alt="Patient" className="img-thumbnail mb-2" />
+//           <p><strong>Username:</strong> {user.user_name}</p>
+//           <p><strong>Email:</strong> {user.email}</p>
+//           <p><strong>Phone:</strong> {user.phone}</p>
+//           <p><strong>National ID:</strong> {user.N_ID}</p>
+//           <p><strong>Age:</strong> {user.age}</p>
+//           <p><strong>Address:</strong> {user.address}</p>
+//           <p><strong>Job Title:</strong> {user.job_title}</p>
+//           <button className="btn btn-primary" onClick={() => setEditMode(true)}>Edit</button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default PatientProfile;
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 const PatientProfile = () => {
-  const [user, setUser] = useState(null);  // ضبط الحالة لتكون null أولاً
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({
-    user_name: "",
-    email: "",
-    phone: "",
-    N_ID: "",
-    img: "",
-    age: "",
-    address: "",
-    job_title: "",
-  });
+    const location = useLocation();
+    const user = location.state?.user || JSON.parse(localStorage.getItem("loginSession")); // تم التحقق من وجود location.state
 
-  useEffect(() => {
-    // جلب بيانات الـ API
-    axios.get(`https://retoolapi.dev/Lv7u78/user/2`)  // تأكد من اختيار ID المريض الصحيح
-    .then(response => {
-        const apiUserData = response.data;
-        setUser(apiUserData);
-        setFormData({
-          user_name: apiUserData.user_name,
-          email: apiUserData.email,
-          phone: apiUserData.phone,
-          N_ID: apiUserData.N_ID,
-          img: apiUserData.img,
-          age: apiUserData.age,
-          address: apiUserData.address,
-          job_title: apiUserData.job_title
-        });
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = async () => {
-    try {
-      const updatedData = {
-        user_name: formData.user_name,
-        email: formData.email,
-        phone: formData.phone,
-        N_ID: formData.N_ID,
-        img: formData.img || user.img,
-        age: formData.age,
-        address: formData.address,
-        job_title: formData.job_title
-      };
-
-      const response = await axios.put(
-        `https://retoolapi.dev/Lv7u78/user/${user.id}`,
-        updatedData
-      );
-
-      if (response.status === 200) {
-        setUser(updatedData);
-        setEditMode(false);
-      }
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  };
-
-  if (!user) {
-    return <div>Loading...</div>;  // إذا كانت البيانات غير محملة بعد
-  }
-
-  return (
-    <div className="container mt-5">
-      <h2>Patient Profile</h2>
-      {editMode ? (
+    return (
         <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="user_name"
-            value={formData.user_name}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>Phone:</label>
-          <input
-            type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>National ID:</label>
-          <input
-            type="text"
-            name="N_ID"
-            value={formData.N_ID}
-            className="form-control mb-2"
-            disabled
-          />
-
-          <label>Age:</label>
-          <input
-            type="number"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>Job Title:</label>
-          <input
-            type="text"
-            name="job_title"
-            value={formData.job_title}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <button className="btn btn-success" onClick={handleSave}>Confirm</button>
-          <button className="btn btn-secondary ms-2" onClick={() => setEditMode(false)}>Cancel</button>
+            <h1>Patient Profile</h1>
+            <p>Username: {user.username}</p>
+            <p>Email: {user.email}</p>
+            <p>National ID: {user.nationalId}</p>
+            <p>Gender: {user.gender}</p>
+            <p>Birthdate: {user.birthdate}</p>
+            <p>Address: {user.address}</p>
+            <p>Phone Number: {user.phoneNumber}</p>
+            
+            {/* عرض معلومات إضافية خاصة بالمرضى */}
         </div>
-      ) : (
-        <div>
-          <img src={user.img} alt="Patient" className="img-thumbnail mb-2" />
-          <p><strong>Username:</strong> {user.user_name}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Phone:</strong> {user.phone}</p>
-          <p><strong>National ID:</strong> {user.N_ID}</p>
-          <p><strong>Age:</strong> {user.age}</p>
-          <p><strong>Address:</strong> {user.address}</p>
-          <p><strong>Job Title:</strong> {user.job_title}</p>
-          <button className="btn btn-primary" onClick={() => setEditMode(true)}>Edit</button>
-        </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default PatientProfile;
