@@ -27,6 +27,7 @@ import DoctorAppointments from './pages/DoctorAppointments';
 import Booking from './pages/Booking.js';
 import feedback from './feedback/feedback.jsx'
 import ClinicSchedule from './component/ClinicSchedule.js'
+import NotFound from './component/NotFound.js'
 function App() {
   return (
     <div>
@@ -54,6 +55,7 @@ function App() {
           <Route path="/feedbacklist" component={FeedbackList} exact />
           <Route path="/doctor-profile" component={DoctorProfile} />
           <Route path="/patient-profile" component={PatientProfile} />
+          <Route path="*" component={NotFound} />
 
 
 
