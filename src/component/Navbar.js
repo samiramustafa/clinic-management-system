@@ -184,7 +184,7 @@ function Navbar() {
                             <NavLink exact to="/" className="nav-item nav-link" activeClassName="active">Home</NavLink>
                             <NavLink to="/about" className="nav-item nav-link" activeClassName="active">About</NavLink>
                             <NavLink to="/ListDoctors" className="nav-item nav-link" activeClassName="active">Doctors</NavLink>
-                            <NavLink to="/myappointment" className="nav-item nav-link">My Appointment</NavLink>
+                            <NavLink to="/patient-appointment" className="nav-item nav-link">My Appointment</NavLink>
 
                             {/* عرض رابط تسجيل الدخول/تسجيل الخروج بشكل مشروط */}
                             {!isLoggedIn ? (

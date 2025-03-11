@@ -20,13 +20,14 @@ import Details from './api/Details.js'
 import FeedbackList from './feedback/feedbacklist.jsx';
 import DoctorProfile from './pages/DoctorProfile.js';
 import PatientProfile from './pages/PatientProfile'
-import DoctorAvailability from './pages/DoctorAvailability'; 
-import PatientAppointment from './pages/PatientAppointment'; 
+import DoctorAvailability from './pages/DoctorAvailability';
+import PatientAppointment from './pages/PatientAppointment';
 import DoctorAppointments from './pages/DoctorAppointments';
 // import Profile from './component/doctor_Profile .js';
 import Booking from './pages/Booking.js';
 import feedback from './feedback/feedback.jsx'
 import ClinicSchedule from './component/ClinicSchedule.js'
+import Appoint from './component/Appoint.js'
 function App() {
   return (
     <div>
@@ -36,6 +37,7 @@ function App() {
         <Switch>
           <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />
+          <Route path="/apoint" component={Appoint} exact />
           <Route path="/Register" component={Register} exact />
           <Route path="/DoctorProfile" component={DoctorProfile} exact />
           <Route path="/booking" component={Booking} exact />
@@ -43,7 +45,7 @@ function App() {
           {/* <Route path="/AppointmentForm" component={AppointmentForm} exact /> */}
           <Route path="/ClinicSchedule" component={ClinicSchedule} exact />
           {/* <Route path="/profile" component={Profile} exact /> */}
-          <Route path="/doctor-availability" component={DoctorAvailability} /> 
+          <Route path="/doctor-availability" component={DoctorAvailability} />
           <Route path="/patient-appointment" component={PatientAppointment} />
           <Route path="/doctor-appointments" component={DoctorAppointments} />
           <Route path="/feedback" component={feedback} exact />
