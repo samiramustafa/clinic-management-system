@@ -741,6 +741,7 @@ const Register = () => {
         role: "", // الدور يجب أن يكون إجباريًا
         age: "",
         gender: "",
+        birthdate: "",
         address: "",
         phoneNumber: "",
         specialization: "", // التخصص
@@ -751,10 +752,11 @@ const Register = () => {
     const [imageError, setImageError] = useState(""); // State لعرض خطأ الصورة
     const [errors, setErrors] = useState({});
     const [showPassword, setShowPassword] = useState(false);
+
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [alertVariant, setAlertVariant] = useState("danger");
-    const history = useHistory();
+     const history = useHistory();
 
     const regexPatterns = {
         email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -764,27 +766,48 @@ const Register = () => {
         nationalId: /^(2|3)\d{13}$/,
         age: /^[1-9][0-9]?$|^100$/,
     };
-
     const validateField = (name, value) => {
-        if (!value) {
+        console.log(`Validating field: ${name}, value: ${value}`);
+    
+        // تعريف الحقول المطلوبة لكل دور
+        const requiredFields = {
+            patient: ['username', 'email', 'password', 'nationalId', 'gender', 'birthdate', 'address', 'phoneNumber'],
+            doctor: ['username', 'email', 'password', 'nationalId']
+        };
+    
+        // التحقق مما إذا كان الحقل مطلوبًا للدور الحالي
+        if (requiredFields[formData.role].includes(name) && !value) {
+            console.log("Field is required");
             return "This field is required";
         }
-
-        if (regexPatterns[name] && !regexPatterns[name].test(value)) {
-            const messages = {
-                email: "Invalid email format",
-                password: "Password must be at least 8 characters long, contain an uppercase, a lowercase letter, and a number.",
-                phoneNumber: "Phone number must be 11 digits and start with 010, 011, 012, or 015.",
-                username: "Username must be 5-20 characters long.",
-                nationalId: "National ID must be 14 digits.",
-                age: "Age must be a valid number between 1 and 100.",
-            };
-            return messages[name] || "Invalid input";
+    
+        // إذا لم يكن الحقل مطلوبًا أو كانت له قيمة، فقم بالتحقق من صحة النمط
+        if (value && regexPatterns[name] && !regexPatterns[name].test(value)) {
+            console.log("Regex validation failed");
+            switch (name) {
+                case "email":
+                    return "Invalid email format";
+                case "password":
+                    return "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number";
+                case "phoneNumber":
+                    return "Phone number should contain 11 digits and start with 010, 011, 012, or 015";
+                case "username":
+                    return "Username should contain from 5 to 20 characters";
+                case "nationalId":
+                    return "National ID should contain 14 digits";
+                default:
+                    return undefined; // Return undefined for no error
+            }
         }
+    
+        console.log("Field is valid");
+        return undefined; // Return undefined for no error
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        // Validate the field immediately on change
+        const error = validateField(name, value);
         setFormData({ ...formData, [name]: value });
 
         let updatedErrors = { ...errors, [name]: validateField(name, value) };
@@ -855,12 +878,21 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!validate()) return;
-
+        console.log("handleSubmit called");
+        if (!validate()) {
+            console.log("Validation failed");
+            return;
+        }
+        console.log("Validation passed");
+    
         let users = JSON.parse(localStorage.getItem("clinic_data")) || [];
-
-        if (users.some((user) => user.username === formData.username)) {
+        console.log("Existing users:", users);
+    
+        const { username, email } = formData;
+    
+        if (users.some(user => user.username === username)) {
             setSnackbarMessage("Username already exists!");
+            setAlertVariant("danger");
             setShowSnackbar(true);
             return;
         }
@@ -897,12 +929,14 @@ const Register = () => {
         }
 
         users.push(userData);
+        console.log("Updated users:", users);
         localStorage.setItem("clinic_data", JSON.stringify(users));
-
+        console.log("Data saved to localStorage");
+    
         setSnackbarMessage("Account created successfully!");
         setAlertVariant("success");
         setShowSnackbar(true);
-
+    
         setTimeout(() => {
             history.push("/login");
         }, 500);
@@ -932,9 +966,27 @@ const Register = () => {
 
                     <InputField label="Username" type="text" name="username" value={formData.username} onChange={handleChange} isInvalid={Boolean(errors.username)} feedback={errors.username} />
 
-                    <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} isInvalid={Boolean(errors.email)} feedback={errors.email} />
+                    <InputField
+                        label="Email"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        isInvalid={Boolean(errors.email)}
+                        feedback={errors.email}
+                    />
 
-                    <InputField label="Password" type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} isInvalid={Boolean(errors.password)} feedback={errors.password} showPasswordToggle={true} onPasswordToggle={() => setShowPassword(!showPassword)} />
+                    <InputField
+                        label="Password"
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        isInvalid={Boolean(errors.password)}
+                        feedback={errors.password}
+                        showPasswordToggle={true}
+                        onPasswordToggle={() => setShowPassword(!showPassword)}
+                    />
 
                     <InputField label="Phone Number" type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} isInvalid={Boolean(errors.phoneNumber)} feedback={errors.phoneNumber} />
 
@@ -946,7 +998,12 @@ const Register = () => {
 
                             <div className="mb-3">
                                 <label className="form-label">Gender</label>
-                                <select className={`form-select ${errors.gender ? "is-invalid" : ""}`} name="gender" value={formData.gender} onChange={handleChange}>
+                                <select
+                                    className={`form-select ${errors.gender ? "is-invalid" : ""}`}
+                                    name="gender"
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                >
                                     <option value="">Select Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -999,7 +1056,6 @@ const Register = () => {
                     <p className="mt-2 text-muted">© 1996-2024, Clinic.com, Inc. or its affiliates</p>
                 </div>
             </div>
-
         </div>
     );
 };
