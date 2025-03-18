@@ -185,8 +185,6 @@
 
 // export default Register;
 
-<<<<<<< HEAD
-=======
 // import React, { useState } from "react";
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import InputField from "./Input";
@@ -727,7 +725,6 @@
 // };
 
 // export default Register;
->>>>>>> main
 
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -741,12 +738,8 @@ const Register = () => {
         email: "",
         password: "",
         nationalId: "",
-<<<<<<< HEAD
-        role: "patient",
-=======
         role: "", // الدور يجب أن يكون إجباريًا
         age: "",
->>>>>>> main
         gender: "",
         birthdate: "",
         address: "",
@@ -770,12 +763,8 @@ const Register = () => {
         password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
         phoneNumber: /^(010|011|012|015)\d{8}$/,
         username: /^[a-zA-Z0-9]{5,20}$/,
-<<<<<<< HEAD
-        nationalId: /^(2|3)\d{13}$/
-=======
         nationalId: /^(2|3)\d{13}$/,
         age: /^[1-9][0-9]?$|^100$/,
->>>>>>> main
     };
     const validateField = (name, value) => {
         console.log(`Validating field: ${name}, value: ${value}`);
@@ -820,20 +809,6 @@ const Register = () => {
         // Validate the field immediately on change
         const error = validateField(name, value);
         setFormData({ ...formData, [name]: value });
-<<<<<<< HEAD
-        setErrors({ ...errors, [name]: error });
-    };
-
-
-    const validate = () => {
-        const tempErrors = {};
-        Object.keys(formData).forEach((key) => {
-            tempErrors[key] = validateField(key, formData[key]);
-            console.log(`Field: ${key}, Error: ${tempErrors[key]}`);
-        });
-        setErrors(tempErrors);
-        return Object.values(tempErrors).every(x => x === undefined);
-=======
 
         let updatedErrors = { ...errors, [name]: validateField(name, value) };
         setErrors(updatedErrors);
@@ -899,7 +874,6 @@ const Register = () => {
 
         setErrors(tempErrors);
         return isValid;
->>>>>>> main
     };
 
     const handleSubmit = (e) => {
@@ -922,22 +896,13 @@ const Register = () => {
             setShowSnackbar(true);
             return;
         }
-<<<<<<< HEAD
-    
-        if (users.some(user => user.email === email)) {
-=======
 
         if (users.some((user) => user.email === formData.email)) {
->>>>>>> main
             setSnackbarMessage("Email already exists!");
             setAlertVariant("danger");
             setShowSnackbar(true);
             return;
         }
-<<<<<<< HEAD
-    
-        const { ...userData } = formData;
-=======
 
         // إضافة الصورة إلى بيانات المستخدم
         const userData = {
@@ -963,7 +928,6 @@ const Register = () => {
             userData.clinicAddress = formData.clinicAddress;
         }
 
->>>>>>> main
         users.push(userData);
         console.log("Updated users:", users);
         localStorage.setItem("clinic_data", JSON.stringify(users));
@@ -974,15 +938,8 @@ const Register = () => {
         setShowSnackbar(true);
     
         setTimeout(() => {
-<<<<<<< HEAD
-        
-            // console.log(localStorage.getItem("clinic_data"));
-            history.push("/login");
-        }, 1000);
-=======
             history.push("/login");
         }, 500);
->>>>>>> main
     };
 
     return (
@@ -997,17 +954,6 @@ const Register = () => {
                 <Title titleName="Register" />
                 <form onSubmit={handleSubmit}>
 
-<<<<<<< HEAD
-                    <InputField
-                        label="Username"
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        isInvalid={Boolean(errors.username)}
-                        feedback={errors.username}
-                    />
-=======
                     <div className="mb-3">
                         <label className="form-label">Role</label>
                         <select className={`form-select ${errors.role ? "is-invalid" : ""}`} name="role" value={formData.role} onChange={handleChange}>
@@ -1019,7 +965,6 @@ const Register = () => {
                     </div>
 
                     <InputField label="Username" type="text" name="username" value={formData.username} onChange={handleChange} isInvalid={Boolean(errors.username)} feedback={errors.username} />
->>>>>>> main
 
                     <InputField
                         label="Email"
@@ -1043,33 +988,6 @@ const Register = () => {
                         onPasswordToggle={() => setShowPassword(!showPassword)}
                     />
 
-<<<<<<< HEAD
-                    <InputField
-                        label="National ID"
-                        type="text"
-                        name="nationalId"
-                        value={formData.nationalId}
-                        onChange={handleChange}
-                        isInvalid={Boolean(errors.nationalId)}
-                        feedback={errors.nationalId}
-                    />
-
-                    <div className="mb-3">
-                        <label className="form-label">Role</label>
-                        <select
-                            className="form-select"
-                            name="role"
-                            value={formData.role}
-                            onChange={handleChange}
-                        >
-                            <option value="patient">Patient</option>
-                            <option value="doctor">Doctor</option>
-                        </select>
-                    </div>
-
-                    {formData.role === "patient" && (
-                        <>
-=======
                     <InputField label="Phone Number" type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} isInvalid={Boolean(errors.phoneNumber)} feedback={errors.phoneNumber} />
 
                     {formData.role === "patient" && (
@@ -1078,7 +996,6 @@ const Register = () => {
 
                             <InputField label="Age" type="number" name="age" value={formData.age} onChange={handleChange} isInvalid={Boolean(errors.age)} feedback={errors.age} />
 
->>>>>>> main
                             <div className="mb-3">
                                 <label className="form-label">Gender</label>
                                 <select
@@ -1094,55 +1011,6 @@ const Register = () => {
                                 {errors.gender && <div className="invalid-feedback">{errors.gender}</div>}
                             </div>
 
-<<<<<<< HEAD
-                            <InputField
-                                label="Birthdate"
-                                type="date"
-                                name="birthdate"
-                                isInvalid={Boolean(errors.birthdate)}
-                                feedback={errors.birthdate}
-                                value={formData.birthdate}
-                                onChange={handleChange}
-                            />
-
-                            <InputField
-                                label="Address"
-                                type="text"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleChange}
-                                isInvalid={Boolean(errors.address)}
-                                feedback={errors.address}
-                            />
-
-                            <InputField
-                                label="Phone Number"
-                                type="tel"
-                                isInvalid={Boolean(errors.phoneNumber)}
-                                feedback={errors.phoneNumber}
-                                name="phoneNumber"
-                                value={formData.phoneNumber}
-                                onChange={handleChange}
-                            />
-                        </>
-                    )}
-
-<button
-    type="submit"
-    className="btn btn-primary w-100 mt-3 fw-bold fs-3"
-    disabled={Object.values(errors).some(x => x !== undefined)}
->
-    Register
-</button>
-                </form>
-                <div className="d-flex align-items-center my-3">
-                    <hr className="flex-grow-1" />
-                    <span className="mx-3">Already have an account?</span>
-                    <hr className="flex-grow-1" />
-                </div>
-                <Link to="/login" className="btn btn-light w-100 border fw-bold fs-5 text-dark text-decoration-none fw-bold fs-4">
-                    Log In
-=======
                             <InputField label="Address" type="text" name="address" value={formData.address} onChange={handleChange} isInvalid={Boolean(errors.address)} feedback={errors.address} />
                         </>
                     )}
@@ -1180,7 +1048,6 @@ const Register = () => {
                 </div>
                 <Link to="/login" className="btn btn-light w-100 border fw-bold fs-5 text-dark text-decoration-none fw-bold fs-4">
                     Login
->>>>>>> main
                 </Link>
                 <div className="text-center mt-4" style={{ fontSize: '12px' }}>
                     <a href="#" className="text-decoration-none me-3">Conditions of Use</a>
@@ -1189,10 +1056,6 @@ const Register = () => {
                     <p className="mt-2 text-muted">© 1996-2024, Clinic.com, Inc. or its affiliates</p>
                 </div>
             </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> main
         </div>
     );
 };
