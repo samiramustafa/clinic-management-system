@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -13,12 +11,12 @@ function DoctorAppointments() {
 
   useEffect(() => {
     axios
-      .get("https://retoolapi.dev/UKuH6Q/doctorappointment")
+      .get("http://127.0.0.1:8000/clinic/available-times/")
       .then((response) => setAppointments(response.data))
       .catch((error) => console.error("Error fetching appointments:", error));
   }, []);
 
-  const handleAddAppointment =  () => {
+  const handleAddAppointment = async () => {
     if (!date || !startTime || !endTime) {
       setAlert({ message: "Please fill in all fields", type: "warning" });
       return;
@@ -38,29 +36,33 @@ function DoctorAppointments() {
       return;
     }
 
-    const newAppointment = { date, startTime, endTime, day: selectedDate.toLocaleDateString('en-US', { weekday: 'long' }), available: true };
+    const newAppointment = {
+      date,
+      start_time: startTime,
+      end_time: endTime,
+      day: selectedDate.toLocaleDateString('en-US', { weekday: 'long' }),
+      doctor: 1
+    };
 
     try {
-      const response =  axios.post("https://retoolapi.dev/UKuH6Q/doctorappointment", newAppointment);
+      const response = await axios.post("http://127.0.0.1:8000/clinic/available-times/", newAppointment);
       setAppointments([...appointments, response.data]);
       setAlert({ message: "Appointment added successfully", type: "success" });
       setDate("");
       setStartTime("");
       setEndTime("");
-      setTimeout(() => setAlert({ message: "", type: "" }), 3000);
     } catch (error) {
       setAlert({ message: "Error adding appointment", type: "danger" });
       console.error("Error:", error);
     }
   };
 
-  const handleDeleteAppointment =  (id) => {
+  const handleDeleteAppointment = async (id) => {
     try {
-       axios.delete(`https://retoolapi.dev/UKuH6Q/doctorappointment/${id}`);
+      await axios.delete(`http://127.0.0.1:8000/clinic/available-times/${id}`);
       setAppointments(appointments.filter((appt) => appt.id !== id));
-      setConfirmBox({ show: false, appointmentId: null });
       setAlert({ message: "Appointment deleted successfully", type: "success" });
-      setTimeout(() => setAlert({ message: "", type: "" }), 3000);
+      setConfirmBox({ show: false, appointmentId: null });
     } catch (error) {
       console.error("Error deleting appointment:", error);
     }
@@ -115,8 +117,8 @@ function DoctorAppointments() {
               <tr key={appt.id}>
                 <td>{appt.id}</td>
                 <td>{appt.day}</td>
-                <td>{appt.startTime}</td>
-                <td>{appt.endTime}</td>
+                <td>{appt.start_time}</td>
+                <td>{appt.end_time}</td>
                 <td>{appt.date}</td>
                 <td>
                   <button className="btn btn-sm btn-danger" onClick={() => setConfirmBox({ show: true, appointmentId: appt.id })}>Delete</button>
