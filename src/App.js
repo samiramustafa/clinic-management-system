@@ -27,6 +27,7 @@ import PatientProfile from "./component/PatientProfile";
 import DoctorAvailability from './pages/DoctorAvailability'; 
 import PatientAppointment from './pages/PatientAppointment'; 
 import DoctorAppointments from './pages/DoctorAppointments'; 
+import Users from './component/Users';
 function App() {
   return (
     <div>
@@ -47,6 +48,7 @@ function App() {
           <Route path="/doctor-availability" component={DoctorAvailability} /> 
           <Route path="/patient-appointment" component={PatientAppointment} /> 
           <Route path="/doctor-appointments" component={DoctorAppointments} /> 
+          <Route path="/users" component={Users} />
           {/* <Route path="/Details/:id" component={Details} exact /> */}
 
 

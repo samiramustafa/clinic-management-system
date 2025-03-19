@@ -45,24 +45,24 @@ import  {  useState } from "react";
                     {/* style={{ color: "#2ec742", fontSize: "12px" }} */}
                     {props.isAvailable && (
                         <>
-                            <p className="card-text " style={{ color: "#2ec738", fontSize: "16px" }}><i class="bi bi-record-circle-fill " ></i><b> Available</b> {props.isAvailable}
+                            <p className="card-text " style={{ color: "#2ec738", fontSize: "16px" }}><i className="bi bi-record-circle-fill " ></i><b> Available</b> {props.isAvailable}
                             
                             </p>
                   
                         </>
                     )}
             
-                    <i class="bi bi-star-fill text-warning px-1"></i>
-                    <i class="bi bi-star text-warning px-1" ></i>
-                    <i class="bi bi-star text-warning px-1" ></i>
-                    <i class="bi bi-star text-warning px-1" ></i>
-                    <i class="bi bi-star text-warning px-1" ></i>
+                    <i className="bi bi-star-fill text-warning px-1"></i>
+                    <i className="bi bi-star text-warning px-1" ></i>
+                    <i className="bi bi-star text-warning px-1" ></i>
+                    <i className="bi bi-star text-warning px-1" ></i>
+                    <i className="bi bi-star text-warning px-1" ></i>
                    
                    
                     {props.rate && (
                         <>
                             <h5 className="card-text"><b
-                            ><i class="bi bi-star"></i>
+                            ><i className="bi bi-star"></i>
                             </b>: {props.vote_average} </h5>
                             <hr />
                         </>
