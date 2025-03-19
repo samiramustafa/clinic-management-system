@@ -8,4 +8,4 @@ function Title(props){
 
     )
 }
-export default Title;  //export the component
+export default Title;  
