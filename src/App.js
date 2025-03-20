@@ -49,20 +49,6 @@ function App() {
           <Route path="/about" component={About} exact />
           <Route path="/apoint" component={Appoint} exact />
           <Route path="/Register" component={Register} exact />
-<<<<<<< HEAD
-          <Route path="/profile" component={Profile} exact />
-          <Route path="/login" component={Login} exact />
-          <Route path="/ListDoctors" component={ListDoctors} exact />
-          <Route path="/Details/:id" component={Details} exact />
-          <Route path="/booking" component={Booking} exact />
-          <Route path="/doctor-profile" component={DoctorProfile} />
-          <Route path="/patient-profile" component={PatientProfile} />
-          <Route path="/doctor-availability" component={DoctorAvailability} /> 
-          <Route path="/patient-appointment" component={PatientAppointment} /> 
-          <Route path="/doctor-appointments" component={DoctorAppointments} /> 
-          <Route path="/users" component={Users} />
-          {/* <Route path="/Details/:id" component={Details} exact /> */}
-=======
           <Route path="/DoctorProfile" component={DoctorProfile} exact />
 
           {/* <Route path="/booking" component={Booking} exact /> */}
@@ -88,7 +74,6 @@ function App() {
 
 
 
->>>>>>> 5f3acfbe1fd83e640c9371175f558740e14c5a7e
 
 
 
