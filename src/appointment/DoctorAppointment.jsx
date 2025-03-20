@@ -59,7 +59,7 @@ function DoctorAppointments() {
 
   const handleDeleteAppointment = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/clinic/available-times/${id}`);
+      await axios.delete(`http://127.0.0.1:8000/clinic/available-times/${id}/`);
       setAppointments(appointments.filter((appt) => appt.id !== id));
       setAlert({ message: "Appointment deleted successfully", type: "success" });
       setConfirmBox({ show: false, appointmentId: null });
