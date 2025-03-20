@@ -3,84 +3,6 @@
 // import InputField from "./Input";
 // import { useHistory, Link } from "react-router-dom";
 // import Title from "./Title";
-<<<<<<< HEAD
-
-// const Register = () => {
-//     const [formData, setFormData] = useState({
-//         username: "",
-//         email: "",
-//         password: "",
-//         nationalId: "",
-//         role: "patient",
-//         gender: "",
-//         birthdate: "",
-//         address: "",
-//         phoneNumber: "",
-//     });
-    
-
-//     const [errors, setErrors] = useState({});
-//     const [showPassword, setShowPassword] = useState(false);
-
-//     const [showSnackbar, setShowSnackbar] = useState(false);
-//     const [snackbarMessage, setSnackbarMessage] = useState("");
-//     const [alertVariant, setAlertVariant] = useState("danger");
-//      const history = useHistory();
-
-//     const regexPatterns = {
-//         email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-//         password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-//         phoneNumber: /^(010|011|012|015)\d{8}$/,
-//         username: /^[a-zA-Z0-9]{5,20}$/,
-//         nationalId: /^(2|3)\d{13}$/
-//     };
-//     const validateField = (name, value) => {
-//         console.log(`Validating field: ${name}, value: ${value}`);
-    
-//         // تعريف الحقول المطلوبة لكل دور
-//         const requiredFields = {
-//             patient: ['username', 'email', 'password', 'nationalId', 'gender', 'birthdate', 'address', 'phoneNumber'],
-//             doctor: ['username', 'email', 'password', 'nationalId']
-//         };
-    
-//         // التحقق مما إذا كان الحقل مطلوبًا للدور الحالي
-//         if (requiredFields[formData.role].includes(name) && !value) {
-//             console.log("Field is required");
-//             return "This field is required";
-//         }
-    
-//         // إذا لم يكن الحقل مطلوبًا أو كانت له قيمة، فقم بالتحقق من صحة النمط
-//         if (value && regexPatterns[name] && !regexPatterns[name].test(value)) {
-//             console.log("Regex validation failed");
-//             switch (name) {
-//                 case "email":
-//                     return "Invalid email format";
-//                 case "password":
-//                     return "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number";
-//                 case "phoneNumber":
-//                     return "Phone number should contain 11 digits and start with 010, 011, 012, or 015";
-//                 case "username":
-//                     return "Username should contain from 5 to 20 characters";
-//                 case "nationalId":
-//                     return "National ID should contain 14 digits";
-//                 default:
-//                     return undefined; // Return undefined for no error
-//             }
-//         }
-    
-//         console.log("Field is valid");
-//         return undefined; // Return undefined for no error
-//     };
-
-//     const handleChange = (e) => {
-//         const { name, value } = e.target;
-//         // Validate the field immediately on change
-//         const error = validateField(name, value);
-//         setFormData({ ...formData, [name]: value });
-//         setErrors({ ...errors, [name]: error });
-//     };
-=======
->>>>>>> 5f3acfbe1fd83e640c9371175f558740e14c5a7e
 
 // const Register = () => {
 //     const [formData, setFormData] = useState({
@@ -1073,48 +995,6 @@ const Register = () => {
     const [alertVariant, setAlertVariant] = useState("danger");
      const history = useHistory();
 
-<<<<<<< HEAD
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        try {
-            const payload = {
-                username: formData.username,
-                email: formData.email,
-                password: formData.password,
-                role: formData.role,
-                ...(formData.role === "patient" && {
-                    address: formData.address,
-                    medical_history: "No history"
-                }),
-                ...(formData.role === "doctor" && {
-                    specialization: formData.specialization,
-                    description: formData.description,
-                    fees: formData.fees
-                })
-            };
-    
-            const response = await fetch("http://127.0.0.1:8000/register/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-    
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error || "Registration failed");
-    
-            setSnackbarMessage("Account created successfully!");
-            setAlertVariant("success");
-            setShowSnackbar(true);
-            setTimeout(() => history.push("/login"), 1000);
-        } catch (error) {
-            setSnackbarMessage(error.message);
-=======
     const regexPatterns = {
         email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
@@ -1256,12 +1136,9 @@ const Register = () => {
 
         if (users.some((user) => user.email === formData.email)) {
             setSnackbarMessage("Email already exists!");
->>>>>>> 5f3acfbe1fd83e640c9371175f558740e14c5a7e
             setAlertVariant("danger");
             setShowSnackbar(true);
         }
-<<<<<<< HEAD
-=======
 
         // إضافة الصورة إلى بيانات المستخدم
         const userData = {
@@ -1299,7 +1176,6 @@ const Register = () => {
         setTimeout(() => {
             history.push("/login");
         }, 500);
->>>>>>> 5f3acfbe1fd83e640c9371175f558740e14c5a7e
     };
     
 
@@ -1317,28 +1193,6 @@ const Register = () => {
                     <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} />
                     <InputField label="Password" type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} />
 
-<<<<<<< HEAD
-                    <InputField label="National ID" type="text" name="nationalId" value={formData.nationalId} onChange={handleChange} />
-
-                    <div className="mb-3">
-                        <label className="form-label">Role</label>
-                        <select className="form-select" name="role" value={formData.role} onChange={handleChange}>
-                            <option value="patient">Patient</option>
-                            <option value="doctor">Doctor</option>
-                        </select>
-                    </div>
-
-                    {formData.role === "patient" && (
-                        <>
-                            <InputField label="Gender" type="text" name="gender" value={formData.gender} onChange={handleChange} />
-                            <InputField label="Birthdate" type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} />
-                            <InputField label="Address" type="text" name="address" value={formData.address} onChange={handleChange} />
-                            <InputField label="Phone Number" type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
-                        </>
-                    )}
-
-                    <button type="submit" className="btn btn-primary w-100 mt-3">Register</button>
-=======
                     <div className="mb-3">
                         <label className="form-label">Role</label>
                         <select className={`form-select ${errors.role ? "is-invalid" : ""}`} name="role" value={formData.role} onChange={handleChange}>
@@ -1425,7 +1279,6 @@ const Register = () => {
                     </div>
 
                     <button type="submit" className="btn btn-primary w-100 mt-3 fw-bold fs-3">Register</button>
->>>>>>> 5f3acfbe1fd83e640c9371175f558740e14c5a7e
                 </form>
 
                 <div className="d-flex align-items-center my-3">
@@ -1433,9 +1286,6 @@ const Register = () => {
                     <span className="mx-3">Already have an account?</span>
                     <hr className="flex-grow-1" />
                 </div>
-<<<<<<< HEAD
-                <Link to="/login" className="btn btn-light w-100 border">Log In</Link>
-=======
                 <Link to="/login" className="btn btn-light w-100 border fw-bold fs-5 text-dark text-decoration-none fw-bold fs-4">
                     Login
                 </Link>
@@ -1445,7 +1295,6 @@ const Register = () => {
                     <a href="#" className="text-decoration-none">Help</a>
                     <p className="mt-2 text-muted">© 1996-2024, Clinic.com, Inc. or its affiliates</p>
                 </div>
->>>>>>> 5f3acfbe1fd83e640c9371175f558740e14c5a7e
             </div>
         </div>
     );

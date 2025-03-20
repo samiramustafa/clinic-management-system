@@ -14,7 +14,7 @@ import Footer from './component/Footer.js';
 import "./css/style.css";
 import Hero from './pages/Hero.js';
 import About from './pages/About.js';
-import Register from './component/Register.js'
+import Register from './pages/Register.js'
 import ListDoctors from './api/list.js'
 import Details from './api/Details.js'
 import FeedbackList from './feedback/feedbacklist.jsx';
