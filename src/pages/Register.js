@@ -139,33 +139,28 @@ const Register = () => {
         };
         
     
-        console.log("Submitting Data:", userData); // Debugging
         try {
             const response = await axios.post("http://127.0.0.1:8000/clinic/users/", userData, {
                 headers: { "Content-Type": "application/json" },
         });
-        console.log("Response:", response.data);
-        console.log("Response id:", response.data.id);
-
+        
         if (formData.role === "doctor") {
             await axios.post("http://127.0.0.1:8000/clinic/doctors/", {
-                user: response.data.id, // إرسال ID المستخدم الذي تم إنشاؤه
+                user: response.data.id, 
                 specialization: formData.specialization,
-                clinic_address: formData.clinicAddress
+                clinicAddress: formData.clinicAddress
             }, {
                 headers: { "Content-Type": "application/json" },
             });
         } else if (formData.role === "patient") {
             await axios.post("http://127.0.0.1:8000/clinic/patients/", {
-                user: response.data.id, // إرسال ID المستخدم
+                user: response.data.id, 
                 address: formData.address
             }, {
                 headers: { "Content-Type": "application/json" },
             });
         }
     
-            console.log("Response:", response.data);
-            // alert("Registration successful!");
             setShowSnackbar(true);
             setSnackbarMessage("Registration successful!");
             setAlertVariant("success");
