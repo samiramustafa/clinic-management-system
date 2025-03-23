@@ -25,7 +25,9 @@ function Mycard(props) {
                         <p className="card-title fs-3">
                             <b>Dr. </b> {props.name}
                         </p>
+                        
                     )}
+
                     {props.Specialist && (
                         <p className="card-text fs-4">Specialist: {props.Specialist}</p>
                     )}
