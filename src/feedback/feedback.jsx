@@ -61,7 +61,7 @@ const Feedback = () => {
       return;
     }
 
-    console.log("Sending Feedback Data:", formData);
+    // console.log("Sending Feedback Data:", formData);
 
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
@@ -79,7 +79,7 @@ const Feedback = () => {
       });
 
       console.log("Feedback submitted successfully");
-      history.push("/feedbacklist");
+      // history.push("/feedbacklist");
 
       // إعادة ضبط النموذج بعد الإرسال الناجح
       setFormData((prevState) => ({
