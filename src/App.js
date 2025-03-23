@@ -27,9 +27,9 @@ import PatientProfile from './pages/PatientProfile'
 
 import feedback from './feedback/feedback.jsx'
 
-import Appoint from './component/Appoint.js'
+import Appoint from './appointment/Appoint.js'
 // import DoctorAvailability from './pages/DoctorAvailability'; 
-import PatientAppointment from './pages/PatientAppointment'; 
+import PatientAppointment from './appointment/PatientAppointment.js'; 
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 
 import NotFound from './pages/NotFound.jsx'
@@ -54,7 +54,7 @@ function App() {
           {/* <Route path="/booking" component={Booking} exact /> */}
           <Route path="/PatientProfile" component={PatientProfile} exact />
           {/* <Route path="/doctor-availability" component={DoctorAvailability} />  */}
-          <Route path="/patient-appointment" component={PatientAppointment} />
+          {/* <Route path="/patient-appointment" component={PatientAppointment} /> */}
           {/* <Route path="/doctor-appointments" component={DoctorAppointments} /> */}
           <Route path="/feedback" component={feedback} exact />
           <Route path="/login" component={Login} exact />

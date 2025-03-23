@@ -61,7 +61,7 @@ const Feedback = () => {
       return;
     }
 
-    console.log("Sending Feedback Data:", formData);
+    // console.log("Sending Feedback Data:", formData);
 
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
