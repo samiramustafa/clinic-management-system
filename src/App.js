@@ -54,14 +54,14 @@ function App() {
           {/* <Route path="/booking" component={Booking} exact /> */}
           <Route path="/PatientProfile" component={PatientProfile} exact />
           {/* <Route path="/doctor-availability" component={DoctorAvailability} />  */}
-          {/* <Route path="/patient-appointment" component={PatientAppointment} /> */}
+          <Route path="/patient-appointment" component={PatientAppointment} />
           {/* <Route path="/doctor-appointments" component={DoctorAppointments} /> */}
-          <Route path="/feedback" component={feedback} exact />
+          {/* <Route path="/feedback" component={feedback} exact /> */}
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
           <Route path="/Details/:id" component={Details} exact />
           <Route path="/Details/:id?feedback=feedbackId" component={FeedbackList} exact />
-          <Route path="/feedbacklist" component={FeedbackList} exact />
+          {/* <Route path="/feedbacklist" component={FeedbackList} exact /> */}
           <Route path="/doctor-profile" component={DoctorProfile} />
           <Route path="/patient-profile" component={PatientProfile} />
 

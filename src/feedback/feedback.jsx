@@ -79,7 +79,7 @@ const Feedback = () => {
       });
 
       console.log("Feedback submitted successfully");
-      history.push("/feedbacklist");
+      // history.push("/feedbacklist");
 
       // إعادة ضبط النموذج بعد الإرسال الناجح
       setFormData((prevState) => ({
