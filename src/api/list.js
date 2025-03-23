@@ -7,6 +7,8 @@ import { debounce } from 'lodash';
 
 function ListDoctors() {
     const [doctors, setDoctors] = useState([]);
+    const [user, setUser] = useState([]);
+
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecialization, setSelectedSpecialization] = useState("");
@@ -21,22 +23,40 @@ function ListDoctors() {
     useEffect(() => {
         setLoading(true);
         Promise.all([
-            axios.get("https://retoolapi.dev/FvHpw0/doctors"),
-            axios.get("https://retoolapi.dev/yXHfgN/feeback_and_rating")
+            axios.get("http://127.0.0.1:8000/clinic/doctors/"),
+            axios.get("http://127.0.0.1:8000/clinic/users/"),
+            // axios.get("http://127.0.0.1:8000/clinic/feedbacks/")
         ])
-        .then(([doctorsResponse, rateResponse]) => {
+        .then(([doctorsResponse, usersResponse]) => {
             const doctorsData = doctorsResponse.data;
-            const ratesData = rateResponse.data;
+            const usersData = usersResponse.data;
+            // const ratesData = rateResponse.data;
+
+            console.log("doctor",doctorsData);
+            console.log("user",usersData);
+            // console.log("rate",ratesData)
+
 
             const updatedDoctors = doctorsData.map((doctor) => {
-                const doctorRate = ratesData.find(rate => rate.id === doctor.id);
-                return { ...doctor, rate: doctorRate ? doctorRate.rate : "No rating" };
+            const doctorUser = usersData.find(user => user.id === doctor.user);
+            console.log("1",doctorUser)
+                return { ...doctor,
+                    name: doctorUser ? doctorUser.name : "Unknown",
+                    img: doctorUser ? doctorUser.profile_picture : "",
+                    };
             });
+            console.log("updatedDoctors",updatedDoctors)
 
             setDoctors(updatedDoctors);
+            console.log("updatedDoctors",updatedDoctors)
+            console.log("Doctors",doctors)
+
+            
+
+
             setFilteredDoctors(updatedDoctors);
 
-            const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.Specialization))];
+            const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.specialization))];
             setSpecializations(uniqueSpecializations);
         })
         .catch(() => console.error("Failed to fetch data."))
@@ -47,7 +67,7 @@ function ListDoctors() {
         let filtered = doctors;
 
         if (selectedSpecialization) {
-            filtered = filtered.filter(doctor => doctor.Specialization === selectedSpecialization);
+            filtered = filtered.filter(doctor => doctor.specialization === selectedSpecialization);
         }
 
         if (searchTerm) {
@@ -162,10 +182,9 @@ function ListDoctors() {
                                 {...doctor}
                                 path={`/Details/${doctor.id}`}
                                 img={doctor.img || "https://via.placeholder.com/150"}
-                                name={doctor.full_name}
-                                Specialist={doctor.Specialization}
-                                isAvailable={doctor.isAvailable}
-                                rate={doctor.rate}
+                                name={doctor.name}
+                                Specialist={doctor.specialization}
+                                rate={doctor.average_rating}
                                 style={{ height: "100%" }}
                             />
                         </div>

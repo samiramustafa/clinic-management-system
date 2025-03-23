@@ -68,6 +68,7 @@ function App() {
 
           {/* will delite it */}
           <Route path="/clinic" component={DoctorAppointments} exact />
+
           <Route path="*" component={NotFound} />
 
 

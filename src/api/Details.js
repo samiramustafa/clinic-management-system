@@ -15,12 +15,12 @@ function Details() {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`https://retoolapi.dev/FvHpw0/doctors/${id}`)
+        axios.get(`http://127.0.0.1:8000/clinic/doctors/${id}`)
             .then((response) => {
                 const doctorData = response.data;
 
                 // Fetch feedback ratings
-                axios.get("https://retoolapi.dev/yXHfgN/feeback_and_rating")
+                axios.get("http://127.0.0.1:8000/clinic/feedbacks/")
                     .then((rateResponse) => {
                         const ratesData = rateResponse.data;
 
@@ -46,14 +46,17 @@ function Details() {
     return (
         <>
             <p className="text text-dark fw-bold fs-2 text-center mt-5">
-                {doctor.full_name}
+                {doctor.full_name} 
             </p>
             <Card
-                img={doctor.img}
-                name={doctor.full_name}
-                specialization={doctor.Specialization}
+                img={doctor.img}//need to handel
+                name={doctor.user.name} //nedd to handel
+                specialization={doctor.specialization}
                 fees={doctor.fees}
-                rate={doctor.rate}
+                rate={doctor.average_rating}
+                description={doctor.description}  
+                clinicAddress={doctor.clinicAddress}
+
             />
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />

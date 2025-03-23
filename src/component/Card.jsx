@@ -20,10 +20,13 @@ function Card(props) {
                                 <div className="mt-auto p-4">
                                     <h3>DR. {props.name}</h3>
                                     <h6 className="fw-normal fst-italic text-primary mb-4">
-                                        {props.Specialist}
+                                        {props.specialization}
                                     </h6>
-                                    <p className="m-0">
-                                        Dolor lorem eos dolor duo eirmod sea. Dolor sit magna rebum clita rebum dolor
+                                    <p className="m-0">{props.description}
+                                    </p>
+
+                                    <p className="m-0">Clinic Address:
+                                        {props.clinicAddress} 
                                     </p>
 
                                     <p className="m-0">
@@ -34,8 +37,8 @@ function Card(props) {
                        
                        {props.rate && (
                      <p className="text-warning fs-5">
-                         {"⭐".repeat(props.rate)}{" "}
-                         <div className="text-muted fs-6">overall rating({props.rate}/5)</div>
+                         {"⭐".repeat(props.average_rating)}{" "}
+                         <div className="text-muted fs-6">overall rating({props.average_rating}/5)</div>
                      </p>
                  )}
 
