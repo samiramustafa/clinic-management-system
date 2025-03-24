@@ -23,7 +23,7 @@ const DayCard = ({ day, selectedDay, selectedTime, setSelectedDay, setSelectedTi
   }, [showAlert]);
 
   return (
-    <div className="card p-2 border text-center shadow-sm bg-light fs-5 fw-bold w-100 mx-auto "style={{ height: "350px" }}>
+    <div className="card p-2 border text-center shadow-sm bg-light fs-5 fw-bold w-100 mx-auto " style={{ height: "400px" }}>
       <h6 className="bg-primary text-white py-2 rounded fs-5 fw-bold">
         {day?.name} ({day?.date})
       </h6>
@@ -31,7 +31,7 @@ const DayCard = ({ day, selectedDay, selectedTime, setSelectedDay, setSelectedTi
         <table className="table table-sm table-bordered">
           <thead>
             <tr className="bg-light text-primary" style={{ height: "50px" }}>
-              <th className="mb-0 fs-5 fw-bold text-capitalize text-center mx-auto" style={{ width: "50%" }}>
+              <th className="mb-0 fs-5 fw-bold text-capitalize text-center mx-auto" >
                 Start Time
               </th>
               <th style={{ width: "50%" }}>End Time</th>
@@ -91,18 +91,25 @@ const DayCard = ({ day, selectedDay, selectedTime, setSelectedDay, setSelectedTi
             <button type="button" className="btn-close" onClick={() => setShowAlert(false)} aria-label="Close"></button>
           </div>
         )}
-        <button
-          className="btn btn-primary btn-sm w-100 mt-2 fs-4 fw-bold"
-          onClick={() => {
-            if (selectedDay && selectedTime) {
-              setShowConfirm(true);
-            } else {
-              setShowAlert(true);
-            }
-          }}
-        >
-          Book
-        </button>
+       
+          <button
+            className="btn btn-primary btn-sm w-100 fs-4 fw-bold"
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+            }}
+            onClick={() => {
+              if (selectedDay && selectedTime) {
+                setShowConfirm(true);
+              } else {
+                setShowAlert(true);
+              }
+            }}
+          >
+            Book
+          </button>
+   
       </div>
     </div>
   );
