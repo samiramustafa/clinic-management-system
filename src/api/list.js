@@ -8,7 +8,6 @@ import { debounce } from 'lodash';
 function ListDoctors() {
     const [doctors, setDoctors] = useState([]);
     const [user, setUser] = useState([]);
-
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecialization, setSelectedSpecialization] = useState("");
@@ -25,43 +24,26 @@ function ListDoctors() {
         Promise.all([
             axios.get("http://127.0.0.1:8000/clinic/doctors/"),
             axios.get("http://127.0.0.1:8000/clinic/users/"),
-
         ])
-            .then(([doctorsResponse, usersResponse]) => {
-                const doctorsData = doctorsResponse.data;
-                const usersData = usersResponse.data;
-      
-              
-
-
-
-                const updatedDoctors = doctorsData.map((doctor) => {
-                    const doctorUser = usersData.find(user => user.id === doctor.user);
-                    // console.log("Doctor User:", doctorUser);
-                    // console.log("Doctor Image:", doctorUser ? doctorUser.profile_picture : "No Image Found");
-           
-                    return {
-                        ...doctor,
-                        name: doctorUser ? doctorUser.name : "Unknown",
-                        img: doctorUser ? doctorUser.profile_picture : "",
+        .then(([doctorsResponse, usersResponse]) => {
+            const doctorsData = doctorsResponse.data;
+            const usersData = usersResponse.data;
+            const updatedDoctors = doctorsData.map((doctor) => {
+            const doctorUser = usersData.find(user => user.id === doctor.user);
+                return { ...doctor,
+                    name: doctorUser.name ,
+                    img: doctorUser.profile_picture
                     };
-                });
-         
-
-                setDoctors(updatedDoctors);
-                // console.log("updatedDoctors", updatedDoctors)
-                // console.log("Doctors", doctors)
+            });
 
 
-
-
-                setFilteredDoctors(updatedDoctors);
-
-                const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.specialization))];
-                setSpecializations(uniqueSpecializations);
-            })
-            .catch(() => console.error("Failed to fetch data."))
-            .finally(() => setLoading(false));
+            setDoctors(updatedDoctors);
+            setFilteredDoctors(updatedDoctors);
+            const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.specialization))];
+            setSpecializations(uniqueSpecializations);
+        })
+        .catch(() => console.error("Failed to fetch data."))
+        .finally(() => setLoading(false));
     }, []);
 
     const handleSearch = useCallback(() => {
@@ -72,7 +54,7 @@ function ListDoctors() {
         }
 
         if (searchTerm) {
-            filtered = filtered.filter(doctor => doctor.full_name.toLowerCase().includes(searchTerm.toLowerCase()));
+            filtered = filtered.filter(doctor => doctor.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
 
         setFilteredDoctors(filtered);
@@ -185,7 +167,8 @@ function ListDoctors() {
                                 img={doctor.img || "https://via.placeholder.com/150"}
                                 name={doctor.name}
                                 Specialist={doctor.specialization}
-                                rate={doctor.average_rating}
+                                clinicAddress={doctor.clinicAddress}
+                                rate={doctor.average_rating >0 && doctor.average_rating  }
                                 style={{ height: "100%" }}
                             />
                         </div>

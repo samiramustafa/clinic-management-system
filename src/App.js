@@ -33,6 +33,7 @@ import PatientAppointment from './appointment/PatientAppointment.js';
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 
 import NotFound from './pages/NotFound.jsx'
+import  ChatBot from './component/ChatBot.js'
 
 // import Profile from './component/doctor_Profile .js';
 
@@ -43,6 +44,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
+        <ChatBot/>
 
         <Switch>
           <Route path="/" component={Hero} exact />
