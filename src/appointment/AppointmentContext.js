@@ -17,6 +17,7 @@ export const AppointmentProvider = ({ children }) => {
       if (bookedAppointments.length > 0) {
         localStorage.setItem("bookedAppointments", JSON.stringify(bookedAppointments));
       }
+      console.log(bookedAppointments)
     } catch (error) {
       console.error("Error saving appointments:", error);
     }
