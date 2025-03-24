@@ -16,7 +16,7 @@ function ListDoctors() {
     const [currentPage, setCurrentPage] = useState(Number(pageNumber) || 1);
     const doctorsPerPage = 8;
     const [loading, setLoading] = useState(true);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 
     useEffect(() => {
@@ -54,7 +54,7 @@ function ListDoctors() {
         }
 
         if (searchTerm) {
-            filtered = filtered.filter(doctor => doctor.full_name.toLowerCase().includes(searchTerm.toLowerCase()));
+            filtered = filtered.filter(doctor => doctor.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
 
         setFilteredDoctors(filtered);
@@ -94,7 +94,7 @@ function ListDoctors() {
                 <h1 className="display-4">Qualified Healthcare Professionals</h1>
             </div>
 
-           
+
             <div className="row mb-4 align-items-center">
                 <div className="col-md-6 fs-4">
                     <input
@@ -107,52 +107,52 @@ function ListDoctors() {
                     />
                 </div>
 
-                <div className="col-md-6" > 
-    <div className="dropdown">
-        <button
-            className="btn btn-primary dropdown-toggle w-100 fw-bold fs-4"
-            type="button"
-            onClick={toggleDropdown}
-            aria-expanded={isDropdownOpen}
-            style={{ height: '50px' }}
-        >
-            {selectedSpecialization || "Select Specialization"}
-        </button>
-        <ul
-            className={`dropdown-menu w-100 w-100 fw-bold fs-4 ${isDropdownOpen ? 'show' : ''}`}
-            aria-labelledby="dropdownMenuButton"
-        >
-            <li>
-                <button
-                    className="dropdown-item"
-                    onClick={() => {
-                        setSelectedSpecialization("");
-                        setIsDropdownOpen(false);
-                    }}
-                >
-                    All Specializations
-                </button>
-            </li>
-            {specializations.map((spec, index) => (
-                <li key={index}>
-                    <button
-                        className="dropdown-item"
-                        onClick={() => {
-                            setSelectedSpecialization(spec);
-                            setIsDropdownOpen(false);
-                        }}
-                    >
-                        {spec}
-                    </button>
-                </li>
-            ))}
-        </ul>
-    </div>
-</div>
+                <div className="col-md-6" >
+                    <div className="dropdown">
+                        <button
+                            className="btn btn-primary dropdown-toggle w-100 fw-bold fs-4"
+                            type="button"
+                            onClick={toggleDropdown}
+                            aria-expanded={isDropdownOpen}
+                            style={{ height: '50px' }}
+                        >
+                            {selectedSpecialization || "Select Specialization"}
+                        </button>
+                        <ul
+                            className={`dropdown-menu w-100 w-100 fw-bold fs-4 ${isDropdownOpen ? 'show' : ''}`}
+                            aria-labelledby="dropdownMenuButton"
+                        >
+                            <li>
+                                <button
+                                    className="dropdown-item"
+                                    onClick={() => {
+                                        setSelectedSpecialization("");
+                                        setIsDropdownOpen(false);
+                                    }}
+                                >
+                                    All Specializations
+                                </button>
+                            </li>
+                            {specializations.map((spec, index) => (
+                                <li key={index}>
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                            setSelectedSpecialization(spec);
+                                            setIsDropdownOpen(false);
+                                        }}
+                                    >
+                                        {spec}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
 
             </div>
 
-            
+
             {loading ? (
                 <div className="text-center">Loading doctors...</div>
             ) : currentDoctors.length === 0 ? (
@@ -176,7 +176,7 @@ function ListDoctors() {
                 </div>
             )}
 
-        
+
             <nav className="mt-4">
                 <ul className="pagination justify-content-center">
                     <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>

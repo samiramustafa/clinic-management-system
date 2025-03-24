@@ -6,7 +6,7 @@ import Card from "../component/Card";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Feedback from "../feedback/feedback";
 import FeedbackList from '../feedback/feedbacklist'
-// import Appoint from "../component/Appoint";
+import Appoint from "../appointment/Appoint";
 
 function Details() {
     const [doctor, setDoctor] = useState(null);  
@@ -64,7 +64,7 @@ function Details() {
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />
             </div>
-            {/* <Appoint /> */}
+            <Appoint />
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />
             </div>
