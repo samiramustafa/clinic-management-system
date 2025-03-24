@@ -27,9 +27,9 @@ import PatientProfile from './pages/PatientProfile'
 
 import feedback from './feedback/feedback.jsx'
 
-import Appoint from './component/Appoint.js'
+import Appoint from './appointment/Appoint.js'
 // import DoctorAvailability from './pages/DoctorAvailability'; 
-import PatientAppointment from './pages/PatientAppointment'; 
+import PatientAppointment from './appointment/PatientAppointment.js'; 
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 
 import NotFound from './pages/NotFound.jsx'
@@ -56,18 +56,19 @@ function App() {
           {/* <Route path="/doctor-availability" component={DoctorAvailability} />  */}
           <Route path="/patient-appointment" component={PatientAppointment} />
           {/* <Route path="/doctor-appointments" component={DoctorAppointments} /> */}
-          <Route path="/feedback" component={feedback} exact />
+          {/* <Route path="/feedback" component={feedback} exact /> */}
           <Route path="/login" component={Login} exact />
           <Route path="/ListDoctors" component={ListDoctors} exact />
           <Route path="/Details/:id" component={Details} exact />
           <Route path="/Details/:id?feedback=feedbackId" component={FeedbackList} exact />
-          <Route path="/feedbacklist" component={FeedbackList} exact />
+          {/* <Route path="/feedbacklist" component={FeedbackList} exact /> */}
           <Route path="/doctor-profile" component={DoctorProfile} />
           <Route path="/patient-profile" component={PatientProfile} />
 
 
           {/* will delite it */}
           <Route path="/clinic" component={DoctorAppointments} exact />
+
           <Route path="*" component={NotFound} />
 
 

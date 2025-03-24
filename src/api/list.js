@@ -7,6 +7,8 @@ import { debounce } from 'lodash';
 
 function ListDoctors() {
     const [doctors, setDoctors] = useState([]);
+    const [user, setUser] = useState([]);
+
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecialization, setSelectedSpecialization] = useState("");
@@ -15,39 +17,58 @@ function ListDoctors() {
     const [currentPage, setCurrentPage] = useState(Number(pageNumber) || 1);
     const doctorsPerPage = 8;
     const [loading, setLoading] = useState(true);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 
     useEffect(() => {
         setLoading(true);
         Promise.all([
-            axios.get("https://retoolapi.dev/FvHpw0/doctors"),
-            axios.get("https://retoolapi.dev/yXHfgN/feeback_and_rating")
+            axios.get("http://127.0.0.1:8000/clinic/doctors/"),
+            axios.get("http://127.0.0.1:8000/clinic/users/"),
+
         ])
-        .then(([doctorsResponse, rateResponse]) => {
-            const doctorsData = doctorsResponse.data;
-            const ratesData = rateResponse.data;
+            .then(([doctorsResponse, usersResponse]) => {
+                const doctorsData = doctorsResponse.data;
+                const usersData = usersResponse.data;
+      
+              
 
-            const updatedDoctors = doctorsData.map((doctor) => {
-                const doctorRate = ratesData.find(rate => rate.id === doctor.id);
-                return { ...doctor, rate: doctorRate ? doctorRate.rate : "No rating" };
-            });
 
-            setDoctors(updatedDoctors);
-            setFilteredDoctors(updatedDoctors);
 
-            const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.Specialization))];
-            setSpecializations(uniqueSpecializations);
-        })
-        .catch(() => console.error("Failed to fetch data."))
-        .finally(() => setLoading(false));
+                const updatedDoctors = doctorsData.map((doctor) => {
+                    const doctorUser = usersData.find(user => user.id === doctor.user);
+                    // console.log("Doctor User:", doctorUser);
+                    // console.log("Doctor Image:", doctorUser ? doctorUser.profile_picture : "No Image Found");
+           
+                    return {
+                        ...doctor,
+                        name: doctorUser ? doctorUser.name : "Unknown",
+                        img: doctorUser ? doctorUser.profile_picture : "",
+                    };
+                });
+         
+
+                setDoctors(updatedDoctors);
+                // console.log("updatedDoctors", updatedDoctors)
+                // console.log("Doctors", doctors)
+
+
+
+
+                setFilteredDoctors(updatedDoctors);
+
+                const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.specialization))];
+                setSpecializations(uniqueSpecializations);
+            })
+            .catch(() => console.error("Failed to fetch data."))
+            .finally(() => setLoading(false));
     }, []);
 
     const handleSearch = useCallback(() => {
         let filtered = doctors;
 
         if (selectedSpecialization) {
-            filtered = filtered.filter(doctor => doctor.Specialization === selectedSpecialization);
+            filtered = filtered.filter(doctor => doctor.specialization === selectedSpecialization);
         }
 
         if (searchTerm) {
@@ -91,7 +112,7 @@ function ListDoctors() {
                 <h1 className="display-4">Qualified Healthcare Professionals</h1>
             </div>
 
-           
+
             <div className="row mb-4 align-items-center">
                 <div className="col-md-6 fs-4">
                     <input
@@ -104,52 +125,52 @@ function ListDoctors() {
                     />
                 </div>
 
-                <div className="col-md-6" > 
-    <div className="dropdown">
-        <button
-            className="btn btn-primary dropdown-toggle w-100 fw-bold fs-4"
-            type="button"
-            onClick={toggleDropdown}
-            aria-expanded={isDropdownOpen}
-            style={{ height: '50px' }}
-        >
-            {selectedSpecialization || "Select Specialization"}
-        </button>
-        <ul
-            className={`dropdown-menu w-100 w-100 fw-bold fs-4 ${isDropdownOpen ? 'show' : ''}`}
-            aria-labelledby="dropdownMenuButton"
-        >
-            <li>
-                <button
-                    className="dropdown-item"
-                    onClick={() => {
-                        setSelectedSpecialization("");
-                        setIsDropdownOpen(false);
-                    }}
-                >
-                    All Specializations
-                </button>
-            </li>
-            {specializations.map((spec, index) => (
-                <li key={index}>
-                    <button
-                        className="dropdown-item"
-                        onClick={() => {
-                            setSelectedSpecialization(spec);
-                            setIsDropdownOpen(false);
-                        }}
-                    >
-                        {spec}
-                    </button>
-                </li>
-            ))}
-        </ul>
-    </div>
-</div>
+                <div className="col-md-6" >
+                    <div className="dropdown">
+                        <button
+                            className="btn btn-primary dropdown-toggle w-100 fw-bold fs-4"
+                            type="button"
+                            onClick={toggleDropdown}
+                            aria-expanded={isDropdownOpen}
+                            style={{ height: '50px' }}
+                        >
+                            {selectedSpecialization || "Select Specialization"}
+                        </button>
+                        <ul
+                            className={`dropdown-menu w-100 w-100 fw-bold fs-4 ${isDropdownOpen ? 'show' : ''}`}
+                            aria-labelledby="dropdownMenuButton"
+                        >
+                            <li>
+                                <button
+                                    className="dropdown-item"
+                                    onClick={() => {
+                                        setSelectedSpecialization("");
+                                        setIsDropdownOpen(false);
+                                    }}
+                                >
+                                    All Specializations
+                                </button>
+                            </li>
+                            {specializations.map((spec, index) => (
+                                <li key={index}>
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={() => {
+                                            setSelectedSpecialization(spec);
+                                            setIsDropdownOpen(false);
+                                        }}
+                                    >
+                                        {spec}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
 
             </div>
 
-            
+
             {loading ? (
                 <div className="text-center">Loading doctors...</div>
             ) : currentDoctors.length === 0 ? (
@@ -162,10 +183,9 @@ function ListDoctors() {
                                 {...doctor}
                                 path={`/Details/${doctor.id}`}
                                 img={doctor.img || "https://via.placeholder.com/150"}
-                                name={doctor.full_name}
-                                Specialist={doctor.Specialization}
-                                isAvailable={doctor.isAvailable}
-                                rate={doctor.rate}
+                                name={doctor.name}
+                                Specialist={doctor.specialization}
+                                rate={doctor.average_rating}
                                 style={{ height: "100%" }}
                             />
                         </div>
@@ -173,7 +193,7 @@ function ListDoctors() {
                 </div>
             )}
 
-        
+
             <nav className="mt-4">
                 <ul className="pagination justify-content-center">
                     <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
