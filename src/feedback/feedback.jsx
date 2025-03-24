@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import FeedbackModal from "./card_feed";
 
 const Feedback = () => {
   const { id } = useParams();
-  const history = useHistory();
+
   const [submitted, setSubmitted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [feedbacks, setFeedbacks] = useState([]);
   const [errors, setErrors] = useState({
     patient: "",
     doctor: "",
@@ -39,6 +42,7 @@ const Feedback = () => {
   }, [id]);
 
 
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
@@ -49,7 +53,7 @@ const Feedback = () => {
     setErrors({ ...errors, rate: "" });
   };
 
-  const handleSubmit = async (e) => {
+  const handleAddFeedback = async (e) => {
     e.preventDefault();
 
     let newErrors = {};
@@ -61,7 +65,7 @@ const Feedback = () => {
       return;
     }
 
-    // console.log("Sending Feedback Data:", formData);
+
 
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
@@ -73,40 +77,46 @@ const Feedback = () => {
       doctor: Number(formData.doctor),
     };
 
+
     try {
-      await axios.post("http://127.0.0.1:8000/clinic/feedbacks/", feedbackData, {
+      const response = await axios.post("http://127.0.0.1:8000/clinic/feedbacks/", feedbackData, {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("Feedback submitted successfully");
-      // history.push("/feedbacklist");
+    
+      setFeedbacks((prevFeedbacks) => {
+        const updatedFeedbacks = [response.data, ...prevFeedbacks];
+        console.log("Updated feedbacks:", updatedFeedbacks); 
+        return updatedFeedbacks;
+      });
 
-      // إعادة ضبط النموذج بعد الإرسال الناجح
+
       setFormData((prevState) => ({
         ...prevState,
         feedback: "",
         rate: 0,
       }));
+      setErrors({});
+      setShowModal(false);
     } catch (error) {
       console.error("Error submitting feedback:", error.response?.data || error.message);
+      setErrors({ submit: "Failed to submit feedback. Please try again." });
     }
   };
 
-  // **إعادة ضبط النموذج بعد الإرسال**
-  //   setFormData({
-  //     patient: feedbackData.patient,
-  //     doctor: feedbackData.doctor,
-  //     feedback: "",
-  //     rate: 0,  // ✅ تصحيح الحقل
-  //   });
-  // };
+
+
+
+
 
 
   return (
     <div className="container mt-5">
       <div className="container d-flex flex-column align-items-center py-5">
         <div className="shadow p-4" style={{ width: "500px" }}>
-          <h2 className="text-center">Feedback Form</h2>
+          <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+            Add Feedback
+          </button>
 
           {submitted && (
             <div className="alert alert-success text-center" role="alert">
@@ -114,55 +124,20 @@ const Feedback = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <FeedbackModal
+            show={showModal}
+            isEditing={false}
+            onClose={() => setShowModal(false)}
+            text={formData.feedback}
+            setText={(text) => setFormData({ ...formData, feedback: text })}
+            rate={formData.rate}
+            setRate={handlerateChange}
+            onSave={handleAddFeedback}
+            errors={errors} 
+          />
 
 
 
-
-            <div className="mb-3">
-              <label className="form-label">Your Feedback</label>
-              <textarea
-                className={`form-control ${errors.feedback ? "border border-danger" : ""}`}
-                name="feedback"
-                value={formData.feedback}
-                onChange={handleChange}
-                rows="4"
-                placeholder="Write your feedback..."
-              />
-              {errors.feedback && <div className="text-danger">{errors.feedback}</div>}
-            </div>
-
-
-
-            <div className="mb-3">
-              <label className="form-label">Your rate</label>
-              <div className="d-flex">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span
-                    key={star}
-                    onClick={() => handlerateChange(star)}
-                    style={{
-                      cursor: "pointer",
-                      fontSize: "24px",
-                      transition: "color 0.3s ease-in-out, transform 0.2s",
-                      color: formData.rate >= star ? "#ffcc00" : "#ccc",
-                    }}
-                    onMouseEnter={(e) => (e.target.style.transform = "scale(1.3)")}
-                    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-                  >
-                    {formData.rate >= star ? "★" : "☆"}
-                  </span>
-                ))}
-              </div>
-              {errors.rate && <div className="text-danger">{errors.rate}</div>}
-            </div>
-
-
-
-            <button type="submit" className="btn btn-primary w-100">
-              Submit Feedback
-            </button>
-          </form>
         </div>
       </div>
     </div>
@@ -170,3 +145,4 @@ const Feedback = () => {
 };
 
 export default Feedback;
+

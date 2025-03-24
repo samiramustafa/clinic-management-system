@@ -61,6 +61,7 @@ function Details() {
                 rate={doctor.average_rating>0 && doctor.average_rating  }
 
             />
+            <Feedback />
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />
             </div>
@@ -72,7 +73,7 @@ function Details() {
             <div className="w-50 mx-auto mt-5">
                 <hr className="border border-primary opacity-75" />
             </div>
-            <Feedback />
+            
         </>
     );
 }
