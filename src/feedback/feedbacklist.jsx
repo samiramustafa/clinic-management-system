@@ -5,6 +5,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import FeedbackModal from "./card_feed";
 
 function FeedbackList(props) {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -17,17 +18,24 @@ function FeedbackList(props) {
   const [showModal, setShowModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [updatedRate, setUpdatedRate] = useState(0);
+  const { id } = useParams();
 
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/clinic/feedbacks")
+      .get(`http://127.0.0.1:8000/clinic/feedbacks/?doctor_id=${id}`)
       .then((response) => {
-        // console.log(response.data)
-        setFeedbacks(response.data)
+        console.log("Fetched feedbacks:", response.data);
+        setFeedbacks(response.data);
       })
-      .catch(() => setErrors("Error fetching feedback"));
-  }, []);
+      .catch((error) => {
+        console.error("Error fetching feedback:", error);
+        setErrors("Error fetching feedback");
+      });
+  }, [id]);
+
+
+
 
 
   const handleDeleteClick = (id) => {
@@ -49,8 +57,10 @@ function FeedbackList(props) {
 
 
   const handleEditClick = (feedback) => {
+
     setEditingFeedback(feedback);
     setUpdatedText(feedback.feedback);
+    setUpdatedRate(feedback.rate);
   };
 
 
@@ -117,6 +127,7 @@ function FeedbackList(props) {
                 <button className="btn text-primary" onClick={() => handleEditClick(fb)}>
                   Edit
                 </button>
+
               </div>
             </div>
           </div>
@@ -129,58 +140,23 @@ function FeedbackList(props) {
 
 
 
-      {editingFeedback && (
-        <div className="modal d-block" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Edit Feedback</h5>
-                <button className="btn-close" onClick={() => setEditingFeedback(null)}></button>
-              </div>
 
-              <div className="modal-body">
-            
-                <textarea
-                  className="form-control mb-3"
-                  rows="3"
-                  value={updatedText}
-                  onChange={(e) => setUpdatedText(e.target.value)}
-                ></textarea>
-                <div className="mb-3">
-                  <label className="form-label">Your rate</label>
-                  <div className="d-flex">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <span
-                        key={star}
-                        onClick={() => setUpdatedRate(star)}
-                        style={{
-                          cursor: "pointer",
-                          fontSize: "24px",
-                          transition: "color 0.3s ease-in-out, transform 0.2s",
-                          color: updatedRate >= star ? "#ffcc00" : "#ccc",
-                        }}
-                        onMouseEnter={(e) => (e.target.style.transform = "scale(1.3)")}
-                        onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-                      >
-                        {updatedRate >= star ? "★" : "☆"}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+      <div>
 
-              <div className="modal-footer">
-                <button className="btn btn-secondary" onClick={() => setEditingFeedback(null)}>
-                  Cancel
-                </button>
-                <button className="btn btn-primary" onClick={handleUpdate}>
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
+        {editingFeedback && (
+          <FeedbackModal
+            show={!!editingFeedback}
+            isEditing={!!editingFeedback}
+            onClose={() => setEditingFeedback(null)}
+            text={updatedText}
+            setText={setUpdatedText}
+            rate={updatedRate}
+            setRate={setUpdatedRate}
+            onSave={handleUpdate}
+          />
+        )}
+      </div>
 
       {showModal && (
         <div className="modal fade show d-block" tabIndex="-1">
@@ -236,3 +212,6 @@ function FeedbackList(props) {
 }
 
 export default FeedbackList;
+
+
+

@@ -1,5 +1,5 @@
 
-  
+
 
 
 import React, { useState, useEffect } from "react";
@@ -27,15 +27,15 @@ function Appoint() {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/clinic/available-times/?doctor_id=${id}`);
-        
+
         setAppointments(response.data);
-        
+
         const firstAvailableTimeId = response.data?.[0]?.id || null;
         setSelectedAvailableTimeId(firstAvailableTimeId);
-        console.log("Selected Available Time ID:", firstAvailableTimeId);
-        
+        // console.log("Selected Available Time ID:", firstAvailableTimeId);
+
         setDoctorId(id);
-        console.log("Doctor ID:", id);
+        // console.log("Doctor ID:", id);
       } catch (error) {
         console.error("Error fetching appointments:", error);
         setError("Failed to fetch appointments. Please try again.");
@@ -49,11 +49,11 @@ function Appoint() {
 
   const validateForm = () => {
     let errors = {};
-    
+
     if (!patientName.trim()) {
       errors.patientName = "Patient name is required";
     }
-    
+
     if (!patientPhone.trim()) {
       errors.patientPhone = "Patient phone is required";
     } else if (!/^\d{10,15}$/.test(patientPhone)) {
@@ -68,20 +68,20 @@ function Appoint() {
       console.warn("Missing required fields:", { selectedDay, selectedTime, selectedAvailableTimeId });
       return;
     }
-  
+
     if (!validateForm()) return;
-  
+
     try {
       const { data: patients } = await axios.get(
         `http://127.0.0.1:8000/clinic/patients/?name=${patientName}`
       );
-  
+
       const patientId = patients?.[0]?.id;
-  
+
       if (!patientId) {
         throw new Error("Patient not found.");
       }
-  
+
       const newAppointment = {
         patient: patientId,
         date: selectedDay.date,
@@ -91,22 +91,22 @@ function Appoint() {
         phone_number: patientPhone,
         status: "pending",
       };
-      console.log("New Appointment:", newAppointment);
-  
+      // console.log("New Appointment:", newAppointment);
+
       const { data: bookedAppointment } = await axios.post(
         `http://127.0.0.1:8000/clinic/appointments/`,
-        JSON.stringify(newAppointment), 
+        JSON.stringify(newAppointment),
         {
           headers: {
-            "Content-Type": "application/json", 
+            "Content-Type": "application/json",
           },
         }
       );
-  
+
       setBookedAppointments((prev) => [...prev, bookedAppointment]);
       setShowToast(true);
       setShowConfirm(false);
-  
+
       // Reset form fields
       setFormErrors({});
       setSelectedDay(null);
@@ -119,9 +119,9 @@ function Appoint() {
       setError(error.response?.data?.message || "Failed to book appointment. Please try again.");
     }
   };
-  
 
- 
+
+
 
 
   const handleCloseConfirm = () => {
@@ -136,7 +136,7 @@ function Appoint() {
     new Map(appointments.map((appt) => [appt.date, { name: appt.day, date: appt.date }])).values()
   );
 
-  
+
   const getTimeSlotsForDay = (dayDate) => {
     return appointments
       .filter((appt) => appt.date === dayDate)
@@ -184,7 +184,7 @@ function Appoint() {
       </h2>
 
       <div id="dayCarousel" className="carousel slide mx-auto rounded shadow" style={{ maxWidth: "90%" }}>
-        <div className="carousel-inner">
+        <div className="carousel-inner" >
           {Array.from({ length: totalSlides }).map((_, i) => (
             <div className={`carousel-item ${i === 0 ? "active" : ""}`} key={i}>
               <div className="row justify-content-center">
@@ -196,7 +196,7 @@ function Appoint() {
                       selectedTime={selectedTime}
                       setSelectedDay={setSelectedDay}
                       setSelectedTime={setSelectedTime}
-                      timeSlots={getTimeSlotsForDay(day.date)} // تمرير جميع الأوقات المتاحة لليوم
+                      timeSlots={getTimeSlotsForDay(day.date)} 
                       setShowConfirm={setShowConfirm}
                     />
                   </div>
@@ -228,6 +228,9 @@ function Appoint() {
           <span className="visually-hidden">Next</span>
         </button>
       </div>
+
+
+      
 
       {showConfirm && selectedDay && selectedTime && (
         <div className="modal" style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}>

@@ -37,8 +37,8 @@ function ListDoctors() {
 
                 const updatedDoctors = doctorsData.map((doctor) => {
                     const doctorUser = usersData.find(user => user.id === doctor.user);
-                    console.log("Doctor User:", doctorUser);
-                    console.log("Doctor Image:", doctorUser ? doctorUser.profile_picture : "No Image Found");
+                    // console.log("Doctor User:", doctorUser);
+                    // console.log("Doctor Image:", doctorUser ? doctorUser.profile_picture : "No Image Found");
            
                     return {
                         ...doctor,
@@ -49,8 +49,8 @@ function ListDoctors() {
          
 
                 setDoctors(updatedDoctors);
-                console.log("updatedDoctors", updatedDoctors)
-                console.log("Doctors", doctors)
+                // console.log("updatedDoctors", updatedDoctors)
+                // console.log("Doctors", doctors)
 
 
 

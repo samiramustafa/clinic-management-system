@@ -58,6 +58,7 @@ function Details() {
                 clinicAddress={doctor.clinicAddress}
 
             />
+            <Feedback />
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />
             </div>
@@ -69,7 +70,7 @@ function Details() {
             <div className="w-50 mx-auto mt-5">
                 <hr className="border border-primary opacity-75" />
             </div>
-            <Feedback />
+            
         </>
     );
 }
