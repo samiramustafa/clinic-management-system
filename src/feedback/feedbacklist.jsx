@@ -18,7 +18,25 @@ function FeedbackList(props) {
   const [deleteId, setDeleteId] = useState(null);
   const [updatedRate, setUpdatedRate] = useState(0);
 
+  // useEffect(() => {
+  //   axios
+  //     .get("http://127.0.0.1:8000/clinic/feedbacks")
+  //     .then((response) => {
+  //       const doctorFeedbacks = response.data.filter(rate => rate.doctor === props.doc_id);
+  //       console.log("Doctor Feedbacks:", doctorFeedbacks);
+        
+  //       console.log(response.data)
+  //       setFeedbacks(response.data)
+  //       console.log(feedbacks)
 
+
+
+  //           console.log("Doctor Feedbacks:", doctorFeedbacks);
+
+          
+  //     })
+  //     .catch(() => setErrors("Error fetching feedback"));
+  // }, []);
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/clinic/feedbacks")

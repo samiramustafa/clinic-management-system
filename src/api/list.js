@@ -8,7 +8,6 @@ import { debounce } from 'lodash';
 function ListDoctors() {
     const [doctors, setDoctors] = useState([]);
     const [user, setUser] = useState([]);
-
     const [filteredDoctors, setFilteredDoctors] = useState([]);
     const [specializations, setSpecializations] = useState([]);
     const [selectedSpecialization, setSelectedSpecialization] = useState("");
@@ -25,37 +24,21 @@ function ListDoctors() {
         Promise.all([
             axios.get("http://127.0.0.1:8000/clinic/doctors/"),
             axios.get("http://127.0.0.1:8000/clinic/users/"),
-            // axios.get("http://127.0.0.1:8000/clinic/feedbacks/")
         ])
         .then(([doctorsResponse, usersResponse]) => {
             const doctorsData = doctorsResponse.data;
             const usersData = usersResponse.data;
-            // const ratesData = rateResponse.data;
-
-            console.log("doctor",doctorsData);
-            console.log("user",usersData);
-            // console.log("rate",ratesData)
-
-
             const updatedDoctors = doctorsData.map((doctor) => {
             const doctorUser = usersData.find(user => user.id === doctor.user);
-            console.log("1",doctorUser)
                 return { ...doctor,
-                    name: doctorUser ? doctorUser.name : "Unknown",
-                    img: doctorUser ? doctorUser.profile_picture : "",
+                    name: doctorUser.name ,
+                    img: doctorUser.profile_picture
                     };
             });
-            console.log("updatedDoctors",updatedDoctors)
+
 
             setDoctors(updatedDoctors);
-            console.log("updatedDoctors",updatedDoctors)
-            console.log("Doctors",doctors)
-
-            
-
-
             setFilteredDoctors(updatedDoctors);
-
             const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.specialization))];
             setSpecializations(uniqueSpecializations);
         })
@@ -184,7 +167,8 @@ function ListDoctors() {
                                 img={doctor.img || "https://via.placeholder.com/150"}
                                 name={doctor.name}
                                 Specialist={doctor.specialization}
-                                rate={doctor.average_rating}
+                                clinicAddress={doctor.clinicAddress}
+                                rate={doctor.average_rating >0 && doctor.average_rating  }
                                 style={{ height: "100%" }}
                             />
                         </div>

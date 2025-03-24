@@ -213,24 +213,25 @@ import React, { useState, useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DayCard from "../component/daycard"
 import AppointmentContext from "../pages/AppointmentContext";
+import axios from "axios";
 
 
 
 function Appoint() {
-  const days = [
-    { name: "MON", date: 10 },
-    { name: "TUE", date: 11 },
-    { name: "WED", date: 12 },
-    { name: "THU", date: 13 },
-    { name: "FRI", date: 14 },
-    { name: "SAT", date: 15 },
-    { name: "SUN", date: 16 },
-  ];
+  // const days = [
+  //   { name: "MON", date: 10 },
+  //   { name: "TUE", date: 11 },
+  //   { name: "WED", date: 12 },
+  //   { name: "THU", date: 13 },
+  //   { name: "FRI", date: 14 },
+  //   { name: "SAT", date: 15 },
+  //   { name: "SUN", date: 16 },
+  // ];
 
-  const timeSlots = [
-    "8:00 am", "9:00 am", "10:00 am", "11:00 am",
-    "12:00 pm", "1:00 pm", "2:00 pm", "3:00 pm"
-  ];
+  // const timeSlots = [
+  //   "8:00 am", "9:00 am", "10:00 am", "11:00 am",
+  //   "12:00 pm", "1:00 pm", "2:00 pm", "3:00 pm"
+  // ];
   const { bookedAppointments, setBookedAppointments } = useContext(AppointmentContext);
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -240,6 +241,18 @@ function Appoint() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+
+  const [appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+      axios
+        .get("http://127.0.0.1:8000/clinic/available-times/")
+        .then
+          ((response) => {setAppointments(response.data);
+            console.log("appointments", response.data);
+      })
+        .catch((error) => console.error("Error fetching appointments:", error));
+    }, []);
 
 
 
@@ -299,7 +312,7 @@ function Appoint() {
   }
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const totalSlides = Math.ceil(days.length / 3); 
+  const totalSlides = Math.ceil(appointments.length / 3); 
 
 
   useEffect(() => {
@@ -338,19 +351,30 @@ function Appoint() {
           {Array.from({ length: totalSlides }).map((_, i) => (
             <div className={`carousel-item ${i === 0 ? "active" : ""}`} key={i}>
               <div className="row justify-content-center">
-                {days.slice(i * 3, i * 3 + 3).map((day) => (
+                {/* {days.slice(i * 3, i * 3 + 3).map((day) => ( */}
+                 {appointments.map((appt) => (
+
                   <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
                     <DayCard
-                      key={day.date}
-                      day={day}
-                      selectedDay={selectedDay}
-                      selectedTime={selectedTime}
+                      key={appt.id}
+                      day={appt.day}
+                      date={appt.date}
+                      stime={appt.start_time}
+                      etime={appt.end_time}
+                      doctor={appt.doctor}
+
+                      // selectedDay={appt.day}
+                      // selectedTime={appt.start_time}
+                      // selectedDay={selectedDay}
+                      // selectedTime={selectedTime}
                       setSelectedDay={setSelectedDay}
                       setSelectedTime={setSelectedTime}
-                      timeSlots={timeSlots}
+                      // timeSlots={timeSlots}
+
                       bookedAppointments={bookedAppointments}
                       setShowConfirm={setShowConfirm}
                     />
+                  
                   </div>
                 ))}
               </div>
@@ -665,6 +689,3 @@ export default Appoint;
 // }
 
 // export default Appoint;
-
-
-

@@ -6,62 +6,65 @@ import Card from "../component/Card";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Feedback from "../feedback/feedback";
 import FeedbackList from '../feedback/feedbacklist'
-import Appoint from "../component/Appoint";
+// import Appoint from "../component/Appoint";
 
 function Details() {
-    const [doctor, setDoctor] = useState(null);
+    const [doctor, setDoctor] = useState(null);  
+    const [user, setUser] = useState(null);
     const [errors, setErrors] = useState(null);
-
     const { id } = useParams();
 
-    useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/clinic/doctors/${id}`)
-            .then((response) => {
-                const doctorData = response.data;
+          // axios.get("http://127.0.0.1:8000/clinic/feedbacks/")
+                //     .then((rateResponse) => {
+                //         const ratesData = rateResponse.data;
 
-                // Fetch feedback ratings
-                axios.get("http://127.0.0.1:8000/clinic/feedbacks/")
-                    .then((rateResponse) => {
-                        const ratesData = rateResponse.data;
+                //         // Find rating for the specific doctor
+                //         const doctorRate = ratesData.find(rate => rate.id === doctorData.id);
+                //         const updatedDoctor = { ...doctorData, rate: doctorRate ? doctorRate.rate : "No rating" };
 
-                        // Find rating for the specific doctor
-                        const doctorRate = ratesData.find(rate => rate.id === doctorData.id);
-                        const updatedDoctor = { ...doctorData, rate: doctorRate ? doctorRate.rate : "No rating" };
+                //         setDoctor(updatedDoctor);
+                //     })
+                //     .catch(() => setErrors("Error fetching ratings"));
 
-                        setDoctor(updatedDoctor);
-                    })
-                    .catch(() => setErrors("Error fetching ratings"));
-            })
-            .catch(() => setErrors("Error fetching doctor details"));
-    }, []);
+                useEffect(() => {
+                    axios.get(`http://127.0.0.1:8000/clinic/doctors/${id}`)
+                        .then((response) => {
+                            setDoctor(response.data);
+            
+                            return axios.get(`http://127.0.0.1:8000/clinic/users/${response.data.user}`);
+                        })
+                        .then((userResponse) => {
+                            setUser(userResponse.data);
+                        })
+                        .catch(() => setErrors("Error fetching doctor details"));
+                }, [id]);
+                
 
     if (errors) {
         return <p className="text-danger text-center mt-5">{errors}</p>;
     }
 
-    if (!doctor) {
+    if (!doctor || !user) {
         return <p className="text-muted text-center mt-5">Loading doctor details...</p>;
     }
 
     return (
         <>
-            <p className="text text-dark fw-bold fs-2 text-center mt-5">
-                {doctor.full_name} 
-            </p>
+           
             <Card
-                img={doctor.img}//need to handel
-                name={doctor.user.name} //nedd to handel
+                img={user.profile_picture || "https://via.placeholder.com/150"}
+                name={user.username}  
                 specialization={doctor.specialization}
-                fees={doctor.fees}
-                rate={doctor.average_rating}
                 description={doctor.description}  
                 clinicAddress={doctor.clinicAddress}
+                fees={doctor.fees}
+                rate={doctor.average_rating>0 && doctor.average_rating  }
 
             />
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />
             </div>
-            <Appoint />
+            {/* <Appoint /> */}
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />
             </div>
