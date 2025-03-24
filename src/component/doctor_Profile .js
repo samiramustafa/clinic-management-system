@@ -48,7 +48,7 @@ const DoctorProfile = () => {
   };
 
   if (!user) {
-    return <div>Loading...</div>;  // إذا كانت البيانات غير محملة بعد
+    return <div>Loadingللل..</div>;  // إذا كانت البيانات غير محملة بعد
   }
 
   return (
