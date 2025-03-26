@@ -58,7 +58,7 @@ function Details() {
                 clinicAddress={doctor.clinicAddress}
 
             />
-            <Feedback />
+            {/* <Feedback /> */}
             <div className="w-50 mx-auto">
                 <hr className="border border-primary opacity-75" />
             </div>

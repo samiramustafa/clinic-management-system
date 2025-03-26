@@ -34,6 +34,9 @@ function Card(props) {
                                     <p className="m-0">
                                         {props.fees} $
                                     </p>
+                                    <p className="m-0">
+                                        
+                                    </p>
 
                                     <div className="mt-auto">
 
@@ -58,12 +61,12 @@ function Card(props) {
                                     <a className="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#">
                                         <i className="fab fa-linkedin-in text-light"></i>
                                     </a>
-                                    <Link
-                                        className="btn btn-lg btn-primary text-light ms-5 rounded-pill"
+                                    <p
+                                        
 
                                     >
-                                        Feedback
-                                    </Link>
+                                        <Feedback />
+                                    </p>
                                    
                                 </div>
                                
