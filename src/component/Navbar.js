@@ -39,7 +39,7 @@ const Navbar = () => {
         setIsAuthenticated(false);
         setUserRole("");
         setUserData(null);
-        window.dispatchEvent(new Event("authChange")); // ✅ إرسال تحديث للواجهة
+        window.dispatchEvent(new Event("authChange")); 
         history.push("/");
 
     };

@@ -26,7 +26,7 @@ const DoctorProfile = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  console.log(formData);
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -94,7 +94,7 @@ const DoctorProfile = () => {
               value={formData.medical_history || ""}
               onChange={handleChange}
             />
-            <label>Gender:</label>
+            {/* <label>Gender:</label>
             <select
               name="gender"
               value={formData.gender || "male"}
@@ -102,7 +102,7 @@ const DoctorProfile = () => {
             >
               <option value="male">Male</option>
               <option value="female">Female</option>
-            </select>
+            </select> */}
           </>
         )}
 
