@@ -426,80 +426,82 @@
 // export default Login;
 import React, { useState } from "react";
 import axios from "axios";
-import InputField from "../component/Input";
 import { useHistory } from "react-router-dom";
-import Title from "../component/Title";
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-    });
+    const [formData, setFormData] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false); // حالة التحميل
     const history = useHistory();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(""); // مسح أي خطأ قديم
+        setError("");
+        setLoading(true); // ابدأ التحميل
 
         try {
-            const response = await axios.post("http://127.0.0.1:8000/api/token/", {
-
-            // const response = await axios.post("http://127.0.0.1:8000/api/token/", {
-
-                username: formData.username,
+            const response = await axios.post("http://127.0.0.1:8000/clinic/api/token/", {
+                email: formData.email,
                 password: formData.password,
             });
 
-            // حفظ الـ access token في localStorage
             localStorage.setItem("access_token", response.data.access);
             localStorage.setItem("refresh_token", response.data.refresh);
 
-            // ✅ جلب بيانات المستخدم بعد تسجيل الدخول
-            const userResponse = await axios.get("http://127.0.0.1:8000/api/users/me/", {
-                headers: { Authorization: `Bearer ${response.data.access}` }
+            const userRole = response.data.role;
+            const profilePath = userRole === "doctor" ? "/doctor-profile" : "/patient-profile";
+
+            history.push({
+                pathname: profilePath,
+                state: { email: response.data.email, role: userRole }
             });
 
-            const user = userResponse.data;
-
-            const profilePath = user.role === "doctor" ? "/doctor-profile" : "/patient-profile";
-
-            setTimeout(() => {
-                // تمرير بيانات المستخدم إلى صفحة الملف الشخصي باستخدام state
-                history.push({
-                    pathname: profilePath,
-                    state: { user: user }
-                });
-            }, 1000);
-
         } catch (err) {
-            setError("❌ اسم المستخدم أو كلمة المرور غير صحيحة.");
-            console.error("❌ Login failed:", err.response?.data || err.message);
+            if (err.response && err.response.data && err.response.data.detail) {
+                setError(`❌ ${err.response.data.detail}`); // استخدم رسالة الخطأ من الخادم
+            } else {
+                setError("❌ حدث خطأ غير متوقع."); // رسالة افتراضية في حالة عدم وجود تفاصيل
+            }
+        } finally {
+            setLoading(false); // انتهى التحميل سواء بنجاح أو بفشل
         }
     };
 
     return (
         <div>
-            <Title text="Login" />
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
-                <InputField label="Username" name="username" value={formData.username} onChange={handleChange} required />
-                <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} required />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
 
                 {error && <p style={{ color: "red" }}>{error}</p>}
-
-                <button type="submit">Login</button>
+                <button type="submit" disabled={loading}>
+                    {loading ? "Loading..." : "Login"}
+                </button>
             </form>
         </div>
     );
 };
 
 export default Login;
-
 
 
 
