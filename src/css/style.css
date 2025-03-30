@@ -1,4 +1,25 @@
 /********** Template CSS **********/
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* يجعل الصفحة تأخذ الارتفاع الكامل */
+}
+
+.main-content {
+  flex: 1; /* يسمح للمحتوى بأخذ المساحة المتبقية */
+}
+
+.footer {
+  margin-top: auto; /* يدفع الفوتر إلى الأسفل */
+}
+
 :root {
     --primary: #13C5DD;
     --secondary: #354F8E;
@@ -256,3 +277,265 @@
     width: 150px;
     height: 150px;
 }
+
+
+/* body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  } */
+  
+
+ 
+
+ .container1 {
+    text-align: center;
+    padding: 20px;
+  } 
+  
+  h2 {
+    color: #7f8c8d;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+  
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .days {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .day span:first-child {
+    font-size: 0.8em;
+    color: #34495e;
+  }
+  
+  .day span:last-child {
+    font-size: 1.2em;
+    color: #34495e;
+  }
+  
+  .day.active {
+    background-color: #3498db;
+  }
+  
+  .day.active span {
+    color: #fff;
+  }
+  
+  .time-slots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    overflow-x: auto; /* تمرير أفقي */
+    white-space: nowrap; /* منع الكسر التلقائي */
+    padding: 10px 0;
+    max-width: 100%;
+  }
+  
+  .slot {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    color: #34495e;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* منع الكسر */
+  }
+  
+  .slot:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .slot.active {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .slot.booked {
+    text-decoration: line-through;
+    background-color: #e74c3c;
+    color: #fff;
+    cursor: not-allowed;
+  }
+  
+  .slot.booked:hover {
+    background-color: #c0392b;
+  }
+  
+  .slot:disabled {
+    cursor: not-allowed;
+  }
+  
+  .book-button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .book-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .booked-appointments {
+    margin-top: 30px;
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .booked-appointments h3 {
+    color: #2c3e50;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .appointment-details {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .appointment-details p {
+    margin: 0;
+    color: #34495e;
+    font-size: 1em;
+  }
+
+
+  .date-picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    direction: rtl; /* Right-to-left for Arabic */
+  }
+  
+  .date-picker-header {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    font-weight: bold;
+  }
+  
+  .date-picker-columns {
+    display: flex;
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+  }
+  
+  .column {
+    flex: 1;
+    overflow-y: auto;
+    border-left: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .column:last-child {
+    border-left: none;
+  }
+  
+  .option {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .option:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .option.selected {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .date-picker-footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .date-picker-footer p {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .cancel-button,
+  .done-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #dc3545; /* Red color for buttons */
+    color: white;
+    font-weight: bold;
+  }
+  
+  .cancel-button:hover,
+  .done-button:hover {
+    background-color: #c82333;
+  }
+  
+  /* Hide scrollbar for a cleaner look */
+  .column::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .column {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+
+
+
+

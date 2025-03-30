@@ -1,0 +1,78 @@
+[
+  {
+    "city": "Cairo",
+    "areas": ["Nasr City", "Heliopolis", "Maadi", "Zamalek", "Downtown", "Shobra", "New Cairo", "Garden City"]
+  },
+  {
+    "city": "Alexandria",
+    "areas": ["Sidi Gaber", "Smouha", "Montaza", "Stanley", "Borg El Arab", "Agami", "Bahary", "Gleem"]
+  },
+  {
+    "city": "Giza",
+    "areas": ["Dokki", "Mohandessin", "6th of October", "Haram", "Sheikh Zayed", "Imbaba", "Faisal", "Bulaq Dakrour"]
+  },
+  {
+    "city": "Aswan",
+    "areas": ["Kom Ombo", "Edfu", "Abu Simbel", "Daraw", "Nasr El-Nuba", "Agilkia Island", "Elephantine", "Sehel Island"]
+  },
+  {
+    "city": "Luxor",
+    "areas": ["Karnak", "West Bank", "East Bank", "Esna", "Armant", "Valley of the Kings", "Valley of the Queens"]
+  },
+  {
+    "city": "Port Said",
+    "areas": ["El Manakh", "El Arab", "El Dawahy", "El Zohour", "El Sharq", "Port Fouad", "Ganaien", "Madinat El Awam"]
+  },
+  {
+    "city": "Suez",
+    "areas": ["Arbaeen", "Ganayen", "Ataka", "Faisal", "Port Tawfiq", "Ain Sokhna", "Adabiya Port", "El Shatt"]
+  },
+  {
+    "city": "Sharm El Sheikh",
+    "areas": ["Naama Bay", "Hadaba", "Sharks Bay", "El Fanar", "Old Market", "Nabq Bay", "SOHO Square", "Ras Umm Sid"]
+  },
+  {
+    "city": "Hurghada",
+    "areas": ["Sahl Hasheesh", "El Dahar", "El Gouna", "Makadi Bay", "Marina", "Villages Road", "Intercontinental District"]
+  },
+  {
+    "city": "Mansoura",
+    "areas": ["Talkha", "Gehan Street", "Toriel", "Saray Al Qobba", "Al Gameya Street", "Mit Ghamr", "El Salam Area"]
+  },
+  {
+    "city": "Zagazig",
+    "areas": ["El Qawmeyah", "El Ahrar", "El Mousky", "Industrial Zone", "El Horrya", "Kafr El-Zayat", "El Manial"]
+  },
+  {
+    "city": "Ismailia",
+    "areas": ["El Salam", "El Sheikh Zayed", "El Nahda", "Firdous Area", "New Ismailia", "Abou Atwa", "El Fardan"]
+  },
+  {
+    "city": "Fayoum",
+    "areas": ["Ibshway", "Tamiya", "Sinnuris", "Qasr Qaroun", "Ezbet El Hossary", "Kom Oshim", "Wadi El Rayan"]
+  },
+  {
+    "city": "Assiut",
+    "areas": ["El Badari", "Dayrout", "Manfalut", "El Qusiyah", "Abnoub", "Sahel Selim", "El Ghanayem"]
+  },
+  {
+    "city": "Beni Suef",
+    "areas": ["Al Fashn", "Ehnasia", "Beni Suef El Gadida", "Naser", "Samasta", "Al Wasta", "Biba"]
+  },
+  {
+    "city": "Minya",
+    "areas": ["Mallawi", "Matay", "Beni Mazar", "Abu Qurqas", "Samalout", "El Edwa", "Maghagha"]
+  },
+  {
+    "city": "Qena",
+    "areas": ["Nag Hammadi", "Qeft", "Qus", "Dishna", "Farshut", "Naqada", "El Waqf"]
+  },
+  {
+    "city": "Sohag",
+    "areas": ["Akhmim", "Gerga", "Tahta", "El Maragha", "El Balina", "Tama", "Dar El Salam"]
+  },
+  {
+    "city": "Damietta",
+    "areas": ["Ras El Bar", "New Damietta", "Ezbet El Borg", "Kafr Saad", "El Zarqa", "Faraskur", "Meet Abou Ghaleb"]
+  }
+]

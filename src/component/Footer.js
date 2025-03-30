@@ -34,7 +34,7 @@ function Footer() {
                                 <a className="text-light mb-2 text-decoration-none" href="#"><i className="fa fa-angle-right me-2"></i>Home</a>
                                 <a className="text-light mb-2 text-decoration-none" href="#"><i className="fa fa-angle-right me-2"></i>About Us</a>
                                 <a className="text-light mb-2 text-decoration-none" href="#"><i className="fa fa-angle-right me-2"></i>Our Services</a>
-                                <a className="text-light mb-2 text-decoration-none" href="#"><i class="fa fa-angle-right me-2"></i>Meet The Team</a>
+                                <a className="text-light mb-2 text-decoration-none" href="#"><i className="fa fa-angle-right me-2"></i>Meet The Team</a>
                                 <a className="text-light mb-2 text-decoration-none" href="#"><i className="fa fa-angle-right me-2"></i>Latest Blog</a>
                                 <a className="text-light text-decoration-none" href="#"><i className="fa fa-angle-right me-2"></i>Contact Us</a>
                             </div>
@@ -50,8 +50,8 @@ function Footer() {
                             <h6 className="Clinic text-uppercase mt-4 mb-3">Follow Us</h6>
                             <div className="d-flex">
                                 <a className="btn btn-lg btn-info btn-lg-square rounded-circle me-2" href="#"><i className="bi bi-twitter text-light"></i></a>
-                                <a className="btn btn-lg btn-info btn-lg-square rounded-circle me-2" href="#"><i class="bi bi-facebook text-light"></i></a>
-                                <a className="btn btn-lg btn-info btn-lg-square rounded-circle me-2" href="#"><i class="bi bi-linkedin text-light"></i></a>
+                                <a className="btn btn-lg btn-info btn-lg-square rounded-circle me-2" href="#"><i className="bi bi-facebook text-light"></i></a>
+                                <a className="btn btn-lg btn-info btn-lg-square rounded-circle me-2" href="#"><i className="bi bi-linkedin text-light"></i></a>
                                 <a className="btn btn-lg btn-info btn-lg-square rounded-circle" href="#"><i className="bi bi-instagram text-light"></i></a>
                             </div>
                         </div>

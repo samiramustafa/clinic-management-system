@@ -1,66 +1,76 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 function DoctorAppointments() {
   const [appointments, setAppointments] = useState([]);
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [alert, setAlert] = useState({ message: "", type: "" });
-  const [confirmBox, setConfirmBox] = useState({ show: false, appointment: null });
+  const [confirmBox, setConfirmBox] = useState({ show: false, appointmentId: null });
 
   useEffect(() => {
     axios
-      .get("https://retoolapi.dev/UKuH6Q/doctorappointment")
+      .get("http://127.0.0.1:8000/clinic/available-times/")
       .then((response) => setAppointments(response.data))
       .catch((error) => console.error("Error fetching appointments:", error));
   }, []);
 
-  const handleToggleAvailability =  (appointment) => {
-    if (appointment.available) {
-      setConfirmBox({ show: true, appointment });
-    } else {
-      updateAvailability(appointment);
+  const handleAddAppointment = async () => {
+    if (!date || !startTime || !endTime) {
+      setAlert({ message: "Please fill in all fields", type: "warning" });
+      return;
+    }
+
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      setAlert({ message: "Cannot select a past date", type: "danger" });
+      return;
+    }
+
+    if (endTime <= startTime) {
+      setAlert({ message: "End time must be after start time", type: "danger" });
+      return;
+    }
+
+    const newAppointment = {
+      date,
+      start_time: startTime,
+      end_time: endTime,
+      day: selectedDate.toLocaleDateString('en-US', { weekday: 'long' }),
+      doctor: 1
+    };
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/clinic/available-times/", newAppointment);
+      setAppointments([...appointments, response.data]);
+      setAlert({ message: "Appointment added successfully", type: "success" });
+      setDate("");
+      setStartTime("");
+      setEndTime("");
+    } catch (error) {
+      setAlert({ message: "Error adding appointment", type: "danger" });
+      console.error("Error:", error);
     }
   };
 
-  const updateAvailability = (appointment) => {
-    const { id, available } = appointment;
-    const updatedStatus = !available;
-
+  const handleDeleteAppointment = async (id) => {
     try {
-      // Update API
-       axios.patch(`https://retoolapi.dev/UKuH6Q/doctorappointment/${id}`, {
-        available: updatedStatus,
-      });
-
-      // Update UI
-      setAppointments((prevAppointments) =>
-        prevAppointments.map((appt) =>
-          appt.id === id ? { ...appt, available: updatedStatus } : appt
-        )
-      );
-
-      // Show success alert
-      setAlert({
-        message: updatedStatus ? "Appointment activated " : "Appointment deactivated ",
-        type: updatedStatus ? "success" : "danger",
-      });
-
-      // Hide alert after 3 seconds
-      setTimeout(() => setAlert({ message: "", type: "" }), 3000);
+      await axios.delete(`http://127.0.0.1:8000/clinic/available-times/${id}/`);
+      setAppointments(appointments.filter((appt) => appt.id !== id));
+      setAlert({ message: "Appointment deleted successfully", type: "success" });
+      setConfirmBox({ show: false, appointmentId: null });
     } catch (error) {
-      setAlert({ message: "An error occurred while updating ", type: "danger" });
-      console.error("Error updating appointment:", error);
+      console.error("Error deleting appointment:", error);
     }
-
-    // Close confirmation box
-    setConfirmBox({ show: false, appointment: null });
   };
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">
-  <i className="bi bi-calendar-check me-2 text-primary"></i> Clinic Appointments
-</h2>
+      <h2 className="mb-3 text-primary">Clinic Appointments</h2>
 
       {alert.message && (
         <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
@@ -69,14 +79,36 @@ function DoctorAppointments() {
         </div>
       )}
 
+      <div className="card p-3 mb-4">
+        <h5>Add New Appointment</h5>
+        <div className="row g-3">
+          <div className="col-md-4">
+            <label className="form-label">Date</label>
+            <input type="date" className="form-control" value={date} onChange={(e) => setDate(e.target.value)} />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">Start Time</label>
+            <input type="time" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+          </div>
+          <div className="col-md-3">
+            <label className="form-label">End Time</label>
+            <input type="time" className="form-control" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+          </div>
+          <div className="col-md-2 d-flex align-items-end">
+            <button className="btn btn-primary w-100" onClick={handleAddAppointment}>Add</button>
+          </div>
+        </div>
+      </div>
+
       <div className="table-responsive">
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
             <tr>
-              <th>No.</th>
-              <th>Date </th>
-              <th>Time</th>
-              <th>Status</th>
+              <th>ID</th>
+              <th>Day</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -84,21 +116,12 @@ function DoctorAppointments() {
             {appointments.map((appt) => (
               <tr key={appt.id}>
                 <td>{appt.id}</td>
+                <td>{appt.day}</td>
+                <td>{appt.start_time}</td>
+                <td>{appt.end_time}</td>
                 <td>{appt.date}</td>
-                <td>{appt.time} PM</td>
                 <td>
-                <span className={`badge ${appt.available ? "bg-success" : "bg-danger"} w-100 text-center p-2`}>
-                    {appt.available ? "Active" : "Inactive"}
-                  </span>
-                </td>
-                <td>
-                <button
-                    className="btn btn-sm btn-warning w-100"
-                    style={{ minWidth: "120px" }}
-                    onClick={() => handleToggleAvailability(appt)}
-                  >
-                    {appt.available ? "Mark Inactive" : "Mark Active"}
-                  </button>
+                  <button className="btn btn-sm btn-danger" onClick={() => setConfirmBox({ show: true, appointmentId: appt.id })}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -107,18 +130,11 @@ function DoctorAppointments() {
       </div>
 
       {confirmBox.show && (
-        <div
-          className="position-fixed top-50 start-50 translate-middle p-4 bg-white border rounded shadow"
-          style={{ zIndex: 1050, minWidth: "300px" }}
-        >
-          <p className="fw-bold">Are you sure you want to deactivate this appointment?</p>
+        <div className="position-fixed top-50 start-50 translate-middle p-4 bg-white border rounded shadow" style={{ zIndex: 1050, minWidth: "300px" }}>
+          <p className="fw-bold">Are you sure you want to delete this appointment?</p>
           <div className="d-flex justify-content-end">
-            <button className="btn btn-secondary me-2" onClick={() => setConfirmBox({ show: false, appointment: null })}>
-              Cancel
-            </button>
-            <button className="btn btn-danger" onClick={() => updateAvailability(confirmBox.appointment)}>
-              Confirm
-            </button>
+            <button className="btn btn-secondary me-2" onClick={() => setConfirmBox({ show: false, appointmentId: null })}>Cancel</button>
+            <button className="btn btn-danger" onClick={() => handleDeleteAppointment(confirmBox.appointmentId)}>Confirm</button>
           </div>
         </div>
       )}
@@ -127,4 +143,3 @@ function DoctorAppointments() {
 }
 
 export default DoctorAppointments;
-

@@ -362,25 +362,216 @@
 // };
 
 // export default PatientProfile;
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+// import React from 'react';
+// import { useLocation } from 'react-router-dom';
+
+// const PatientProfile = () => {
+//     const location = useLocation();
+//     const user = location.state?.user || JSON.parse(localStorage.getItem("loginSession")); // تم التحقق من وجود location.state
+
+//     return (
+//         <div>
+//             <img src={user.img} alt="Patient" className="img-thumbnail mb-2" />
+//             <h1>Patient Profile</h1>
+//             <p>Username: {user.username}</p>
+//             <p>Email: {user.email}</p>
+//             <p>National ID: {user.nationalId}</p>
+//             <p>Gender: {user.gender}</p>
+//             <p>Age: {user.age}</p>
+//             <p>Address: {user.address}</p>
+//             <p>Phone Number: {user.phoneNumber}</p>
+            
+//             {/* عرض معلومات إضافية خاصة بالمرضى */}
+//         </div>
+//     );
+// };
+
+// export default PatientProfile;
+
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const PatientProfile = () => {
-    const location = useLocation();
-    const user = location.state?.user || JSON.parse(localStorage.getItem("loginSession")); // تم التحقق من وجود location.state
+    const [patient, setPatient] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        phoneNumber: "",
+        nationalId: "",
+        age: "",
+        gender: "",
+        address: "",
+        profileImage: "",
+    });
+
+    useEffect(() => {
+        // استرجاع بيانات المستخدم من localStorage
+        const storedData = localStorage.getItem("clinic_data");
+        if (storedData) {
+            const users = JSON.parse(storedData);
+            // ابحث عن المريض في قائمة المستخدمين
+            const patientData = users.find(user => user.role === 'patient');
+            if (patientData) {
+                setPatient(patientData);
+                setFormData({
+                    username: patientData.username || "",
+                    email: patientData.email || "",
+                    phoneNumber: patientData.phoneNumber || "",
+                    nationalId: patientData.nationalId || "",
+                    age: patientData.age || "",
+                    gender: patientData.gender || "",
+                    address: patientData.address || "",
+                    profileImage: patientData.profileImage || "",
+                });
+            } else {
+                console.log("No patient data found in localStorage");
+            }
+        }
+    }, []);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSave = () => {
+        // تحديث بيانات المستخدم في localStorage
+        let storedData = localStorage.getItem("clinic_data");
+        if (storedData) {
+            let users = JSON.parse(storedData);
+            // تحديث بيانات المريض
+            const patientIndex = users.findIndex(user => user.role === 'patient');
+            if (patientIndex !== -1) {
+                users[patientIndex] = { ...users[patientIndex], ...formData };
+                localStorage.setItem("clinic_data", JSON.stringify(users));
+                setPatient({ ...users[patientIndex] });
+            }
+        }
+        setEditMode(false);
+    };
+
+    if (!patient) {
+        return <div>Loading...</div>;
+    }
 
     return (
-        <div>
-            <h1>Patient Profile</h1>
-            <p>Username: {user.username}</p>
-            <p>Email: {user.email}</p>
-            <p>National ID: {user.nationalId}</p>
-            <p>Gender: {user.gender}</p>
-            <p>Birthdate: {user.birthdate}</p>
-            <p>Address: {user.address}</p>
-            <p>Phone Number: {user.phoneNumber}</p>
-            
-            {/* عرض معلومات إضافية خاصة بالمرضى */}
+        <div className="container mt-5">
+            <div className="card shadow-lg">
+                <div className="card-body">
+                    <div className="d-flex align-items-center mb-4">
+                        {patient.profileImage && (
+                            <img
+                                src={`images/${patient.profileImage}`}
+                                alt="Patient"
+                                className="rounded-circle img-thumbnail me-3"
+                                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                            />
+                        )}
+                        <div>
+                            <h2 className="card-title fw-bold">{patient.username}</h2>
+                            <p className="text-muted">Patient</p>
+                        </div>
+                    </div>
+
+                    <div className="mb-3">
+                        <h5 className="fw-bold">Personal Information</h5>
+                        <p><i className="fas fa-envelope me-2"></i>Email: {patient.email}</p>
+                        <p><i className="fas fa-phone me-2"></i>Phone: {patient.phoneNumber}</p>
+                        <p><i className="fas fa-id-card me-2"></i>National ID: {patient.nationalId}</p>
+                        <p><i className="fas fa-birthday-cake me-2"></i>Age: {patient.age}</p>
+                        <p><i className="fas fa-venus-mars me-2"></i>Gender: {patient.gender}</p>
+                        <p><i className="fas fa-map-marker-alt me-2"></i>Address: {patient.address}</p>
+                    </div>
+
+                    <div>
+                        {editMode ? (
+                            <div>
+                                <label>Username:</label>
+                                <input
+                                    type="text"
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                />
+
+                                <label>Email:</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                />
+
+                                <label>Phone:</label>
+                                <input
+                                    type="text"
+                                    name="phoneNumber"
+                                    value={formData.phoneNumber}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                />
+
+                                <label>National ID:</label>
+                                <input
+                                    type="text"
+                                    name="nationalId"
+                                    value={formData.nationalId}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                />
+
+                                <label>Age:</label>
+                                <input
+                                    type="number"
+                                    name="age"
+                                    value={formData.age}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                />
+
+                                <label>Gender:</label>
+                                <select
+                                    name="gender"
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                >
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="">Other</option>
+                                </select>
+
+                                <label>Address:</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                />
+
+                                <label>Profile Image URL:</label>
+                                <input
+                                    type="text"
+                                    name="profileImage"
+                                    value={formData.profileImage}
+                                    onChange={handleChange}
+                                    className="form-control mb-2"
+                                />
+
+                                <button className="btn btn-success" onClick={handleSave}>Confirm</button>
+                                <button className="btn btn-secondary ms-2" onClick={() => setEditMode(false)}>Cancel</button>
+                            </div>
+                        ) : (
+                            <div>
+                                <button className="btn btn-primary" onClick={() => setEditMode(true)}>Edit Profile</button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

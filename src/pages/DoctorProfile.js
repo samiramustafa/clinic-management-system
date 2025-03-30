@@ -1,295 +1,121 @@
-
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-
-// const DoctorProfile = () => {
-//   const [user, setUser] = useState(null);  
-//   const [editMode, setEditMode] = useState(false);
-//   const [formData, setFormData] = useState({
-//     user_name: "",
-//     email: "",
-//     phone: "",
-//     N_ID: "",
-//     img: "",
-//     age: "",
-//     address: "",
-//     job_title: "",
-//   });
-
-//   useEffect(() => {
-//     axios.get(`https://retoolapi.dev/Lv7u78/user/${user.id}`)
-//     .then(response => {
-//         const apiUserData = response.data;
-//         setUser(apiUserData);
-//         setFormData({
-//           user_name: apiUserData.user_name,
-//           email: apiUserData.email,
-//           phone: apiUserData.phone,
-//           N_ID: apiUserData.N_ID,
-//           img: apiUserData.img,
-//           age: apiUserData.age,
-//           address: apiUserData.address,
-//           job_title: apiUserData.job_title
-//         });
-//       })
-//       .catch(error => {
-//         console.error("Error fetching data:", error);
-//       });
-//   }, []);
-
-//   const handleChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleImageChange = (e) => {
-//     const file = e.target.files[0];
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.onloadend = () => {
-//         setFormData({
-//           ...formData,
-//           img: reader.result
-//         });
-//       };
-//       reader.readAsDataURL(file); 
-//     }
-//   };
-
-//   const handleSave = () => {
-//     setUser(formData);  
-//     setEditMode(false);
-//   };
-
-//   if (!user) {
-//     return <div>Loading...</div>;  
-//   }
-
-//   return (
-//     <div className="container mt-5">
-//       <h2>Doctor Profile</h2>
-//       {editMode ? (
-//         <div>
-//           <label>Username:</label>
-//           <input
-//             type="text"
-//             name="user_name"
-//             value={formData.user_name}
-//             onChange={handleChange}
-//             className="form-control mb-2"
-//           />
-
-//           <label>Email:</label>
-//           <input
-//             type="email"
-//             name="email"
-//             value={formData.email}
-//             onChange={handleChange}
-//             className="form-control mb-2"
-//           />
-
-//           <label>Phone:</label>
-//           <input
-//             type="text"
-//             name="phone"
-//             value={formData.phone}
-//             onChange={handleChange}
-//             className="form-control mb-2"
-//           />
-
-//           <label>National ID:</label>
-//           <input
-//             type="text"
-//             name="N_ID"
-//             value={formData.N_ID}
-//             className="form-control mb-2"
-//             disabled
-//           />
-
-//           <label>Age:</label>
-//           <input
-//             type="number"
-//             name="age"
-//             value={formData.age}
-//             onChange={handleChange}
-//             className="form-control mb-2"
-//           />
-
-//           <label>Address:</label>
-//           <input
-//             type="text"
-//             name="address"
-//             value={formData.address}
-//             onChange={handleChange}
-//             className="form-control mb-2"
-//           />
-
-//           <label>Job Title:</label>
-//           <input
-//             type="text"
-//             name="job_title"
-//             value={formData.job_title}
-//             onChange={handleChange}
-//             className="form-control mb-2"
-//           />
-
-//           <button className="btn btn-success" onClick={handleSave}>Confirm</button>
-//           <button className="btn btn-secondary ms-2" onClick={() => setEditMode(false)}>Cancel</button>
-//         </div>
-//       ) : (
-//         <div>
-//           <img src={user.img} alt="Doctor" className="img-thumbnail mb-2" />
-//           <p><strong>Username:</strong> {user.user_name}</p>
-//           <p><strong>Email:</strong> {user.email}</p>
-//           <p><strong>Phone:</strong> {user.phone}</p>
-//           <p><strong>National ID:</strong> {user.N_ID}</p>
-//           <p><strong>speciality:</strong>ortho</p>
-//           <p><strong>Address:</strong> {user.address}</p>
-//           <p><strong>Job Title:</strong> {user.job_title}</p>
-//           <button className="btn btn-primary" onClick={() => setEditMode(true)}>Edit</button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default DoctorProfile;
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const DoctorProfile = () => {
-  const [user, setUser] = useState(null);  // ضبط الحالة لتكون null أولاً
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({
-    user_name: "",
-    email: "",
-    phone: "",
-    N_ID: "",
-    img: "",
-    age: "",
-    address: "",
-    job_title: "",
-  });
+  const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState({});
+  const token = localStorage.getItem("access_token");
 
   useEffect(() => {
-    // جلب بيانات الـ API
-    axios.get(`https://retoolapi.dev/Lv7u78/user/1`)
-    .then(response => {
-        const apiUserData = response.data;
-        setUser(apiUserData);
-        setFormData({
-          user_name: apiUserData.user_name,
-          email: apiUserData.email,
-          phone: apiUserData.phone,
-          N_ID: apiUserData.N_ID,
-          img: apiUserData.img,
-          age: apiUserData.age,
-          address: apiUserData.address,
-          job_title: apiUserData.job_title
-        });
+    if (!token) {
+      console.error("No access token found");
+      return;
+    }
+
+    axios
+      .get("http://127.0.0.1:8000/clinic/api/users/me/", {
+        headers: { Authorization: `Bearer ${token}` },
       })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+      .then((response) => {
+        setUser(response.data);
+        setFormData(response.data);
+      })
+      .catch((error) => console.error("Error fetching profile:", error));
+  }, [token]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSave = () => {
-    // هنا يمكنك إرسال البيانات المعدلة عبر API أو حفظها محلياً
-    setUser(formData);  // حفظ البيانات الجديدة
-    setEditMode(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put("http://127.0.0.1:8000/clinic/api/users/me/", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setUser(response.data);
+        alert("Profile updated successfully!");
+      })
+      .catch((error) => console.error("Error updating profile:", error));
   };
 
-  if (!user) {
-    return <div>Loading...</div>;  // إذا كانت البيانات غير محملة بعد
-  }
+  if (!user) return <p>Loading...</p>;
 
   return (
-    <div className="container mt-5">
-      <h2>Doctor Profile</h2>
-      {editMode ? (
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="user_name"
-            value={formData.user_name}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
+    <div>
+      <h2>Profile</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Full Name:</label>
+        <input
+          type="text"
+          name="full_name"
+          value={formData.full_name || ""}
+          onChange={handleChange}
+        />
 
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
+        {user.role === "doctor" && (
+          <>
+            <label>Speciality:</label>
+            <input
+              type="text"
+              name="speciality"
+              value={formData.speciality || ""}
+              onChange={handleChange}
+            />
+            <label>Description:</label>
+            <textarea
+              name="description"
+              value={formData.description || ""}
+              onChange={handleChange}
+            />
+            <label>Fees:</label>
+            <input
+              type="number"
+              name="fees"
+              value={formData.fees || ""}
+              onChange={handleChange}
+            />
+          </>
+        )}
 
-          <label>Phone:</label>
-          <input
-            type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
+        {user.role === "patient" && (
+          <>
+            <label>Birth Date:</label>
+            <input
+              type="date"
+              name="birth_date"
+              value={formData.birth_date || ""}
+              onChange={handleChange}
+            />
+            <label>Medical History:</label>
+            <textarea
+              name="medical_history"
+              value={formData.medical_history || ""}
+              onChange={handleChange}
+            />
+            <label>Gender:</label>
+            <select
+              name="gender"
+              value={formData.gender || "male"}
+              onChange={handleChange}
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </>
+        )}
 
-          <label>National ID:</label>
-          <input
-            type="text"
-            name="N_ID"
-            value={formData.N_ID}
-            className="form-control mb-2"
-            disabled
-          />
+        <label>Phone Number:</label>
+        <input
+          type="text"
+          name="phone_number"
+          value={formData.phone_number || ""}
+          onChange={handleChange}
+        />
 
-          <label>Age:</label>
-          <input
-            type="number"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <label>Job Title:</label>
-          <input
-            type="text"
-            name="job_title"
-            value={formData.job_title}
-            onChange={handleChange}
-            className="form-control mb-2"
-          />
-
-          <button className="btn btn-success" onClick={handleSave}>Confirm</button>
-          <button className="btn btn-secondary ms-2" onClick={() => setEditMode(false)}>Cancel</button>
-        </div>
-      ) : (
-        <div>
-          <img src={user.img} alt="Doctor" className="img-thumbnail mb-2" />
-          <p><strong>Username:</strong> {user.user_name}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Phone:</strong> {user.phone}</p>
-          <p><strong>National ID:</strong> {user.N_ID}</p>
-          <p><strong>Age:</strong> {user.age}</p>
-          <p><strong>Address:</strong> {user.address}</p>
-          <p><strong>Job Title:</strong> {user.job_title}</p>
-          <button className="btn btn-primary" onClick={() => setEditMode(true)}>Edit</button>
-        </div>
-      )}
+        <button type="submit">Update Profile</button>
+      </form>
     </div>
   );
 };
