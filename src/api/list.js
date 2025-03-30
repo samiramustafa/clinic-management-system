@@ -31,6 +31,8 @@ function ListDoctors() {
             .then(([doctorsResponse, usersResponse]) => {
                 const doctorsData = doctorsResponse.data;
                 const usersData = usersResponse.data;
+                console.log("Doctors Data:", doctorsData);
+                console.log("Users Data:", usersData);
       
               
 
@@ -73,7 +75,7 @@ function ListDoctors() {
         }
 
         if (searchTerm) {
-            filtered = filtered.filter(doctor => doctor.full_name.toLowerCase().includes(searchTerm.toLowerCase()));
+            filtered = filtered.filter(doctor => doctor.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
 
         setFilteredDoctors(filtered);
