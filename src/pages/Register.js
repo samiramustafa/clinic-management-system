@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import InputField from "../component/Input";
+import Title from "../component/Title";
+
+import { useHistory } from "react-router-dom";
+// import "../css/Register.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -76,56 +81,82 @@ const Register = () => {
         }
       });
       setSuccess("Registration successful!");
+     
+      window.location.href = "/login"; // Redirect to the login page after successful registration
+      
+
     } catch (err) {
       setError(err.response?.data || "Something went wrong");
     }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div  className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
+     
+      <Title titleName="Register" />
       {error && <p style={{ color: "red" }}>{JSON.stringify(error)}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
       <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
-        <input type="text" name="full_name" placeholder="Full Name" onChange={handleChange} required />
-        <input type="text" name="phone_number" placeholder="Phone Number" onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <select name="role" onChange={handleChange} required>
-          <option value="patient">Patient</option>
-          <option value="doctor">Doctor</option>
-        </select>
-        {formData.role === "patient" && (
-          <>
-            <select name="gender" onChange={handleChange} required>
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-            <input type="date" name="date_of_birth" onChange={handleChange} required />
-          </>
-        )}
-        <select name="city" onChange={handleChange} required>
-          <option value="">Select City</option>
-          {cities.length > 0 ? cities.map(city => (
-            <option key={city.id} value={city.id}>{city.name}</option>
-          )) : <option disabled>Loading cities...</option>}
-        </select>
-        <select name="area" onChange={handleChange} required>
-          <option value="">Select Area</option>
-          {areas.length > 0 ? areas.map(area => (
-            <option key={area.id} value={area.id}>{area.name}</option>
-          )) : <option disabled>Select a city first</option>}
-        </select>
-        <input type="text" name="national_id" placeholder="National ID" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+        <InputField type="text" name="username" placeholder="Username" onChange={handleChange} required />
+        <InputField type="text" name="full_name" placeholder="Full Name" onChange={handleChange} required />
+        <InputField type="text" name="phone_number" placeholder="Phone Number" onChange={handleChange} required />
+        <InputField type="email" name="email" placeholder="Email" onChange={handleChange} required />
+
+        <div className="mb-3">
+      <label className="form-label">Role</label>
+      <select name="role" className="form-select" onChange={handleChange} required>
+        <option value="patient">Patient</option>
+        <option value="doctor">Doctor</option>
+      </select>
+    </div>
+    
+    {/* Patient Fields */}
+    {formData.role === "patient" && (
+      <>
+        <div className="mb-3">
+          <label className="form-label">Gender</label>
+          <select name="gender" className="form-select" onChange={handleChange} required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Date of Birth</label>
+          <input type="date" name="date_of_birth" className="form-control" onChange={handleChange} required />
+        </div>
+      </>
+    )}
+      
+    <div className="mb-3">
+      <label className="form-label">City</label>
+      <select name="city" className="form-select" onChange={handleChange} required>
+        <option value="">Select City</option>
+        {cities.length > 0 ? cities.map(city => (
+          <option key={city.id} value={city.id}>{city.name}</option>
+        )) : <option disabled>Loading cities...</option>}
+      </select>
+    </div>
+          {/* Area Selection */}
+    <div className="mb-3">
+      <label className="form-label">Area</label>
+      <select name="area" className="form-select" onChange={handleChange} required>
+        <option value="">Select Area</option>
+        {areas.length > 0 ? areas.map(area => (
+          <option key={area.id} value={area.id}>{area.name}</option>
+        )) : <option disabled>Select a city first</option>}
+      </select>
+    </div>
+        <InputField type="text" name="national_id" placeholder="National ID" onChange={handleChange} required />
+        <InputField type="password" name="password" placeholder="Password" onChange={handleChange} required />
         {formData.role === "doctor" && (
           <>
-            <input type="text" name="speciality" placeholder="Speciality" onChange={handleChange} />
-            <input type="file" name="image" accept="image/*" onChange={handleChange} />
+            <InputField type="text" name="speciality" placeholder="Speciality" onChange={handleChange} />
+            <InputField type="file" name="image" accept="image/*" onChange={handleChange} />
           </>
         )}
-        <button type="submit">Register</button>
+        <button className="btn btn-primary w-100" type="submit">Register</button>
       </form>
     </div>
   );

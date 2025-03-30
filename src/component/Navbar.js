@@ -85,10 +85,10 @@ const Navbar = () => {
                                         </li>
                                     ) : null}
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/DoctorProfile">Profile</Link>
+                                        <Link className="nav-link mr-2" to="/DoctorProfile">Profile</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <button className="btn btn-danger ms-2" onClick={handleLogout}>Logout</button>
+                                        <button className="nav-link text-danger" onClick={handleLogout}>Logout</button>
                                     </li>
                                 </>
                             ) : (

@@ -58,7 +58,7 @@ const Login = () => {
 
   return (
     <div className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
-      <Title text="Login" />
+      <Title titleName="Login" />
       {/* {error && <p style={{ color: "red" }}>{JSON.stringify(error)}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
       <form onSubmit={handleSubmit}>
