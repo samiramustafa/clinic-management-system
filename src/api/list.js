@@ -23,13 +23,15 @@ function ListDoctors() {
     useEffect(() => {
         setLoading(true);
         Promise.all([
-            axios.get("http://127.0.0.1:8000/clinic/doctors/"),
-            axios.get("http://127.0.0.1:8000/clinic/users/"),
+            axios.get("http://127.0.0.1:8000/clinic/api/patients/"),
+            axios.get("http://127.0.0.1:8000/clinic/api/users/"),
 
         ])
             .then(([doctorsResponse, usersResponse]) => {
                 const doctorsData = doctorsResponse.data;
                 const usersData = usersResponse.data;
+                console.log("Doctors Data:", doctorsData);
+                console.log("Users Data:", usersData);
       
               
 
@@ -49,7 +51,7 @@ function ListDoctors() {
          
 
                 setDoctors(updatedDoctors);
-                // console.log("updatedDoctors", updatedDoctors)
+                console.log("updatedDoctors", updatedDoctors)
                 // console.log("Doctors", doctors)
 
 
