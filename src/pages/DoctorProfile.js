@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Title from "../component/Title";
+import InputField from "../component/Input";
 
 const DoctorProfile = () => {
   const [user, setUser] = useState(null);
@@ -26,7 +28,7 @@ const DoctorProfile = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  console.log(formData);
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -44,16 +46,17 @@ const DoctorProfile = () => {
 
   return (
     <div>
-      <h2>Profile</h2>
+     
+      <Title titleName="Profile" />
       <form onSubmit={handleSubmit}>
         <label>Full Name:</label>
-        <input
+        <InputField
           type="text"
           name="full_name"
           value={formData.full_name || ""}
           onChange={handleChange}
         />
-
+{/* 
         {user.role === "doctor" && (
           <>
             <label>Speciality:</label>
@@ -93,8 +96,8 @@ const DoctorProfile = () => {
               name="medical_history"
               value={formData.medical_history || ""}
               onChange={handleChange}
-            />
-            <label>Gender:</label>
+            /> */}
+            {/* <label>Gender:</label>
             <select
               name="gender"
               value={formData.gender || "male"}
@@ -102,19 +105,19 @@ const DoctorProfile = () => {
             >
               <option value="male">Male</option>
               <option value="female">Female</option>
-            </select>
-          </>
-        )}
+            </select> */}
+          {/* </>
+        )} */}
 
         <label>Phone Number:</label>
-        <input
+        <InputField
           type="text"
           name="phone_number"
           value={formData.phone_number || ""}
           onChange={handleChange}
         />
 
-        <button type="submit">Update Profile</button>
+        <button className="btn btn-primary w-100" type="submit">Update Profile</button>
       </form>
     </div>
   );
