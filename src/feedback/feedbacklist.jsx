@@ -25,7 +25,7 @@ function FeedbackList(props) {
     axios
       .get(`http://127.0.0.1:8000/clinic/feedbacks/?doctor_id=${id}`)
       .then((response) => {
-        console.log("Fetched feedbacks:", response.data);
+        // console.log("Fetched feedbacks:", response.data);
         setFeedbacks(response.data);
       })
       .catch((error) => {

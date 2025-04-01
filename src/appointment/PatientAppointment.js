@@ -13,7 +13,7 @@ function Appointments() {
       .get("http://127.0.0.1:8000/clinic/appointments/")
       .then((response) => {
         setBookedAppointments(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

@@ -31,8 +31,8 @@ function ListDoctors() {
             .then(([doctorsResponse, usersResponse]) => {
                 const doctorsData = doctorsResponse.data;
                 const usersData = usersResponse.data;
-                console.log("Doctors Data:", doctorsData);
-                console.log("Users Data:", usersData);
+                console.log("Doctors Data:");
+                // console.log("Users Data:", usersData);
       
               
 
