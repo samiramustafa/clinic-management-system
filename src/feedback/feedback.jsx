@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import FeedbackModal from "./card_feed";
+// import { useDispatch } from "react-redux";
+// import { addFeedback } from "./feedbackReducer";
 
 const Feedback = () => {
   const { id } = useParams();
@@ -48,6 +50,7 @@ const Feedback = () => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
+  
   const handlerateChange = (value) => {
     setFormData({ ...formData, rate: formData.rate === value ? 0 : value });
     setErrors({ ...errors, rate: "" });

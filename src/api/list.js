@@ -37,7 +37,7 @@ function ListDoctors() {
 
                 const updatedDoctors = doctorsData.map((doctor) => {
                     const doctorUser = usersData.find(user => user.id === doctor.user);
-                    // console.log("Doctor User:", doctorUser);
+                    console.log("Doctor User:", doctorUser);
                     // console.log("Doctor Image:", doctorUser ? doctorUser.profile_picture : "No Image Found");
            
                     return {
@@ -49,7 +49,7 @@ function ListDoctors() {
          
 
                 setDoctors(updatedDoctors);
-                // console.log("updatedDoctors", updatedDoctors)
+                console.log("updatedDoctors", updatedDoctors)
                 // console.log("Doctors", doctors)
 
 
@@ -64,6 +64,9 @@ function ListDoctors() {
             .finally(() => setLoading(false));
     }, []);
 
+
+    
+
     const handleSearch = useCallback(() => {
         let filtered = doctors;
 
@@ -72,7 +75,7 @@ function ListDoctors() {
         }
 
         if (searchTerm) {
-            filtered = filtered.filter(doctor => doctor.full_name.toLowerCase().includes(searchTerm.toLowerCase()));
+            filtered = filtered.filter(doctor => doctor.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
 
         setFilteredDoctors(filtered);
