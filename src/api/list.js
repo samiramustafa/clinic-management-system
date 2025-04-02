@@ -21,18 +21,32 @@ function ListDoctors() {
 
     useEffect(() => {
         setLoading(true);
+        const token = localStorage.getItem("access_token"); 
+        const headers = { Authorization: `Bearer ${token}` }; 
         Promise.all([
             axios.get("http://127.0.0.1:8000/clinic/doctors/"),
-            axios.get("http://127.0.0.1:8000/clinic/users/"),
+            axios.get("http://127.0.0.1:8000/clinic/users/", { headers }) ,
+
         ])
-        .then(([doctorsResponse, usersResponse]) => {
-            const doctorsData = doctorsResponse.data;
-            const usersData = usersResponse.data;
-            const updatedDoctors = doctorsData.map((doctor) => {
-            const doctorUser = usersData.find(user => user.id === doctor.user);
-                return { ...doctor,
-                    name: doctorUser.name ,
-                    img: doctorUser.profile_picture
+            .then(([doctorsResponse, usersResponse]) => {
+                const doctorsData = doctorsResponse.data;
+                const usersData = usersResponse.data;
+                // console.log("Doctors Data:", doctorsData);
+                // console.log("Users Data:", usersData);
+      
+              
+
+
+
+                const updatedDoctors = doctorsData.map((doctor) => {
+                    const doctorUser = usersData.find(user => user.id === doctor.user);
+                    //  console.log("Doctor User:", doctorUser);
+                    // console.log("Doctor Image:", doctorUser ? doctorUser.profile_picture : "No Image Found");
+           
+                    return {
+                        ...doctor,
+                        name: doctorUser ? doctorUser.full_name : "Unknown",
+                        // img: doctorUser ? doctorUser.profile_picture : "",
                     };
             });
 
@@ -164,11 +178,11 @@ function ListDoctors() {
                             <Mycard
                                 {...doctor}
                                 path={`/Details/${doctor.id}`}
-                                img={doctor.img || "https://via.placeholder.com/150"}
+                                img={doctor.image || "https://via.placeholder.com/150"}
                                 name={doctor.name}
-                                Specialist={doctor.specialization}
                                 clinicAddress={doctor.clinicAddress}
                                 rate={doctor.average_rating >0 && doctor.average_rating  }
+                                Specialist={doctor.speciality}
                                 style={{ height: "100%" }}
                             />
                         </div>

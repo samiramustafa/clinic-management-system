@@ -39,7 +39,7 @@ const Feedback = () => {
         console.error("Error parsing user data:", error);
       }
     }
-  }, [id]);
+  }, []);
 
 
 
@@ -79,29 +79,36 @@ const Feedback = () => {
 
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/clinic/feedbacks/", feedbackData, {
-        headers: { "Content-Type": "application/json" },
-      });
-
-    
-      setFeedbacks((prevFeedbacks) => {
-        const updatedFeedbacks = [response.data, ...prevFeedbacks];
-        console.log("Updated feedbacks:", updatedFeedbacks); 
-        return updatedFeedbacks;
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/clinic/feedbacks/",
+        feedbackData,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
 
-      setFormData((prevState) => ({
-        ...prevState,
+      setFeedbacks((prevFeedbacks) => [response.data, ...prevFeedbacks]);
+      
+
+
+      setFormData({
         feedback: "",
         rate: 0,
-      }));
+      });
+
       setErrors({});
       setShowModal(false);
     } catch (error) {
       console.error("Error submitting feedback:", error.response?.data || error.message);
-      setErrors({ submit: "Failed to submit feedback. Please try again." });
+
+      setErrors({
+        submit:
+          error.response?.data?.detail || "Failed to submit feedback. Please try again.",
+      });
     }
+
+
+
+
   };
 
 
@@ -111,36 +118,46 @@ const Feedback = () => {
 
 
   return (
-    <div className="container mt-5">
-      <div className="container d-flex flex-column align-items-center py-5">
-        <div className="shadow p-4" style={{ width: "500px" }}>
-          <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-            Add Feedback
-          </button>
+    // <div className="container mt-5">
+    //   <div className="container d-flex flex-column align-items-center py-5">
+    //     <div className="shadow p-4" style={{ width: "500px" }}>
+    <div>
+      <button className="btn btn-lg btn-primary ms-5 rounded-pill" onClick={() => setShowModal(true)}>
+        Add Feedback
+      </button>
 
-          {submitted && (
+      {/* {submitted && (
             <div className="alert alert-success text-center" role="alert">
               Thank you for your feedback!
             </div>
-          )}
-
-          <FeedbackModal
-            show={showModal}
-            isEditing={false}
-            onClose={() => setShowModal(false)}
-            text={formData.feedback}
-            setText={(text) => setFormData({ ...formData, feedback: text })}
-            rate={formData.rate}
-            setRate={handlerateChange}
-            onSave={handleAddFeedback}
-            errors={errors} 
-          />
-
-
-
+          )} */}
+      {submitted && (
+        <div
+          className="alert alert-success text-center fixed-top w-100"
+          role="alert"
+          style={{ marginTop: "70px", zIndex: 1050 }} // ✅ تعديل الهامش العلوي لمنع التداخل مع النافبار
+        >
+          Thank you for your feedback!
         </div>
-      </div>
+      )}
+      <FeedbackModal
+        show={showModal}
+        isEditing={false}
+        onClose={() => setShowModal(false)}
+        text={formData.feedback}
+        setText={(text) => setFormData({ ...formData, feedback: text })}
+        rate={formData.rate}
+        setRate={handlerateChange}
+        onSave={handleAddFeedback}
+        errors={errors}
+      />
     </div>
+
+
+
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

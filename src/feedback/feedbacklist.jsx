@@ -50,7 +50,10 @@ function FeedbackList(props) {
         console.error("Error fetching feedback:", error);
         setErrors("Error fetching feedback");
       });
-  }, [id]);
+  }, [id, feedbacks.length]); 
+
+
+
 
 
 

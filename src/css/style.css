@@ -1,4 +1,25 @@
 /********** Template CSS **********/
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* يجعل الصفحة تأخذ الارتفاع الكامل */
+}
+
+.main-content {
+  flex: 1; /* يسمح للمحتوى بأخذ المساحة المتبقية */
+}
+
+.footer {
+  margin-top: auto; /* يدفع الفوتر إلى الأسفل */
+}
+
 :root {
     --primary: #13C5DD;
     --secondary: #354F8E;

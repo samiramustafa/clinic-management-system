@@ -1,339 +1,515 @@
+// import { useState, useEffect } from "react";
+// import axios from "axios";
+// import InputField from "../component/Input";
+// import Title from "../component/Title";
 
-import React, { useState } from "react";
+// import { useHistory } from "react-router-dom";
+// // import "../css/Register.css";
+
+// const Register = () => {
+//   const [formData, setFormData] = useState({
+//     username: "",
+//     full_name: "",
+//     phone_number: "",
+//     email:"",
+//     role: "patient",
+//     city: "",
+//     area: "",
+//     national_id: "",
+//     password: "",
+//     speciality: "",
+//     gender: "", 
+//     date_of_birth: "", // ✅ إضافة تاريخ الميلاد للمريض
+//     image: null, // ✅ إضافة صورة للطبيب
+//   });
+
+//   const [cities, setCities] = useState([]);
+//   const [areas, setAreas] = useState([]);
+//   const [error, setError] = useState(null);
+//   const [success, setSuccess] = useState(null);
+
+//   useEffect(() => {
+//     axios.get("http://127.0.0.1:8000/clinic/api/cities/")
+//       .then(response => {
+       
+//         setCities(response.data);
+//       })
+//       .catch(err => {
+//         console.error("Error fetching cities:", err);
+//       });
+//   }, []);
+
+//   useEffect(() => {
+//     if (formData.city) {
+//       console.log("Selected City:", formData.city);
+//       setAreas([]);
+//       axios.get(`http://127.0.0.1:8000/clinic/api/areas/?city=${formData.city}`)
+//         .then(response => {
+//           console.log("Areas Data:", response.data);
+//           setAreas(response.data);
+//         })
+//         .catch(err => {
+//           console.error("Error fetching areas:", err);
+//         });
+//     }
+//   }, [formData.city]);
+
+//   const handleChange = (e) => {
+//     if (e.target.name === "image") {
+//       setFormData({ ...formData, image: e.target.files[0] });
+//     } else {
+//       setFormData({ ...formData, [e.target.name]: e.target.value });
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError(null);
+//     setSuccess(null);
+
+//     const formDataToSend = new FormData();
+//     Object.keys(formData).forEach(key => {
+//       if (formData[key]) {
+//         formDataToSend.append(key, formData[key]);
+//       }
+//     });
+
+//     try {
+//       const response = await axios.post("http://127.0.0.1:8000/clinic/api/users/", formDataToSend, {
+//         headers: {
+//           "Content-Type": "multipart/form-data"
+//         }
+//       });
+//       setSuccess("Registration successful!");
+     
+//       window.location.href = "/login"; // Redirect to the login page after successful registration
+      
+
+//     } catch (err) {
+//       setError(err.response?.data || "Something went wrong");
+//     }
+//   };
+
+//   return (
+//     <div  className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
+     
+//       <Title titleName="Register" />
+//       {error && <p style={{ color: "red" }}>{JSON.stringify(error)}</p>}
+//       {success && <p style={{ color: "green" }}>{success}</p>}
+//       <form onSubmit={handleSubmit}>
+//         <InputField type="text" name="username" placeholder="Username" onChange={handleChange} required />
+//         <InputField type="text" name="full_name" placeholder="Full Name" onChange={handleChange} required />
+//         <InputField type="text" name="phone_number" placeholder="Phone Number" onChange={handleChange} required />
+//         <InputField type="email" name="email" placeholder="Email" onChange={handleChange} required />
+
+//         <div className="mb-3">
+//       <label className="form-label">Role</label>
+//       <select name="role" className="form-select" onChange={handleChange} required>
+//         <option value="patient">Patient</option>
+//         <option value="doctor">Doctor</option>
+//       </select>
+//     </div>
+    
+//     {/* Patient Fields */}
+//     {formData.role === "patient" && (
+//       <>
+//         <div className="mb-3">
+//           <label className="form-label">Gender</label>
+//           <select name="gender" className="form-select" onChange={handleChange} required>
+//             <option value="">Select Gender</option>
+//             <option value="male">Male</option>
+//             <option value="female">Female</option>
+//           </select>
+//         </div>
+
+//         <div className="mb-3">
+//           <label className="form-label">Date of Birth</label>
+//           <input type="date" name="date_of_birth" className="form-control" onChange={handleChange} required />
+//         </div>
+//       </>
+//     )}
+      
+//     <div className="mb-3">
+//       <label className="form-label">City</label>
+//       <select name="city" className="form-select" onChange={handleChange} required>
+//         <option value="">Select City</option>
+//         {cities.length > 0 ? cities.map(city => (
+//           <option key={city.id} value={city.id}>{city.name}</option>
+//         )) : <option disabled>Loading cities...</option>}
+//       </select>
+//     </div>
+//           {/* Area Selection */}
+//     <div className="mb-3">
+//       <label className="form-label">Area</label>
+//       <select name="area" className="form-select" onChange={handleChange} required>
+//         <option value="">Select Area</option>
+//         {areas.length > 0 ? areas.map(area => (
+//           <option key={area.id} value={area.id}>{area.name}</option>
+//         )) : <option disabled>Select a city first</option>}
+//       </select>
+//     </div>
+//         <InputField type="text" name="national_id" placeholder="National ID" onChange={handleChange} required />
+//         <InputField type="password" name="password" placeholder="Password" onChange={handleChange} required />
+//         {formData.role === "doctor" && (
+//           <>
+//             <InputField type="text" name="speciality" placeholder="Speciality" onChange={handleChange} />
+//             <InputField type="file" name="image" accept="image/*" onChange={handleChange} />
+//           </>
+//         )}
+//         <button className="btn btn-primary w-100" type="submit">Register</button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default Register;
+
+
+import { useState, useEffect } from "react";
 import axios from "axios";
 import InputField from "../component/Input";
-import { useHistory, Link } from "react-router-dom";
 import Title from "../component/Title";
 
 const Register = () => {
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-        name: "",
-        national_id:"",
-        email: "",
-        phoneNumber: "",
-        gender: "",
-        birth_date: "",
-        role: "",
-        specialization: "",
-        clinicAddress: "",
-        address: "",
-    });
-    const [errors, setErrors] = useState({});
-    const [showSnackbar, setShowSnackbar] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [alertVariant, setAlertVariant] = useState("danger");
-    const history = useHistory();
+  const [formData, setFormData] = useState({
+    username: "",
+    full_name: "",
+    phone_number: "",
+    email: "",
+    role: "patient",
+    city: "",
+    area: "",
+    national_id: "",
+    password: "",
+    speciality: "",
+    gender: "",
+    date_of_birth: "",
+    image: null,
+  });
 
-    const regexPatterns = {
-        email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-        phoneNumber: /^(010|011|012|015)\d{8}$/,
-        username: /^[a-zA-Z0-9]{5,20}$/,
-        nationalId: /^\d{14}$/,
-        name: /^[a-zA-Z\s]+$/,
-        birth_date: /^\d{4}-\d{2}-\d{2}$/,
-      };
-    
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value }); 
-        let validationErrors = { ...errors }; 
+  const [cities, setCities] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [success, setSuccess] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
-        if (!value) {
-            validationErrors[name] = "This field is required"; 
-        } else {
-            delete validationErrors[name];
-        }
-    
-        if (name === "username" && !regexPatterns.username.test(value)) {
-          validationErrors.username =
-            "Username must be 5-20 characters long (letters and numbers only).";
-        } else {
-          delete validationErrors.username; 
-        }
-    
-        if (name === "email" && !regexPatterns.email.test(value)) {
-          validationErrors.email = "Invalid email format.";
-        } else {
-          delete validationErrors.email;
-        }
-    
-        if (name === "password" && !regexPatterns.password.test(value)) {
-          validationErrors.password =
-            "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.";
-        } else {
-          delete validationErrors.password;
-        }
-    
-        if (name === "phoneNumber" && !regexPatterns.phoneNumber.test(value)) {
-          validationErrors.phoneNumber =
-            "Phone number must start with 010, 011, 012, or 015 and be 11 digits long.";
-        } else {
-          delete validationErrors.phoneNumber;
-        }
-    
-        if (name === "national_id" && !regexPatterns.nationalId.test(value)) {
-          validationErrors.national_id = "National ID must be exactly 14 digits.";
-        } else {
-          delete validationErrors.national_id;
-        }
-    
-        if (name === "name" && !regexPatterns.name.test(value)) {
-          validationErrors.name = "Name must contain only letters and spaces.";
-        } else {
-          delete validationErrors.name;
-        }
-    
-        if (name === "gender" && (!value || (value !== "M" && value !== "F"))) {
-          validationErrors.gender = "Please select a valid gender.";
-        } else {
-          delete validationErrors.gender;
-        }
-    
-    
-        if (name === "birth_date" && !regexPatterns.birth_date.test(value)) {
-          validationErrors.birth_date = "Date must be in YYYY-MM-DD format.";
-        } else {
-          delete validationErrors.birth_date;
-        }
-    
-    
-        if (name === "role" && !value) {
-          validationErrors.role = "Role selection is required.";
-        } else {
-          delete validationErrors.role;
-        }
-    
-        setErrors(validationErrors);
-      };
-    
-    
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/clinic/api/cities/")
+      .then((response) => {
+        setCities(response.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching cities:", err);
+      });
+  }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
-            setShowSnackbar(true);
-            setSnackbarMessage("Please fix the errors in the form.");
-            setAlertVariant("warning");
-            return;
-          }
-
-    
-        const userData = {
-                username: formData.username,
-                password: formData.password,
-                name: formData.name,
-                national_id: formData.national_id,
-                email: formData.email,
-                mobile_phone: formData.phoneNumber, 
-                gender: formData.gender ,
-                birth_date: formData.birth_date ,
-                role: formData.role,
-                
-        };
-        
-    
-        try {
-            const response = await axios.post("http://127.0.0.1:8000/clinic/users/", userData, {
-                headers: { "Content-Type": "application/json" },
+  useEffect(() => {
+    if (formData.city) {
+      setAreas([]);
+      axios
+        .get(`http://127.0.0.1:8000/clinic/api/areas/?city=${formData.city}`)
+        .then((response) => {
+          setAreas(response.data);
+        })
+        .catch((err) => {
+          console.error("Error fetching areas:", err);
         });
-        
-        if (formData.role === "doctor") {
-            await axios.post("http://127.0.0.1:8000/clinic/doctors/", {
-                user: response.data.id, 
-                specialization: formData.specialization,
-                clinicAddress: formData.clinicAddress
-            }, {
-                headers: { "Content-Type": "application/json" },
-            });
-        } else if (formData.role === "patient") {
-            await axios.post("http://127.0.0.1:8000/clinic/patients/", {
-                user: response.data.id, 
-                address: formData.address
-            }, {
-                headers: { "Content-Type": "application/json" },
-            });
-        }
-    
-            setShowSnackbar(true);
-            setSnackbarMessage("Registration successful!");
-            setAlertVariant("success");
-            history.push("/login");
-        } catch (error) {
-            console.error("Error Response:", error.response?.data || error.message);
-            setShowSnackbar(true);
-            setSnackbarMessage("Registration failed!");
-            setAlertVariant("danger");
-        }
-        
-    };
-    
+    }
+  }, [formData.city]);
 
-    return (
-        <div className="container d-flex flex-column align-items-center py-5">
-                   <div className="shadow p-4" style={{ width: "500px" }}>
-                        {showSnackbar && (
-                            <div className={`alert alert-${alertVariant} alert-dismissible fade show`} role="alert">
-                                <strong>{snackbarMessage}</strong>
-                                <button type="button" className="btn-close" onClick={() => setShowSnackbar(false)}></button>
-                            </div>
-                        )}
-                        <Title titleName="Register" />
-                        <form onSubmit={handleSubmit}>
-        
-                            <div className="mb-3">
-                                <label className="form-label">Role</label>
-                                <select className={`form-select ${errors.role ? "is-invalid" : ""}`} name="role" value={formData.role} onChange={handleChange}>
-                                    <option value="">Select Role</option>
-                                    <option value="patient">Patient</option>
-                                    <option value="doctor">Doctor</option>
-                                </select>
-                                {errors.role && <div className="invalid-feedback">{errors.role}</div>}
-                            </div>
-        
-                            <InputField label="Username" type="text" name="username" value={formData.username} onChange={handleChange} isInvalid={Boolean(errors.username)} feedback={errors.username} />
-        
-                            <InputField
-                                label="Email"
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                isInvalid={Boolean(errors.email)}
-                                feedback={errors.email}
-                            />
-        
-                            <InputField
-                                label="Password"
-                                type={showPassword ? "text" : "password"}
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                isInvalid={Boolean(errors.password)}
-                                feedback={errors.password}
-                                showPasswordToggle={true}
-                                onPasswordToggle={() => setShowPassword(!showPassword)}
-                            />
-        
-                            <InputField
-                                label="Phone Number" 
-                                type="tel" name="phoneNumber" 
-                                value={formData.phoneNumber} 
-                                onChange={handleChange} 
-                                isInvalid={Boolean(errors.phoneNumber)} 
-                                feedback={errors.phoneNumber} 
-                            />
+  const validate = (field, value) => {
+    let error = "";
+    switch (field) {
+      case "username":
+        if (!value.trim()) error = "Username is required";
+        else if (value.length <= 3) error = "Username must be more than 3 characters";
+        break;
+      case "full_name":
+        if (!value.trim()) error = "Full name is required";
+        break;
+      case "phone_number":
+        if (!value.trim()) error = "Phone number is required";
+        else if (!/^\d{10,}$/.test(value)) error = "Phone number must be at least 10 digits";
+        break;
+      case "email":
+        if (!value.trim()) error = "Email is required";
+        else if (!/\S+@\S+\.\S+/.test(value)) error = "Email is invalid";
+        break;
+      case "city":
+        if (!value) error = "City is required";
+        break;
+      case "area":
+        if (!value) error = "Area is required";
+        break;
+      case "national_id":
+        if (!value.trim()) error = "National ID is required";
+        else if (!/^\d{14}$/.test(value)) error = "National ID must be 14 digits";
+        break;
+      case "password":
+        if (!value.trim()) error = "Password is required";
+        else if (value.length < 6) error = "Password must be at least 6 characters";
+        break;
+      case "gender":
+        if (formData.role === "patient" && !value) error = "Gender is required";
+        break;
+      case "date_of_birth":
+        if (formData.role === "patient" && !value) error = "Date of birth is required";
+        break;
+      case "speciality":
+        if (formData.role === "doctor" && !value.trim()) error = "Speciality is required";
+        break;
+      default:
+        break;
+    }
+    return error;
+  };
 
-                            <InputField 
-                                label="National ID" 
-                                type="text" name="national_id" 
-                                value={formData.national_id} 
-                                onChange={handleChange} 
-                                isInvalid={Boolean(errors.national_id)} 
-                                feedback={errors.national_id} 
-                            />
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setFormData({ ...formData, image: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: validate(name, value) }));
+  };
 
-                            <InputField 
-                                label="Name" 
-                                type="text" 
-                                name="name" 
-                                value={formData.name} 
-                                onChange={handleChange} 
-                                isInvalid={Boolean(errors.name)} 
-                                feedback={errors.name} 
-                            />
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
-                            <InputField 
-                                label="Birth Date" 
-                                type="text" 
-                                name="birth_date" 
-                                value={formData.birth_date} 
-                                onChange={handleChange} 
-                                isInvalid={Boolean(errors.birth_date)} 
-                                feedback={errors.birth_date} 
-                            />
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSuccess(null);
 
-                            <label className="form-label">Gender</label>
-                                        <select
-                                            className={`form-select ${errors.gender ? "is-invalid" : ""}`}
-                                            name="gender"
-                                            value={formData.gender}
-                                            onChange={handleChange}
-                                        >
-                                            <option value="">Select Gender</option>
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
-                                        </select>
-                                        
-                            {formData.role === "patient" && (
-                                <>
-                                    <div className="mb-3">
-                                    <InputField 
-                                        label="Address" 
-                                        type="text" 
-                                        name="address" 
-                                        value={formData.address} 
-                                        onChange={handleChange} 
-                                        isInvalid={Boolean(errors.address)} 
-                                        feedback={errors.address} 
-                                    />
-                                    </div>
-                                </>
-                            )} 
-        
-                            {formData.role === "doctor" && (
-                                <>
-                                 <div className="mb-3">
-                                    <InputField 
-                                        label="Specialization" 
-                                        type="text" 
-                                        name="specialization" 
-                                        value={formData.specialization} 
-                                        onChange={handleChange} 
-                                        isInvalid={Boolean(errors.specialization)} 
-                                        feedback={errors.specialization} />
-        
-        
-                                    <InputField 
-                                        label="Clinic Address" 
-                                        type="text" 
-                                        name="clinicAddress" 
-                                        value={formData.clinicAddress} 
-                                        onChange={handleChange} 
-                                        isInvalid={Boolean(errors.clinicAddress)} 
-                                        feedback={errors.clinicAddress} 
-                                        />
-                                    </div>
-                                    </>
-                                )} 
-        
-                    
-        
-                            <button type="submit" className="btn btn-primary w-100 mt-3 fw-bold fs-3">Register</button>
-                        </form>
-                        <div className="d-flex align-items-center my-3">
-                            <hr className="flex-grow-1" />
-                            <span className="mx-3">I don't have an account</span>
-                            <hr className="flex-grow-1" />
-                        </div>
-                        <Link to="/login" className="btn btn-light w-100 border fw-bold fs-5 text-dark text-decoration-none fw-bold fs-4">
-                            Login
-                        </Link>
-                        <div className="text-center mt-4" style={{ fontSize: '12px' }}>
-                            <a href="#" className="text-decoration-none me-3">Conditions of Use</a>
-                            <a href="#" className="text-decoration-none me-3">Notice of Use</a>
-                            <a href="#" className="text-decoration-none">Help</a>
-                            <p className="mt-2 text-muted">© 1996-2024, Clinic.com, Inc. or its affiliates</p>
-                        </div>
-                    </div>
-                </div>
-    );
+    // Mark all fields as touched
+    const allTouched = Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {});
+    setTouched(allTouched);
+
+    // Validate all fields
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      if (key !== "image") { // Skip file input validation
+        newErrors[key] = validate(key, formData[key]);
+      }
+    });
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((error) => error)) return;
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] && (key !== "image" || formData[key] instanceof File)) {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/clinic/api/users/", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setSuccess("Registration successful!");
+      window.location.href = "/login";
+    } catch (err) {
+      setErrors(err.response?.data || { general: "Something went wrong" });
+    }
+  };
+
+  return (
+    <div className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
+      <Title titleName="Register" />
+      {success && <div className="alert alert-success">{success}</div>}
+      {errors.general && <div className="alert alert-danger">{errors.general}</div>}
+      <form onSubmit={handleSubmit} noValidate>
+        <InputField
+          label="Username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          isInvalid={touched.username && !!errors.username}
+          feedback={errors.username}
+          required
+        />
+        <InputField
+          label="Full Name"
+          name="full_name"
+          value={formData.full_name}
+          onChange={handleChange}
+          isInvalid={touched.full_name && !!errors.full_name}
+          feedback={errors.full_name}
+          required
+        />
+        <InputField
+          label="Phone Number"
+          name="phone_number"
+          value={formData.phone_number}
+          onChange={handleChange}
+          isInvalid={touched.phone_number && !!errors.phone_number}
+          feedback={errors.phone_number}
+          required
+        />
+        <InputField
+          label="Email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          isInvalid={touched.email && !!errors.email}
+          feedback={errors.email}
+          required
+        />
+
+        <div className="mb-3">
+          <label className="form-label fw-bold mb-1" style={{ fontSize: "1rem" }}>Role</label>
+          <select
+            name="role"
+            className={`form-control ${touched.role && errors.role ? "is-invalid" : ""}`}
+            value={formData.role}
+            onChange={handleChange}
+            required
+          >
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+          </select>
+          {touched.role && errors.role && <div className="invalid-feedback">{errors.role}</div>}
+        </div>
+
+        {formData.role === "patient" && (
+          <>
+            <div className="mb-3">
+              <label className="form-label fw-bold mb-1" style={{ fontSize: "1rem" }}>Gender</label>
+              <select
+                name="gender"
+                className={`form-control ${touched.gender && errors.gender ? "is-invalid" : touched.gender ? "is-valid" : ""}`}
+                value={formData.gender}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              {touched.gender && errors.gender && <div className="invalid-feedback">{errors.gender}</div>}
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label fw-bold mb-1" style={{ fontSize: "1rem" }}>Date of Birth</label>
+              <input
+                type="date"
+                name="date_of_birth"
+                className={`form-control ${touched.date_of_birth && errors.date_of_birth ? "is-invalid" : touched.date_of_birth ? "is-valid" : ""}`}
+                value={formData.date_of_birth}
+                onChange={handleChange}
+                required
+              />
+              {touched.date_of_birth && errors.date_of_birth && <div className="invalid-feedback">{errors.date_of_birth}</div>}
+            </div>
+          </>
+        )}
+
+        <div className="mb-3">
+          <label className="form-label fw-bold mb-1" style={{ fontSize: "1rem" }}>City</label>
+          <select
+            name="city"
+            className={`form-control ${touched.city && errors.city ? "is-invalid" : touched.city ? "is-valid" : ""}`}
+            value={formData.city}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select City</option>
+            {cities.length > 0 ? (
+              cities.map((city) => (
+                <option key={city.id} value={city.id}>
+                  {city.name}
+                </option>
+              ))
+            ) : (
+              <option disabled>Loading cities...</option>
+            )}
+          </select>
+          {touched.city && errors.city && <div className="invalid-feedback">{errors.city}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label fw-bold mb-1" style={{ fontSize: "1rem" }}>Area</label>
+          <select
+            name="area"
+            className={`form-control ${touched.area && errors.area ? "is-invalid" : touched.area ? "is-valid" : ""}`}
+            value={formData.area}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Area</option>
+            {areas.length > 0 ? (
+              areas.map((area) => (
+                <option key={area.id} value={area.id}>
+                  {area.name}
+                </option>
+              ))
+            ) : (
+              <option disabled>Select a city first</option>
+            )}
+          </select>
+          {touched.area && errors.area && <div className="invalid-feedback">{errors.area}</div>}
+        </div>
+
+        <InputField
+          label="National ID"
+          name="national_id"
+          value={formData.national_id}
+          onChange={handleChange}
+          isInvalid={touched.national_id && !!errors.national_id}
+          feedback={errors.national_id}
+          required
+        />
+        <InputField
+          label="Password"
+          name="password"
+          type={showPassword ? "text" : "password"}
+          value={formData.password}
+          onChange={handleChange}
+          isInvalid={touched.password && !!errors.password}
+          feedback={errors.password}
+          showPasswordToggle={true}
+          onPasswordToggle={togglePasswordVisibility}
+          required
+        />
+
+        {formData.role === "doctor" && (
+          <>
+            <InputField
+              label="Speciality"
+              name="speciality"
+              value={formData.speciality}
+              onChange={handleChange}
+              isInvalid={touched.speciality && !!errors.speciality}
+              feedback={errors.speciality}
+              required
+            />
+            <div className="mb-3">
+              <label className="form-label fw-bold mb-1" style={{ fontSize: "1rem" }}>Profile Image</label>
+              <input
+                type="file"
+                name="image"
+                className="form-control"
+                onChange={handleChange}
+                accept="image/*"
+              />
+            </div>
+          </>
+        )}
+
+        <button className="btn btn-primary w-100 mt-3" type="submit">
+          Register
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default Register;
