@@ -21,6 +21,7 @@ function FeedbackList(props) {
   const { id } = useParams();
 
 
+
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/clinic/feedbacks/?doctor_id=${id}`)
@@ -215,6 +216,7 @@ function FeedbackList(props) {
 }
 
 export default FeedbackList;
+
 
 
 

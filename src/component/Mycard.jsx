@@ -1,15 +1,8 @@
-
-
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { useState } from "react";
 function Mycard(props) {
-
-   
-
     return (
-        // style={{ textDecoration: "none" }}
         <Link to={props.path} style={{ textDecoration: "none" }}>
             <div className="card border-5 h-100 w-100">
                 {props.img && (
@@ -25,30 +18,25 @@ function Mycard(props) {
                         <p className="card-title fs-3">
                             <b>Dr. </b> {props.name}
                         </p>
-                        
                     )}
 
                     {props.Specialist && (
                         <p className="card-text fs-4">Specialist: {props.Specialist}</p>
                     )}
-                    {/* <i class="bi bi-check text-success fs-5"></i> */}
-                    {/* style={{ color: "#2ec742", fontSize: "12px" }} */}
+                    
                     {props.isAvailable && (
                         <p className="card-text text-success">
                             <i className="bi bi-record-circle-fill"></i> <b>Available</b>
                         </p>
                     )}
 
-                  
                     <div className="mt-auto">
-                       
-                          {props.rate && (
-                        <p className="text-warning fs-5">
-                            {"⭐".repeat(props.rate)}{" "}
-                            <div className="text-muted fs-6">overall rating({props.rate}/5)</div>
-                        </p>
-                    )}
-
+                        {props.rate && (
+                            <div className="text-warning fs-5">
+                                {"⭐".repeat(props.rate)}{" "}
+                                <span className="text-muted fs-6">overall rating({props.rate}/5)</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
