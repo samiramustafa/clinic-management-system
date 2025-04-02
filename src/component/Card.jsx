@@ -19,33 +19,37 @@ function Card(props) {
                             </div>
                             <div className="col-12 col-sm-7 h-100 d-flex flex-column">
                                 <div className="mt-auto p-4">
-                                    <h3>DR. {props.name}</h3>
+                                    <h3>DR. <span className="text-capitalize"> {props.name}</span>
+                                         
+                                    </h3>
 
-                                    <h6 className="fw-normal fst-italic text-primary mb-4">
+                                    <h6 className="fw-normal fst-italic  mb-4">
                                         {props.specialization}
                                     </h6>
-                                    <p className="m-0">{props.description}
+
+                                    <p className="m-0"><i class="bi bi-info-lg text-primary"></i> 
+                                        {props.description}
                                     </p>
 
-                                    <p className="m-0">Clinic Address:
-                                        {props.clinicAddress}
+
+                                    <p className="card-text fs-4"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}
                                     </p>
 
                                     <p className="m-0">
-                                        {props.fees} $
+                                    <i class="bi bi-cash text-primary"></i> {props.fees} EGP
                                     </p>
                                     <p className="m-0">
                                         
                                     </p>
 
                                     <div className="mt-auto">
-
+                       
                                         {props.rate && (
-                                            <p className="text-warning fs-5">
-                                                {"⭐".repeat(props.average_rating)}{" "}
-                                                <div className="text-muted fs-6">overall rating({props.average_rating}/5)</div>
-                                            </p>
-                                        )}
+                                        <p className="text-warning fs-5">
+                                            {"⭐".repeat(props.rate)}{" "}
+                                            <div className="text-muted fs-6">overall rating({props.rate}/5)</div>
+                                        </p>
+                                            )}
 
                                     </div>
 
