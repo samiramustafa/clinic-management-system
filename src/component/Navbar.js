@@ -20,7 +20,12 @@ const Navbar = () => {
                 axios.get("http://127.0.0.1:8000/clinic/api/users/me/", {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-                    .then(response => setUserData(response.data))
+                .then(response => {
+                    setUserData(response.data);
+                    setUserRole(response.data.role);
+                    console.log("User Data:", response.data);
+                    console.log("User Role:", response.data.role);
+                })
                     .catch(error => console.error("Error fetching user data:", error));
             }
         };
