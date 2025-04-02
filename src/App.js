@@ -1,6 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
 import './scss/bootstrap/scss/bootstrap.scss';
 import './scss/bootstrap/scss/bootstrap-utilities.scss';
 import './scss/bootstrap/scss/bootstrap-reboot.scss';
@@ -72,13 +70,6 @@ function App() {
           <Route path="/clinic" component={DoctorAppointments} exact />
 
           <Route path="*" component={NotFound} />
-
-
-
-
-
-
-
 
         </Switch>
 
