@@ -16,12 +16,17 @@ function Mycard(props) {
                 <div className="card-body d-flex flex-column flex-grow-1">
                     {props.name && (
                         <p className="card-title fs-3">
-                            <b>Dr. </b> {props.name}
+                            <b>DR.<span className="text-capitalize">{props.name}</span></b>
                         </p>
                     )}
 
                     {props.Specialist && (
-                        <p className="card-text fs-4">Specialist: {props.Specialist}</p>
+                        <p className="card-text fs-4">
+                            <i class="bi bi-prescription2 text-primary"></i> 
+                             {props.Specialist}</p>
+                    )}
+                    {(props.area && props.city) && (
+                        <p className="card-text fs-4"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}</p>
                     )}
                     
                     {props.isAvailable && (
@@ -29,6 +34,7 @@ function Mycard(props) {
                             <i className="bi bi-record-circle-fill"></i> <b>Available</b>
                         </p>
                     )}
+                    
 
                     <div className="mt-auto">
                         {props.rate && (
