@@ -27,11 +27,15 @@ function Details() {
                 //     .catch(() => setErrors("Error fetching ratings"));
 
                 useEffect(() => {
-                    axios.get(`http://127.0.0.1:8000/clinic/doctors/${id}`)
+                    
+                    axios.get(`http://127.0.0.1:8000/clinic/doctors/${id}/`)
                         .then((response) => {
-                            setDoctor(response.data);
-            
-                            return axios.get(`http://127.0.0.1:8000/clinic/users/${response.data.user}`);
+                        setDoctor(response.data);
+                        const token = localStorage.getItem("access_token"); 
+                        const headers = { Authorization: `Bearer ${token}` }; 
+
+                            return axios.get(`http://127.0.0.1:8000/clinic/users/${response.data.user}`, { headers });
+
                         })
                         .then((userResponse) => {
                             setUser(userResponse.data);
@@ -52,11 +56,12 @@ function Details() {
         <>
            
             <Card
-                img={user.profile_picture || "https://via.placeholder.com/150"}
-                name={user.username}  
-                specialization={doctor.specialization}
+                img={doctor.image || "https://via.placeholder.com/150"}
+                name={user.full_name}  
+                specialization={doctor.speciality}
                 description={doctor.description}  
-                clinicAddress={doctor.clinicAddress}
+                city={user.city}
+                area={user.area} 
                 fees={doctor.fees}
                 rate={doctor.average_rating>0 && doctor.average_rating  }
 

@@ -31,29 +31,22 @@ function ListDoctors() {
             .then(([doctorsResponse, usersResponse]) => {
                 const doctorsData = doctorsResponse.data;
                 const usersData = usersResponse.data;
-                // console.log("Doctors Data:", doctorsData);
-                // console.log("Users Data:", usersData);
-      
-              
-
-
-
                 const updatedDoctors = doctorsData.map((doctor) => {
-                    const doctorUser = usersData.find(user => user.id === doctor.user);
-                    //  console.log("Doctor User:", doctorUser);
-                    // console.log("Doctor Image:", doctorUser ? doctorUser.profile_picture : "No Image Found");
+                const doctorUser = usersData.find(user => user.id === doctor.user);
            
                     return {
                         ...doctor,
-                        name: doctorUser ? doctorUser.full_name : "Unknown",
-                        // img: doctorUser ? doctorUser.profile_picture : "",
+                        name: doctorUser ? doctorUser.full_name : "",
+                        city: doctorUser ? doctorUser.city: "",
+                        area: doctorUser ? doctorUser.area: "",
+
                     };
             });
 
 
             setDoctors(updatedDoctors);
             setFilteredDoctors(updatedDoctors);
-            const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.specialization))];
+            const uniqueSpecializations = [...new Set(doctorsData.map(doctor => doctor.speciality))];
             setSpecializations(uniqueSpecializations);
         })
         .catch(() => console.error("Failed to fetch data."))
@@ -64,7 +57,7 @@ function ListDoctors() {
         let filtered = doctors;
 
         if (selectedSpecialization) {
-            filtered = filtered.filter(doctor => doctor.specialization === selectedSpecialization);
+            filtered = filtered.filter(doctor => doctor.speciality === selectedSpecialization);
         }
 
         if (searchTerm) {
@@ -180,7 +173,8 @@ function ListDoctors() {
                                 path={`/Details/${doctor.id}`}
                                 img={doctor.image || "https://via.placeholder.com/150"}
                                 name={doctor.name}
-                                clinicAddress={doctor.clinicAddress}
+                                city={doctor.city}
+                                area={doctor.area}
                                 rate={doctor.average_rating >0 && doctor.average_rating  }
                                 Specialist={doctor.speciality}
                                 style={{ height: "100%" }}

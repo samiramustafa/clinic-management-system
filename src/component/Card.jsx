@@ -19,7 +19,7 @@ function Card(props) {
                             </div>
                             <div className="col-12 col-sm-7 h-100 d-flex flex-column">
                                 <div className="mt-auto p-4">
-                                    <h3>DR.<span className="text-capitalize">{props.name}</span>
+                                    <h3>DR. <span className="text-capitalize"> {props.name}</span>
                                          
                                     </h3>
 
@@ -27,11 +27,12 @@ function Card(props) {
                                         {props.specialization}
                                     </h6>
 
-                                    <p className="m-0"><i class="bi bi-info-lg text-primary"></i> About doctor
+                                    <p className="m-0"><i class="bi bi-info-lg text-primary"></i> 
                                         {props.description}
                                     </p>
 
-                                    <p className="m-0"><i class="bi bi-geo-alt text-primary"></i> {props.clinicAddress} 
+
+                                    <p className="card-text fs-4"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}
                                     </p>
 
                                     <p className="m-0">

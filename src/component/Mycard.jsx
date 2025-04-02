@@ -3,7 +3,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { useState } from "react";
 function Mycard(props) {
 
    
@@ -33,8 +32,8 @@ function Mycard(props) {
                             <i class="bi bi-prescription2 text-primary"></i> 
                              {props.Specialist}</p>
                     )}
-                    {props.clinicAddress && (
-                        <p className="card-text fs-4"><i class="bi bi-geo-alt text-primary"></i> {props.clinicAddress}</p>
+                    {(props.area && props.city) && (
+                        <p className="card-text fs-4"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}</p>
                     )}
                     {/* <i class="bi bi-check text-success fs-5"></i> */}
                     {/* style={{ color: "#2ec742", fontSize: "12px" }} */}
