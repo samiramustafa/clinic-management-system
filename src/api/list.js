@@ -21,8 +21,8 @@ function ListDoctors() {
 
     useEffect(() => {
         setLoading(true);
-        const token = localStorage.getItem("access_token"); // احصل على التوكن المخزن
-        const headers = { Authorization: `Bearer ${token}` }; // أضفه في الـ Headers
+        const token = localStorage.getItem("access_token"); 
+        const headers = { Authorization: `Bearer ${token}` }; 
         Promise.all([
             axios.get("http://127.0.0.1:8000/clinic/doctors/"),
             axios.get("http://127.0.0.1:8000/clinic/users/", { headers }) ,
@@ -45,14 +45,14 @@ function ListDoctors() {
            
                     return {
                         ...doctor,
-                        name: doctorUser ? doctorUser.name : "Unknown",
-                        img: doctorUser ? doctorUser.profile_picture : "",
+                        name: doctorUser ? doctorUser.full_name : "Unknown",
+                        // img: doctorUser ? doctorUser.profile_picture : "",
                     };
                 });
          
 
                 setDoctors(updatedDoctors);
-                console.log("updatedDoctors", updatedDoctors)
+                // console.log("updatedDoctors", updatedDoctors)
                 // console.log("Doctors", doctors)
 
 
@@ -183,13 +183,13 @@ function ListDoctors() {
                 <div className="text-center">No doctors found matching your criteria.</div>
             ) : (
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-                    {currentDoctors.map((doctor) => (console.log(doctor),
+                    {currentDoctors.map((doctor) => (
                         <div key={doctor.id} className="col" style={{ height: "600px" }}>
                             <Mycard
                                 {...doctor}
                                 path={`/Details/${doctor.id}`}
                                 img={doctor.image || "https://via.placeholder.com/150"}
-                                name={doctor.username}
+                                name={doctor.name}
                                 Specialist={doctor.speciality}
                                 rate={doctor.average_rating}
                                 style={{ height: "100%" }}
