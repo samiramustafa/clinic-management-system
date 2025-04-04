@@ -8,6 +8,11 @@ function DoctorAppointments() {
   const [endTime, setEndTime] = useState("");
   const [alert, setAlert] = useState({ message: "", type: "" });
   const [confirmBox, setConfirmBox] = useState({ show: false, appointmentId: null });
+  const [userData, setUserData] = useState(null);
+  const [currentUser,setCurrent]=useState(null);
+  const [userRole, setUserRole] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
 
   useEffect(() => {
     axios
@@ -15,6 +20,35 @@ function DoctorAppointments() {
       .then((response) => setAppointments(response.data))
       .catch((error) => console.error("Error fetching appointments:", error));
   }, []);
+
+   //nasser
+   useEffect(() => {
+    const updateAuthState = () => {
+        const token = localStorage.getItem("access_token");
+        setIsAuthenticated(!!token);
+        const storedRole = localStorage.getItem("user_role");
+        setUserRole(storedRole || "");
+
+        if (token) {
+            axios.get("http://127.0.0.1:8000/clinic/api/users/me/", {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(response => {
+                setUserData(response.data);
+            })
+            .catch(error => console.error("Error fetching user data:", error));
+        }
+    };
+
+    updateAuthState();
+}, []);
+useEffect(() => {
+  if (userData) {
+      setCurrent(userData.id);
+      console.log("Current User ID:", userData.id);
+  }
+}, [userData]);
+
 
   const handleAddAppointment = async () => {
     if (!date || !startTime || !endTime) {
@@ -41,9 +75,10 @@ function DoctorAppointments() {
       start_time: startTime,
       end_time: endTime,
       day: selectedDate.toLocaleDateString('en-US', { weekday: 'long' }),
-      doctor: 1
+      doctor: currentUser
     };
-
+  console.log("New Appointment:", newAppointment);
+  
     try {
       const response = await axios.post("http://127.0.0.1:8000/clinic/available-times/", newAppointment);
       setAppointments([...appointments, response.data]);

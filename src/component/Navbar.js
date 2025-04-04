@@ -8,6 +8,7 @@ const Navbar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState("");
     const [userData, setUserData] = useState(null);
+    const [currentUser,setCurent]=useState(null);
 
     useEffect(() => {
         const updateAuthState = () => {
@@ -23,8 +24,10 @@ const Navbar = () => {
                 .then(response => {
                     setUserData(response.data);
                     setUserRole(response.data.role);
-                    console.log("User Data:", response.data);
-                    console.log("User Role:", response.data.role);
+                    
+                    setCurent(response.data.id);
+                    // console.log("Current User ID:", response.data.id);
+                   
                 })
                     .catch(error => console.error("Error fetching user data:", error));
             }

@@ -316,7 +316,12 @@ const Register = () => {
       setSuccess("Registration successful!");
       window.location.href = "/login";
     } catch (err) {
-      setErrors(err.response?.data || { general: "Something went wrong" });
+      console.log({err:err})
+      if(err.response?.data?.error){
+        setErrors({ general: err.response.data.error });
+      }else{
+        setErrors({ general: "Something went wrong" });
+      }
     }
   };
 
@@ -461,6 +466,7 @@ const Register = () => {
         <InputField
           label="National ID"
           name="national_id"
+          type="number"
           value={formData.national_id}
           onChange={handleChange}
           isInvalid={touched.national_id && !!errors.national_id}
