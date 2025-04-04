@@ -23,13 +23,15 @@ import Appoint from './appointment/Appoint.js'
 import PatientAppointment from './appointment/PatientAppointment.js'; 
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 import NotFound from './pages/NotFound.jsx'
+import  ChatBot from './component/ChatBot.js'
 
 function App() {
   return (
     <div id="root">
       <BrowserRouter>
         <Navbar />
-        <div className="main-content">
+        <ChatBot/>
+        <div>
         <Switch>
           <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />

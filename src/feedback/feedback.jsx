@@ -4,12 +4,14 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import FeedbackModal from "./card_feed";
 
+
 const Feedback = () => {
   const { id } = useParams();
 
   const [submitted, setSubmitted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setErrors] = useState({
     patient: "",
     doctor: "",
@@ -24,22 +26,28 @@ const Feedback = () => {
     rate: 0,
   });
 
-
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      try {
-        const userData = JSON.parse(loggedInUser);
-        setFormData((prevState) => ({
-          ...prevState,
-          patient: userData.id || "",
-          doctor: id,
-        }));
-      } catch (error) {
-        console.error("Error parsing user data:", error);
+    const updateAuthState = () => {
+      const token = localStorage.getItem("access_token");
+      setIsAuthenticated(!!token);
+      if (token) {
+        axios.get("http://127.0.0.1:8000/clinic/api/users/me/", {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then(response => {
+            console.log("User Data:", response.data);
+            setFormData((prevState) => ({
+              ...prevState,
+              patient: response.data.id || "",
+              doctor: id,
+            }));
+          })
+          .catch(error => console.error("Error fetching user data:", error));
       }
-    }
-  }, []);
+    };
+
+    updateAuthState(); 
+  }, [id]);  
 
 
 
@@ -47,6 +55,7 @@ const Feedback = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
+
 
   const handlerateChange = (value) => {
     setFormData({ ...formData, rate: formData.rate === value ? 0 : value });
@@ -73,9 +82,10 @@ const Feedback = () => {
     const feedbackData = {
       feedback: formData.feedback,
       rate: formData.rate,
-      patient: Number(formData.patient),
-      doctor: Number(formData.doctor),
+      patient: formData.patient ? Number(formData.patient) : null,
+      doctor: formData.doctor ? Number(formData.doctor) : null,
     };
+
 
 
     try {
@@ -87,13 +97,13 @@ const Feedback = () => {
 
 
       setFeedbacks((prevFeedbacks) => [response.data, ...prevFeedbacks]);
-      
 
 
-      setFormData({
+      setFormData((prev) => ({
+        ...prev,
         feedback: "",
         rate: 0,
-      });
+      }));
 
       setErrors({});
       setShowModal(false);
@@ -106,58 +116,39 @@ const Feedback = () => {
       });
     }
 
-
-
-
   };
 
-
-
-
-
-
-
   return (
-    // <div className="container mt-5">
-    //   <div className="container d-flex flex-column align-items-center py-5">
-    //     <div className="shadow p-4" style={{ width: "500px" }}>
+
     <div>
       <button className="btn btn-lg btn-primary ms-5 rounded-pill" onClick={() => setShowModal(true)}>
         Add Feedback
       </button>
 
-      {/* {submitted && (
-            <div className="alert alert-success text-center" role="alert">
-              Thank you for your feedback!
-            </div>
-          )} */}
       {submitted && (
         <div
           className="alert alert-success text-center fixed-top w-100"
           role="alert"
-          style={{ marginTop: "70px", zIndex: 1050 }} // ✅ تعديل الهامش العلوي لمنع التداخل مع النافبار
+          style={{ marginTop: "70px", zIndex: 1050 }} 
         >
           Thank you for your feedback!
         </div>
       )}
+     
       <FeedbackModal
         show={showModal}
         isEditing={false}
         onClose={() => setShowModal(false)}
         text={formData.feedback}
-        setText={(text) => setFormData({ ...formData, feedback: text })}
+        setText={(text) => setFormData((prev) => ({ ...prev, feedback: text }))}
         rate={formData.rate}
         setRate={handlerateChange}
         onSave={handleAddFeedback}
         errors={errors}
       />
+
     </div>
 
-
-
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

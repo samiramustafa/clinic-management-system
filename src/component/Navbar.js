@@ -24,10 +24,8 @@ const Navbar = () => {
                 .then(response => {
                     setUserData(response.data);
                     setUserRole(response.data.role);
-                    
-                    setCurent(response.data.id);
-                    // console.log("Current User ID:", response.data.id);
-                   
+                    // console.log("User Data:", response.data);
+                    // console.log("User Role:", response.data.role);
                 })
                     .catch(error => console.error("Error fetching user data:", error));
             }

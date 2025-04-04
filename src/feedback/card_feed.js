@@ -61,3 +61,4 @@ const FeedbackModal = ({ show, isEditing, onClose, text, setText, rate, setRate,
 };
 
 export default FeedbackModal;
+

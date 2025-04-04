@@ -20,12 +20,33 @@ function FeedbackList(props) {
   const [updatedRate, setUpdatedRate] = useState(0);
   const { id } = useParams();
 
+  // useEffect(() => {
+  //   axios
+  //     .get("http://127.0.0.1:8000/clinic/feedbacks")
+  //     .then((response) => {
+  //       const doctorFeedbacks = response.data.filter(rate => rate.doctor === props.doc_id);
+  //       console.log("Doctor Feedbacks:", doctorFeedbacks);
+        
+  //       console.log(response.data)
+  //       setFeedbacks(response.data)
+  //       console.log(feedbacks)
 
+
+<<<<<<< HEAD
+=======
+
+  //           console.log("Doctor Feedbacks:", doctorFeedbacks);
+
+          
+  //     })
+  //     .catch(() => setErrors("Error fetching feedback"));
+  // }, []);
+>>>>>>> main
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/clinic/feedbacks/?doctor_id=${id}`)
       .then((response) => {
-        console.log("Fetched feedbacks:", response.data);
+        // console.log("Fetched feedbacks:", response.data);
         setFeedbacks(response.data);
       })
       .catch((error) => {
@@ -215,6 +236,7 @@ function FeedbackList(props) {
 }
 
 export default FeedbackList;
+
 
 
 

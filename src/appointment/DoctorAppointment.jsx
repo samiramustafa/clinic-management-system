@@ -105,7 +105,7 @@ useEffect(() => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3 text-primary">Clinic Appointments</h2>
+      <h2 className="mb-3 text-primary"> <i class="bi bi-building-add"></i> Add New Appointment</h2>
 
       {alert.message && (
         <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
@@ -115,7 +115,7 @@ useEffect(() => {
       )}
 
       <div className="card p-3 mb-4">
-        <h5>Add New Appointment</h5>
+        {/* <h5>Add New Appointment</h5> */}
         <div className="row g-3">
           <div className="col-md-4">
             <label className="form-label">Date</label>
@@ -136,10 +136,10 @@ useEffect(() => {
       </div>
 
       <div className="table-responsive">
+      <h2 className="mb-3 text-primary"> <i class="bi bi-table"></i> Appointment</h2>
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
             <tr>
-              <th>ID</th>
               <th>Day</th>
               <th>Start Time</th>
               <th>End Time</th>
@@ -150,7 +150,6 @@ useEffect(() => {
           <tbody>
             {appointments.map((appt) => (
               <tr key={appt.id}>
-                <td>{appt.id}</td>
                 <td>{appt.day}</td>
                 <td>{appt.start_time}</td>
                 <td>{appt.end_time}</td>
