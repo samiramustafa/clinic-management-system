@@ -58,7 +58,7 @@ const Login = () => {
     if (Object.values(newErrors).some(error => error)) return;
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/clinic/api/token/", formData);
+      const response = await axios.post("http://127.0.0.1:8000/api/token/", formData);
       
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
