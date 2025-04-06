@@ -358,7 +358,7 @@ const DoctorProfile = () => {
         setLoading(true); // ابدأ التحميل
         setError(null); // امسح أي خطأ سابق
 
-        axios.get("http://127.0.0.1:8000/clinic/api/users/me/", { // استخدم المسار الصحيح لـ API
+        axios.get("http://127.0.0.1:8000/api/users/me/", { // استخدم المسار الصحيح لـ API
             headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -474,7 +474,7 @@ const DoctorProfile = () => {
 
         try {
             const response = await axios.put(
-                "http://127.0.0.1:8000/clinic/api/users/me/", // مسار التحديث
+                "http://127.0.0.1:8000/api/users/me/", // مسار التحديث
                 requestData, // البيانات المبنية بشكل صحيح
                 {
                     headers: {
@@ -575,7 +575,8 @@ const DoctorProfile = () => {
                          {/* يمكنك إضافة عرض لحقول أخرى غير قابلة للتعديل مثل username, email, national_id */}
                          <p><span className="fw-bold">Username:</span> {user.username}</p>
                          {user.national_id && <p><span className="fw-bold">National ID:</span> {user.national_id}</p>}
-                         {/* <p><span className="fw-bold">Email:</span> {user.email || 'Not set'}</p> */}
+                         <p><span className="fw-bold">Email:</span> {user.email || 'Not set'}</p>
+                         {console.log("User data:", user)} {/* للتحقق من البيانات */}
 
                     </fieldset>
 

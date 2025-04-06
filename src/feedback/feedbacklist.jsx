@@ -32,8 +32,6 @@ function FeedbackList(props) {
   //       console.log(feedbacks)
 
 
-<<<<<<< HEAD
-=======
 
   //           console.log("Doctor Feedbacks:", doctorFeedbacks);
 
@@ -41,10 +39,9 @@ function FeedbackList(props) {
   //     })
   //     .catch(() => setErrors("Error fetching feedback"));
   // }, []);
->>>>>>> main
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/clinic/feedbacks/?doctor_id=${id}`)
+      .get(`http://127.0.0.1:8000/api/feedbacks/?doctor_id=${id}`)
       .then((response) => {
         // console.log("Fetched feedbacks:", response.data);
         setFeedbacks(response.data);
@@ -69,7 +66,7 @@ function FeedbackList(props) {
 
   const confirmDelete = () => {
     if (deleteId) {
-      axios.delete(`http://127.0.0.1:8000/clinic/feedbacks/${deleteId}/`)
+      axios.delete(`http://127.0.0.1:8000/api/feedbacks/${deleteId}/`)
         .then(() => {
           setFeedbacks((prevFeedbacks) => prevFeedbacks.filter(fb => fb.id !== deleteId));
           setShowModal(false);
@@ -95,7 +92,7 @@ function FeedbackList(props) {
     }
 
     axios
-      .put(`http://127.0.0.1:8000/clinic/feedbacks/${editingFeedback.id}/`, {
+      .put(`http://127.0.0.1:8000/api/feedbacks/${editingFeedback.id}/`, {
         ...editingFeedback,
         feedback: updatedText,
         rate: updatedRate,

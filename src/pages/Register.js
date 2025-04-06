@@ -30,7 +30,7 @@ const Register = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/clinic/api/cities/")
+      .get("http://127.0.0.1:8000/api/cities/")
       .then((response) => {
         setCities(response.data);
       })
@@ -43,7 +43,7 @@ const Register = () => {
     if (formData.city) {
       setAreas([]);
       axios
-        .get(`http://127.0.0.1:8000/clinic/api/areas/?city=${formData.city}`)
+        .get(`http://127.0.0.1:8000/api/areas/?city=${formData.city}`)
         .then((response) => {
           setAreas(response.data);
         })
@@ -142,7 +142,12 @@ const Register = () => {
     });
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/clinic/api/users/", formDataToSend, {
+            // ... (قبل axios.post)
+      for (let pair of formDataToSend.entries()) {
+        console.log(pair[0]+ ': '+ pair[1]);
+      }
+      // ... (axios.post)
+      const response = await axios.post("http://127.0.0.1:8000/api/users/", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

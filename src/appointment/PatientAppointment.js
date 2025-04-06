@@ -57,13 +57,13 @@ function Appointments() {
                 <div key={appointment.id} className="col-md-6">
                   <div className="card shadow-sm border-primary rounded">
                     <div className="card-body">
-                      <h4 className="card-title text-primary"><i class="bi bi-person-circle text-primary"></i> {appointment.patient_name}</h4>
+                      <h4 className="card-title text-primary"><i className="bi bi-person-circle text-primary"></i> {appointment.patient_name}</h4>
                       <p className="card-text fs-5">
-                        <strong><i class="bi bi-telephone-plus-fill text-primary" ></i> Phone:</strong> {appointment.phone_number} <br />
+                        <strong><i className="bi bi-telephone-plus-fill text-primary" ></i> Phone:</strong> {appointment.phone_number} <br />
                         <strong> <i className="fas fa-user-md  fw-bold fs-4 text-primary"></i>  Doctor:</strong> {appointment.doctor_name} <br />
-                        <strong><i class="bi bi-calendar2-month-fill text-primary" ></i> Date:</strong> {appointment.date} <br />
+                        <strong><i className="bi bi-calendar2-month-fill text-primary" ></i> Date:</strong> {appointment.date} <br />
 
-                        <strong><i class="bi bi-alarm text-primary" ></i> Time:</strong>{" "}
+                        <strong><i className="bi bi-alarm text-primary" ></i> Time:</strong>{" "}
                         {appointment.time_range || "N/A"} {" "}
                         <br />
                         <h5 className="card-text fs-5">

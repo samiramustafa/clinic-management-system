@@ -74,6 +74,25 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <NavLink to="/ListDoctors" className="nav-item nav-link" activeClassName="active">Doctors</NavLink>
                             </li>
+                            <li className="nav-item" style={{ marginTop: '15px' }}>
+                                    <NavLink
+                                        to="/admin/login"
+                                        className="nav-link"
+                                        style={({ isActive }) => ({
+                                        backgroundColor: isActive ? '#000' : '#333',
+                                        color: '#fff',
+                                        padding: '10px 20px',
+                                        borderRadius: '30px',
+                                        fontWeight: 'bold',
+                                        textDecoration: 'none',
+                                        transition: '0.3s',
+                                        margintop:'15px',
+                                        boxShadow: isActive ? '0 4px 10px rgba(0,0,0,0.3)' : '',
+                                        })}
+                                    >
+                                        Admin
+                                    </NavLink>
+                            </li>
 
 
 

@@ -31,7 +31,7 @@ const Feedback = () => {
       const token = localStorage.getItem("access_token");
       setIsAuthenticated(!!token);
       if (token) {
-        axios.get("http://127.0.0.1:8000/clinic/api/users/me/", {
+        axios.get("http://127.0.0.1:8000/api/users/me/", {
           headers: { Authorization: `Bearer ${token}` }
         })
           .then(response => {
@@ -90,7 +90,7 @@ const Feedback = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/clinic/feedbacks/",
+        "http://127.0.0.1:8000/api/feedbacks/",
         feedbackData,
         { headers: { "Content-Type": "application/json" } }
       );

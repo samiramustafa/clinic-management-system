@@ -26,7 +26,7 @@ function Appoint() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/clinic/available-times/?doctor_id=${id}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/available-times/?doctor_id=${id}`);
 
         setAppointments(response.data);
 
