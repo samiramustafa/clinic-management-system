@@ -22,7 +22,7 @@ function Mycard(props) {
 
                     {props.Specialist && (
                         <p className="card-text fs-4">
-                            <i class="bi bi-prescription2 text-primary"></i> 
+                            <i className="bi bi-prescription2 text-primary"></i> 
                              {props.Specialist}</p>
                     )}
                     {(props.area && props.city) && (

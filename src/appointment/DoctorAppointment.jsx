@@ -70,7 +70,7 @@ function DoctorAppointments() {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3 text-primary"> <i class="bi bi-building-add"></i> Add New Appointment</h2>
+      <h2 className="mb-3 text-primary"> <i className="bi bi-building-add"></i> Add New Appointment</h2>
 
       {alert.message && (
         <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
@@ -101,7 +101,7 @@ function DoctorAppointments() {
       </div>
 
       <div className="table-responsive">
-      <h2 className="mb-3 text-primary"> <i class="bi bi-table"></i> Appointment</h2>
+      <h2 className="mb-3 text-primary"> <i className="bi bi-table"></i> Appointment</h2>
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
             <tr>

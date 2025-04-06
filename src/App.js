@@ -24,10 +24,12 @@ import PatientAppointment from './appointment/PatientAppointment.js';
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 import NotFound from './pages/NotFound.jsx'
 import  ChatBot from './component/ChatBot.js'
+import { FeedbackProvider } from "./feedback/feedbackcontext.js";
 
 function App() {
   return (
     <div id="root">
+      <FeedbackProvider>
       <BrowserRouter>
         <Navbar />
         <ChatBot/>
@@ -53,6 +55,7 @@ function App() {
         </div>
         <Footer />
       </BrowserRouter>
+      </FeedbackProvider>
     </div>
   );
 }

@@ -14,17 +14,7 @@ function Details() {
     const [errors, setErrors] = useState(null);
     const { id } = useParams();
 
-          // axios.get("http://127.0.0.1:8000/clinic/feedbacks/")
-                //     .then((rateResponse) => {
-                //         const ratesData = rateResponse.data;
-
-                //         // Find rating for the specific doctor
-                //         const doctorRate = ratesData.find(rate => rate.id === doctorData.id);
-                //         const updatedDoctor = { ...doctorData, rate: doctorRate ? doctorRate.rate : "No rating" };
-
-                //         setDoctor(updatedDoctor);
-                //     })
-                //     .catch(() => setErrors("Error fetching ratings"));
+          
 
                 useEffect(() => {
                     
@@ -45,11 +35,12 @@ function Details() {
                 
 
     if (errors) {
-        return <p className="text-danger text-center mt-5">{errors}</p>;
+        return <div
+         className="text-danger text-center mt-5">{errors}</div>;
     }
 
     if (!doctor || !user) {
-        return <p className="text-muted text-center mt-5">Loading doctor details...</p>;
+        return <div className="text-muted text-center mt-5">Loading doctor details...</div>;
     }
 
     return (

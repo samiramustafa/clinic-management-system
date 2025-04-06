@@ -155,7 +155,8 @@ const Register = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
+    <div className="container" style={{ maxWidth: "450px", marginTop: "100px", border: "4px solid #FFFFFF", 
+    padding: "20px", borderRadius: "10px", boxShadow: "0 0 10px rgba(182, 179, 179, 0.5)", backgroundColor: "#FFFFFF" }}>
       <Title titleName="Register" />
       {success && <div className="alert alert-success">{success}</div>}
       {errors.general && <div className="alert alert-danger">{errors.general}</div>}
