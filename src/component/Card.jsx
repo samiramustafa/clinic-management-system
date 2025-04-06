@@ -24,19 +24,20 @@ function Card(props) {
                                     </h3>
 
                                     <h6 className="fw-normal fst-italic  mb-4">
-                                        {props.specialization}
+                                        {props.Specialist}
                                     </h6>
 
-                                    <p className="m-0"><i className="bi bi-info-lg text-primary"></i>
+                                    <p className="m-0"><i className="bi bi-info-lg text-primary"></i> 
                                         {props.description}
                                     </p>
 
 
                                     <p className="card-text fs-4"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}
                                     </p>
+                                    
 
                                     <p className="m-0">
-                                        <i className="bi bi-cash text-primary"></i> {props.fees} EGP
+                                    <i className="bi bi-cash text-primary"></i> {props.fees} EGP
                                     </p>
                                     <p className="m-0">
 

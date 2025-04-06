@@ -109,7 +109,7 @@ const Feedback = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/clinic/feedbacks/",
+        "http://127.0.0.1:8000/api/feedbacks/",
         feedbackData,
         { headers: { "Content-Type": "application/json" } }
       );

@@ -13,6 +13,7 @@ import "./css/style.css";
 import Hero from './pages/Hero.js';
 import About from './pages/About.js';
 import Register from './pages/Register.js'
+import AdminLogin from './pages/AdminLogin.js';
 import ListDoctors from './api/list.js'
 import Details from './api/Details.js'
 import FeedbackList from './feedback/feedbacklist.jsx';
@@ -24,7 +25,12 @@ import PatientAppointment from './appointment/PatientAppointment.js';
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 import NotFound from './pages/NotFound.jsx'
 import  ChatBot from './component/ChatBot.js'
+<<<<<<< HEAD
 import { FeedbackProvider } from "./feedback/feedbackcontext.js";
+=======
+import AdminDashboard from './pages/AdminDashboard';
+import AdminProtectedRoute from './component/AdminProtectedRoute'; 
+>>>>>>> main
 
 function App() {
   return (
@@ -50,6 +56,11 @@ function App() {
           <Route path="/doctor-profile" component={DoctorProfile} />
           <Route path="/patient-profile" component={PatientProfile} />
           <Route path="/clinic" component={DoctorAppointments} exact />
+          <Route path="/admin/login" component={AdminLogin} exact />
+          <AdminProtectedRoute path="/admin/dashboard">
+                    {/* أي مكون يوضع هنا لن يتم عرضه إلا إذا كان المستخدم أدمن مسجل دخوله */}
+                    <AdminDashboard />
+                </AdminProtectedRoute>
           <Route path="*" component={NotFound} />
         </Switch>
         </div>

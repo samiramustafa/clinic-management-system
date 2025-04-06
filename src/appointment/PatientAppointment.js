@@ -218,6 +218,7 @@ function Appointments() {
           {bookedAppointments.length === 0 ? (
             <p className="text-center">No appointments booked.</p>
           ) : (
+<<<<<<< HEAD
             <>
               <div className="row g-3">
                 {currentAppointments.map((appointment) => (
@@ -247,6 +248,34 @@ function Appointments() {
                           Cancel
                         </button>
                       </div>
+=======
+            <div className="row g-3">
+              {bookedAppointments.map((appointment) => (
+                <div key={appointment.id} className="col-md-6">
+                  <div className="card shadow-sm border-primary rounded">
+                    <div className="card-body">
+                      <h4 className="card-title text-primary"><i className="bi bi-person-circle text-primary"></i> {appointment.patient_name}</h4>
+                      <p className="card-text fs-5">
+                        <strong><i className="bi bi-telephone-plus-fill text-primary" ></i> Phone:</strong> {appointment.phone_number} <br />
+                        <strong> <i className="fas fa-user-md  fw-bold fs-4 text-primary"></i>  Doctor:</strong> {appointment.doctor_name} <br />
+                        <strong><i className="bi bi-calendar2-month-fill text-primary" ></i> Date:</strong> {appointment.date} <br />
+
+                        <strong><i className="bi bi-alarm text-primary" ></i> Time:</strong>{" "}
+                        {appointment.time_range || "N/A"} {" "}
+                        <br />
+                        <h5 className="card-text fs-5">
+                        <i className="bi bi-check-circle-fill text-primary" ></i> Status: <span className="text-info fs-3">{appointment.status}</span>
+                        </h5>
+                      </p>
+                      <button
+                        className="btn btn-danger w-100 fs-5"
+                        onClick={() => setSelectedAppointment(appointment.id)}
+                        data-bs-toggle="modal"
+                        data-bs-target="#cancelModal"
+                      >
+                        Cancel
+                      </button>
+>>>>>>> main
                     </div>
                   </div>
                 ))}
