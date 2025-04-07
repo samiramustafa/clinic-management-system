@@ -323,6 +323,7 @@ import InputField from "../component/Input"; // تأكد من المسار ال�
 const DoctorProfile = () => {
     // --- State Hooks ---
     const [user, setUser] = useState(null); // لتخزين بيانات المستخدم الأصلية من الـ API
+    const [successMessage, setSuccessMessage] = useState(null);
     const [formData, setFormData] = useState({ // لإدارة بيانات الفورم
         // بيانات أساسية مشتركة
         full_name: "",
@@ -446,7 +447,7 @@ const DoctorProfile = () => {
 
         setLoading(true); // ابدأ التحميل لعملية التحديث
         setError(null); // امسح الأخطاء القديمة
-
+        setSuccessMessage(null);
         // بناء الـ Payload الصحيح للـ PUT request
         let requestData = {
             full_name: formData.full_name,
@@ -507,7 +508,8 @@ const DoctorProfile = () => {
             setFormData(updatedFormDataState);
 
 
-            alert("Profile updated successfully!"); // رسالة نجاح مؤقتة
+            setSuccessMessage("Profile updated successfully!");
+            setTimeout(() => setSuccessMessage(null), 3000);
 
         } catch (error) {
             console.error("Update error:", error.response?.data || error.message);
@@ -539,6 +541,19 @@ const DoctorProfile = () => {
     return (
         <div className="container" style={{ maxWidth: "600px", margin: "50px auto" }}>
             <Title titleName="My Profile" /> {/* عنوان أوضح */}
+
+            {successMessage && (
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    {successMessage}
+                    <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                        onClick={() => setSuccessMessage(null)} // إخفاء الـ Alert عند الضغط على زر الإغلاق
+                    ></button>
+                </div>
+            )}
 
             {/* عرض رسائل الخطأ */}
             {error && <div className="alert alert-danger">{error}</div>}

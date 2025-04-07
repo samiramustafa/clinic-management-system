@@ -38,14 +38,14 @@ const Feedback = () => {
       try {
        
         const userResponse = await axios.get(
-          "http://127.0.0.1:8000/clinic/api/users/me/",
+          "http://127.0.0.1:8000/api/users/me/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const userId = userResponse.data.id;
 
       
         const patientResponse = await axios.get(
-          "http://127.0.0.1:8000/clinic/patients/",
+          "http://127.0.0.1:8000/api/patients/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
 

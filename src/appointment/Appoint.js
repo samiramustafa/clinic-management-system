@@ -28,14 +28,9 @@ function Appoint() {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-<<<<<<< HEAD
         const response = await axios.get(
-          `http://127.0.0.1:8000/clinic/available-times/?doctor_id=${id}`
+          `http://127.0.0.1:8000/api/available-times/?doctor_id=${id}`
         );
-=======
-        const response = await axios.get(`http://127.0.0.1:8000/api/available-times/?doctor_id=${id}`);
-
->>>>>>> main
         setAppointments(response.data);
         const firstAvailableTimeId = response.data?.[0]?.id || null;
         setSelectedAvailableTimeId(firstAvailableTimeId);
@@ -60,7 +55,7 @@ function Appoint() {
 
       try {
         const userResponse = await axios.get(
-          "http://127.0.0.1:8000/clinic/api/users/me/",
+          "http://127.0.0.1:8000/api/users/me/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const userId = userResponse.data.id;
@@ -70,7 +65,7 @@ function Appoint() {
         setPatientPhone(phone);
         // console.log("Patient Phone Number:", user_name);
         const patientResponse = await axios.get(
-          "http://127.0.0.1:8000/clinic/patients/",
+          "http://127.0.0.1:8000/api/patients/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const patientData = patientResponse.data.find(
@@ -150,7 +145,7 @@ function Appoint() {
       console.log("New Appointment:", newAppointment);
 
       const { data: bookedAppointment } = await axios.post(
-        "http://127.0.0.1:8000/clinic/appointments/",
+        "http://127.0.0.1:8000/api/appointments/",
         newAppointment,
         {
           headers: {

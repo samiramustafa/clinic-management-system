@@ -21,10 +21,9 @@ function FeedbackList() {
   const [deleteId, setDeleteId] = useState(null);
   const [updatedRate, setUpdatedRate] = useState(0);
   const [currentUserId, setCurrentUserId] = useState(null); 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 
-<<<<<<< HEAD
   useEffect(() => {
     const fetchAuthData = async () => {
       const token = localStorage.getItem("access_token");
@@ -32,19 +31,17 @@ function FeedbackList() {
       if (!token) return;
       try {
         const userResponse = await axios.get(
-          "http://127.0.0.1:8000/clinic/api/users/me/",
+          "http://127.0.0.1:8000/api/users/me/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const userId = userResponse.data.id;
         const patientResponse = await axios.get(
-          "http://127.0.0.1:8000/clinic/patients/",
+          "http://127.0.0.1:8000/api/patients/",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const patientData = patientResponse.data.find(
           (patient) => patient.user === userId
         );
-=======
->>>>>>> main
 
         if (patientData) {
           setCurrentUserId(patientData.id); 
@@ -60,38 +57,12 @@ function FeedbackList() {
     fetchAuthData();
   }, [id]);
 
-<<<<<<< HEAD
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/clinic/feedbacks/?doctor_id=${id}&ordering=-created_at`)
+      .get(`http://127.0.0.1:8000/api/feedbacks/?doctor_id=${id}&ordering=-created_at`)
       .then((response) => setFeedbacks(response.data))
       .catch(() => setErrors("Error fetching feedback"));
   }, [id, setFeedbacks]);
-=======
-          
-  //     })
-  //     .catch(() => setErrors("Error fetching feedback"));
-  // }, []);
-  useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:8000/api/feedbacks/?doctor_id=${id}`)
-      .then((response) => {
-        // console.log("Fetched feedbacks:", response.data);
-        setFeedbacks(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching feedback:", error);
-        setErrors("Error fetching feedback");
-      });
-  }, [id, feedbacks.length]); 
-
-
-
-
-
-
-
->>>>>>> main
 
   const handleDeleteClick = (id) => {
     setDeleteId(id);
@@ -128,12 +99,7 @@ function FeedbackList() {
       return;
     }
 
-<<<<<<< HEAD
     axios.put(`http://127.0.0.1:8000/clinic/feedbacks/${editingFeedback.id}/`, {
-=======
-    axios
-      .put(`http://127.0.0.1:8000/api/feedbacks/${editingFeedback.id}/`, {
->>>>>>> main
         ...editingFeedback,
         feedback: updatedText,
         rate: updatedRate,

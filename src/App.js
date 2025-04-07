@@ -25,12 +25,9 @@ import PatientAppointment from './appointment/PatientAppointment.js';
 import DoctorAppointments from './appointment/DoctorAppointment.jsx';
 import NotFound from './pages/NotFound.jsx'
 import  ChatBot from './component/ChatBot.js'
-<<<<<<< HEAD
-import { FeedbackProvider } from "./feedback/feedbackcontext.js";
-=======
 import AdminDashboard from './pages/AdminDashboard';
 import AdminProtectedRoute from './component/AdminProtectedRoute'; 
->>>>>>> main
+import { FeedbackProvider } from './feedback/feedbackcontext.js';
 
 function App() {
   return (
