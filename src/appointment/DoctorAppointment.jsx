@@ -16,7 +16,7 @@ function DoctorAppointments() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/clinic/available-times/")
+      .get("http://127.0.0.1:8000/api/available-times/")
       .then((response) => setAppointments(response.data))
       .catch((error) => console.error("Error fetching appointments:", error));
   }, []);
@@ -30,7 +30,7 @@ function DoctorAppointments() {
         setUserRole(storedRole || "");
 
         if (token) {
-            axios.get("http://127.0.0.1:8000/clinic/api/users/me/", {
+            axios.get("http://127.0.0.1:8000/api/api/users/me/", {
                 headers: { Authorization: `Bearer ${token}` }
             })
             .then(response => {
@@ -80,7 +80,7 @@ useEffect(() => {
   console.log("New Appointment:", newAppointment);
   
     try {
-      const response = await axios.post("http://127.0.0.1:8000/clinic/available-times/", newAppointment);
+      const response = await axios.post("http://127.0.0.1:8000/api/available-times/", newAppointment);
       setAppointments([...appointments, response.data]);
       setAlert({ message: "Appointment added successfully", type: "success" });
       setDate("");
@@ -94,7 +94,7 @@ useEffect(() => {
 
   const handleDeleteAppointment = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/clinic/available-times/${id}/`);
+      await axios.delete(`http://127.0.0.1:8000/api/available-times/${id}/`);
       setAppointments(appointments.filter((appt) => appt.id !== id));
       setAlert({ message: "Appointment deleted successfully", type: "success" });
       setConfirmBox({ show: false, appointmentId: null });

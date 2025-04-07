@@ -202,6 +202,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Trash, ToggleOn, ToggleOff } from 'react-bootstrap-icons';
 // --- استيراد مكونات المودال (إذا لم تكن مستورده في مكان آخر) ---
 import { Modal, Button } from 'react-bootstrap';
+import AdminFeedbackManager from '../component/admin/AdminFeedbackManager';
+// 
 
 // --- (اختياري) إذا أردت منع تعطيل المستخدم الحالي، ستحتاج لهذه المكتبة ---
 // import { jwtDecode } from "jwt-decode"; // قم بتثبيتها: npm install jwt-decode
@@ -480,7 +482,10 @@ function UserList() {
                                 )}
                             </tbody>
                         </table>
+                         <AdminFeedbackManager />
                     </div>
+                       
+                    
                 )}
             </div>
 

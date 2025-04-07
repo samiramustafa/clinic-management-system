@@ -98,7 +98,7 @@ const Navbar = () => {
 
 
 
-                            {isAuthenticated ? (
+                            {isAuthenticated ? (console.log(isAuthenticated),
                                 <>
                                     {userRole === "doctor" ? (
                                         <li className="nav-item">
