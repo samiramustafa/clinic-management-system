@@ -1,16 +1,18 @@
 
 
-import React, { useState, useEffect } from "react";
+
+
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import FeedbackModal from "./card_feed";
+import { FeedbackContext } from "./feedbackcontext";
 
-function FeedbackList(props) {
-  const [feedbacks, setFeedbacks] = useState([]);
+function FeedbackList() {
+  const { id, pageNumber } = useParams();
+  const { feedbacks, setFeedbacks } = useContext(FeedbackContext);
   const [errors, setErrors] = useState(null);
-  const { pageNumber } = useParams();
   const [currentFeedback, setCurrentFeedback] = useState(Number(pageNumber) || 1);
   const [feedPerPage] = useState(3);
   const [editingFeedback, setEditingFeedback] = useState(null);
@@ -18,46 +20,49 @@ function FeedbackList(props) {
   const [showModal, setShowModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [updatedRate, setUpdatedRate] = useState(0);
-  const { id } = useParams();
-
-  // useEffect(() => {
-  //   axios
-  //     .get("http://127.0.0.1:8000/clinic/feedbacks")
-  //     .then((response) => {
-  //       const doctorFeedbacks = response.data.filter(rate => rate.doctor === props.doc_id);
-  //       console.log("Doctor Feedbacks:", doctorFeedbacks);
-        
-  //       console.log(response.data)
-  //       setFeedbacks(response.data)
-  //       console.log(feedbacks)
+  const [currentUserId, setCurrentUserId] = useState(null); 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 
+  useEffect(() => {
+    const fetchAuthData = async () => {
+      const token = localStorage.getItem("access_token");
+      setIsAuthenticated(!!token);
+      if (!token) return;
+      try {
+        const userResponse = await axios.get(
+          "http://127.0.0.1:8000/api/users/me/",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const userId = userResponse.data.id;
+        const patientResponse = await axios.get(
+          "http://127.0.0.1:8000/api/patients/",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const patientData = patientResponse.data.find(
+          (patient) => patient.user === userId
+        );
 
-  //           console.log("Doctor Feedbacks:", doctorFeedbacks);
+        if (patientData) {
+          setCurrentUserId(patientData.id); 
+          console.log("Patient ID:", patientData.id);
+        } else {
+          console.log("No patient found for this user.");
+        }
+      } catch (error) {
+        console.error("Error fetching auth data:", error);
+      }
+    };
 
-          
-  //     })
-  //     .catch(() => setErrors("Error fetching feedback"));
-  // }, []);
+    fetchAuthData();
+  }, [id]);
+
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/api/feedbacks/?doctor_id=${id}`)
-      .then((response) => {
-        // console.log("Fetched feedbacks:", response.data);
-        setFeedbacks(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching feedback:", error);
-        setErrors("Error fetching feedback");
-      });
-  }, [id, feedbacks.length]); 
-
-
-
-
-
-
-
+      .get(`http://127.0.0.1:8000/api/feedbacks/?doctor_id=${id}&ordering=-created_at`)
+      .then((response) => setFeedbacks(response.data))
+      .catch(() => setErrors("Error fetching feedback"));
+  }, [id, setFeedbacks]);
 
   const handleDeleteClick = (id) => {
     setDeleteId(id);
@@ -68,22 +73,25 @@ function FeedbackList(props) {
     if (deleteId) {
       axios.delete(`http://127.0.0.1:8000/api/feedbacks/${deleteId}/`)
         .then(() => {
-          setFeedbacks((prevFeedbacks) => prevFeedbacks.filter(fb => fb.id !== deleteId));
+          setFeedbacks((prevFeedbacks) => {
+            const updatedFeedbacks = prevFeedbacks.filter(fb => fb.id !== deleteId);
+            const totalPages = Math.ceil(updatedFeedbacks.length / feedPerPage);
+            if (currentFeedback > totalPages) {
+              setCurrentFeedback((prevPage) => Math.max(prevPage - 1, 1));
+            }
+            return updatedFeedbacks;
+          });
           setShowModal(false);
         })
         .catch(() => setErrors("Error deleting feedback"));
     }
   };
 
-
-
   const handleEditClick = (feedback) => {
-
     setEditingFeedback(feedback);
     setUpdatedText(feedback.feedback);
     setUpdatedRate(feedback.rate);
   };
-
 
   const handleUpdate = () => {
     if (!updatedText.trim()) {
@@ -91,22 +99,18 @@ function FeedbackList(props) {
       return;
     }
 
-    axios
-      .put(`http://127.0.0.1:8000/api/feedbacks/${editingFeedback.id}/`, {
+    axios.put(`http://127.0.0.1:8000/clinic/feedbacks/${editingFeedback.id}/`, {
         ...editingFeedback,
         feedback: updatedText,
         rate: updatedRate,
       })
       .then((response) => {
-        setFeedbacks((prevFeedbacks) =>
-          prevFeedbacks.map((fb) => (fb.id === editingFeedback.id ? response.data : fb))
-        );
+        setFeedbacks((prev) => prev.map((fb) => (fb.id === editingFeedback.id ? response.data : fb)));
         setEditingFeedback(null);
       })
       .catch(() => setErrors("Error updating feedback"));
   };
 
-  // Pagination logic
   const lastFeedIndex = currentFeedback * feedPerPage;
   const firstFeedIndex = lastFeedIndex - feedPerPage;
   const currentFeed = feedbacks.slice(firstFeedIndex, lastFeedIndex);
@@ -119,9 +123,7 @@ function FeedbackList(props) {
 
   return (
     <div className="container mt-4">
-      <h3 className="mb-3 text-primary">
-        <i className="bi bi-star-half me-1"></i> Patients' Reviews
-      </h3>
+      <h3 className="mb-3 text-primary">Patients' Reviews</h3>
 
       {feedbacks.length > 0 ? (
         currentFeed.map((fb) => (
@@ -137,18 +139,15 @@ function FeedbackList(props) {
               <div>
                 <h6 className="mb-1">{fb.patient_name || "Unknown Patient"}</h6>
                 <p className="mt-2 mb-1">{fb.feedback}</p>
-                <span className="text-warning">
-                  {"⭐".repeat(fb.rate)} <span className="text-muted">({fb.rate}/5)</span>
-                </span>
+                <span className="text-warning">{"⭐".repeat(fb.rate)} <span className="text-dark">({fb.rate}/5)</span></span>
                 <br />
-
-                <button className="btn text-danger" onClick={() => handleDeleteClick(fb.id)}>
-                  Delete
-                </button>
-                <button className="btn text-primary" onClick={() => handleEditClick(fb)}>
-                  Edit
-                </button>
-
+               
+                {currentUserId && fb.patient === currentUserId && (
+                  <>
+                    <button className="btn text-danger" onClick={() => handleDeleteClick(fb.id)}>Delete</button>
+                    <button className="btn text-primary" onClick={() => handleEditClick(fb)}>Edit</button>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -157,27 +156,18 @@ function FeedbackList(props) {
         <p className="text-muted">No feedback available yet.</p>
       )}
 
-
-
-
-
-
-      <div>
-
-
-        {editingFeedback && (
-          <FeedbackModal
-            show={!!editingFeedback}
-            isEditing={!!editingFeedback}
-            onClose={() => setEditingFeedback(null)}
-            text={updatedText}
-            setText={setUpdatedText}
-            rate={updatedRate}
-            setRate={setUpdatedRate}
-            onSave={handleUpdate}
-          />
-        )}
-      </div>
+      {editingFeedback && (
+        <FeedbackModal
+          show={!!editingFeedback}
+          isEditing={!!editingFeedback}
+          onClose={() => setEditingFeedback(null)}
+          text={updatedText}
+          setText={setUpdatedText}
+          rate={updatedRate}
+          setRate={setUpdatedRate}
+          onSave={handleUpdate}
+        />
+      )}
 
       {showModal && (
         <div className="modal fade show d-block" tabIndex="-1">
@@ -199,33 +189,23 @@ function FeedbackList(props) {
         </div>
       )}
 
-
-      <nav className="mt-4">
-        <ul className="pagination justify-content-center flex-wrap">
-          <li className={`page-item ${currentFeedback === 1 ? "disabled" : ""}`}>
-            <button className="page-link" onClick={() => paginate(currentFeedback - 1)}>
-              Previous
-            </button>
-          </li>
-
-          {[...Array(Math.ceil(feedbacks.length / feedPerPage))].map((_, i) => (
-            <li key={i} className={`page-item ${currentFeedback === i + 1 ? "active" : ""}`}>
-              <button className="page-link" onClick={() => paginate(i + 1)}>
-                {i + 1}
-              </button>
+      {feedbacks.length > feedPerPage && (
+        <nav className="mt-4">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${currentFeedback === 1 ? "disabled" : ""}`}>
+              <button className="page-link" onClick={() => paginate(currentFeedback - 1)}>Previous</button>
             </li>
-          ))}
-
-          <li
-            className={`page-item ${currentFeedback === Math.ceil(feedbacks.length / feedPerPage) ? "disabled" : ""
-              }`}
-          >
-            <button className="page-link" onClick={() => paginate(currentFeedback + 1)}>
-              Next
-            </button>
-          </li>
-        </ul>
-      </nav>
+            {[...Array(Math.ceil(feedbacks.length / feedPerPage))].map((_, i) => (
+              <li key={i} className={`page-item ${currentFeedback === i + 1 ? "active" : ""}`}>
+                <button className="page-link" onClick={() => paginate(i + 1)}>{i + 1}</button>
+              </li>
+            ))}
+            <li className={`page-item ${currentFeedback === Math.ceil(feedbacks.length / feedPerPage) ? "disabled" : ""}`}>
+              <button className="page-link" onClick={() => paginate(currentFeedback + 1)}>Next</button>
+            </li>
+          </ul>
+        </nav>
+      )}
 
       {errors && <p className="text-danger">{errors}</p>}
     </div>
@@ -233,7 +213,3 @@ function FeedbackList(props) {
 }
 
 export default FeedbackList;
-
-
-
-
