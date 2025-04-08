@@ -24,7 +24,7 @@ const FeedbackModal = ({ show, isEditing, onClose, text, setText, rate, setRate,
 
             <div className="mb-3">
               <label className="form-label">Your Rate</label>
-              <div className="d-flex">
+              <div className="d-flex ">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
@@ -34,6 +34,7 @@ const FeedbackModal = ({ show, isEditing, onClose, text, setText, rate, setRate,
                       fontSize: "24px",
                       transition: "color 0.3s ease-in-out, transform 0.2s",
                       color: rate >= star ? "#ffcc00" : "#ccc",
+                    
                     }}
                     onMouseEnter={(e) => (e.target.style.transform = "scale(1.3)")}
                     onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}

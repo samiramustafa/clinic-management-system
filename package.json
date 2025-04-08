@@ -2,6 +2,7 @@
   "name": "clinic-system",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://samiramustafa.github.io/clinic-management-system",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@testing-library/jest-dom": "^5.17.0",
@@ -15,6 +16,7 @@
     "cors": "^2.8.5",
     "cra-template": "1.2.0",
     "date-fns": "^4.1.0",
+    "gh-pages": "^6.3.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
@@ -30,8 +32,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

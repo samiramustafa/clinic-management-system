@@ -16,31 +16,49 @@ function DoctorAppointments() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/available-times/")
+      .get(`http://127.0.0.1:8000/api/available-times/?doctor_id=${currentUser}`)
       .then((response) => setAppointments(response.data))
       .catch((error) => console.error("Error fetching appointments:", error));
   }, []);
 
-   //nasser
-   useEffect(() => {
-    const updateAuthState = () => {
-        const token = localStorage.getItem("access_token");
-        setIsAuthenticated(!!token);
-        const storedRole = localStorage.getItem("user_role");
-        setUserRole(storedRole || "");
 
-        if (token) {
-            axios.get("http://127.0.0.1:8000/api/api/users/me/", {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            .then(response => {
-                setUserData(response.data);
-            })
-            .catch(error => console.error("Error fetching user data:", error));
-        }
-    };
+useEffect(() => {
+  const fetchAuthData = async () => {
+    const token = localStorage.getItem("access_token");
+    setIsAuthenticated(!!token);
 
-    updateAuthState();
+    if (!token) return;
+
+    try {
+     
+      const userResponse = await axios.get(
+        "http://127.0.0.1:8000/api/users/me/",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const userId = userResponse.data.id;
+      console.log("User ID:", userId);
+    
+      const doctorResponse = await axios.get(
+        "http://127.0.0.1:8000/api/doctors/",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      
+      const doctorData = doctorResponse.data.find(
+        (doctor) => doctor.user === userId
+      );
+
+      if (doctorData) {
+        setUserData(doctorData);
+      } else {
+        console.log("No patient found for this user.");
+      }
+    } catch (error) {
+      console.error("Error fetching auth data:", error);
+    }
+  };
+
+  fetchAuthData();
 }, []);
 useEffect(() => {
   if (userData) {

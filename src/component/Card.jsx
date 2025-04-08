@@ -20,7 +20,7 @@ function Card(props) {
                             <div className="col-12 col-sm-7 h-100 d-flex flex-column">
                                 <div className="mt-auto p-4">
                                     <h3>DR. <span className="text-capitalize"> {props.name}</span>
-                                         
+
                                     </h3>
 
                                     <h6 className="fw-normal fst-italic  mb-4">
@@ -40,18 +40,16 @@ function Card(props) {
                                     <i className="bi bi-cash text-primary"></i> {props.fees} EGP
                                     </p>
                                     <p className="m-0">
-                                        
+
                                     </p>
 
                                     <div className="mt-auto">
-                       
                                         {props.rate && (
-                                        <p className="text-warning fs-5">
-                                            {"⭐".repeat(props.rate)}{" "}
-                                            <div className="text-muted fs-6">overall rating({props.rate}/5)</div>
-                                        </p>
-                                            )}
-
+                                            <div className="text-warning fs-5">
+                                                {"⭐".repeat(props.rate)}{" "}
+                                                <span className="text-muted fs-6">overall rating({props.rate}/5)</span>
+                                            </div>
+                                        )}
                                     </div>
 
 
@@ -66,15 +64,14 @@ function Card(props) {
                                     <a className="btn btn-lg btn-primary btn-lg-square rounded-circle" href="#">
                                         <i className="fab fa-linkedin-in text-light"></i>
                                     </a>
-                                    <p
-                                        
-
-                                    >
+                                    <div>
                                         <Feedback />
-                                    </p>
-                                   
+                                    </div>
+
+
+
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>

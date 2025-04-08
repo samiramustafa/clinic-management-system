@@ -18,14 +18,14 @@ const Navbar = () => {
             setUserRole(storedRole || "");
 
             if (token) {
-                axios.get("http://127.0.0.1:8000/clinic/api/users/me/", {
+                axios.get("http://127.0.0.1:8000/api/users/me/", {
                     headers: { Authorization: `Bearer ${token}` }
                 })
                 .then(response => {
                     setUserData(response.data);
                     setUserRole(response.data.role);
                     // console.log("User Data:", response.data);
-                    // console.log("User Role:", response.data.role);
+                    console.log("User Role:", response.data.role);
                 })
                     .catch(error => console.error("Error fetching user data:", error));
             }
@@ -102,8 +102,9 @@ const Navbar = () => {
                                 <>
                                     {userRole === "doctor" ? (
                                         <li className="nav-item">
-                                            <NavLink to="/clinic" className="nav-item nav-link">My Appointments</NavLink>
+                                            <NavLink to="/clinic" className="nav-item nav-link">available-Times</NavLink>
                                         </li>
+                                       
                                     ) : userRole === "patient" ? (
                                         <li className="nav-item">
                                             <NavLink to="/patient-appointment" className="nav-item nav-link">My Appointments</NavLink>

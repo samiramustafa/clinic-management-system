@@ -321,7 +321,7 @@ function UserList() {
                 if (err.response.status === 401 || err.response.status === 403) {
                     errorMsg = "Permission denied or session expired.";
                 } else if (err.response.data && err.response.data.detail) {
-                     errorMsg = err.response.data.detail; // عرض رسالة الخطأ من الباك إند
+                    errorMsg = err.response.data.detail; // عرض رسالة الخطأ من الباك إند
                 }
             }
             setError(errorMsg);
@@ -373,14 +373,14 @@ function UserList() {
                     errorMsg = "Permission denied or session expired.";
                 } else if (err.response.data) {
                     // محاولة عرض خطأ التحقق من الباك إند (مثل منع تعطيل الذات)
-                     try {
-                         const errors = err.response.data;
-                         errorMsg = Object.entries(errors).map(([key, value]) =>
+                    try {
+                        const errors = err.response.data;
+                        errorMsg = Object.entries(errors).map(([key, value]) =>
                             `${key}: ${Array.isArray(value) ? value.join(', ') : value}`
-                         ).join('; ');
-                     } catch {
+                        ).join('; ');
+                    } catch {
                         errorMsg = err.response.data.detail || JSON.stringify(err.response.data);
-                     }
+                    }
                 }
             }
             setError(errorMsg);
@@ -412,7 +412,7 @@ function UserList() {
                 {!isLoading && !error && (
                     <div className="table-responsive">
                         <table className="table table-striped table-hover align-middle caption-top"> {/* إضافة caption-top */}
-                             <caption>List of registered users</caption> {/* إضافة عنوان للجدول */}
+                            <caption>List of registered users</caption> {/* إضافة عنوان للجدول */}
                             <thead className="table-light">
                                 <tr>
                                     <th scope="col">ID</th>
@@ -435,16 +435,15 @@ function UserList() {
                                             <td>{user.email || '-'}</td>
                                             <td>{user.phone_number || '-'}</td>
                                             <td>
-                                                <span className={`badge ${
-                                                    user.role === 'admin' ? 'text-bg-danger' : // استخدام text-bg-* في Bootstrap 5
-                                                    user.role === 'doctor' ? 'text-bg-primary' : 'text-bg-secondary'
-                                                }`}>
+                                                <span className={`badge ${user.role === 'admin' ? 'text-bg-danger' : // استخدام text-bg-* في Bootstrap 5
+                                                        user.role === 'doctor' ? 'text-bg-primary' : 'text-bg-secondary'
+                                                    }`}>
                                                     {user.role}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span className={`badge ${user.is_active ? 'text-bg-success' : 'text-bg-secondary'}`}>
-                                                     {user.is_active ? 'Active' : 'Inactive'}
+                                                    {user.is_active ? 'Active' : 'Inactive'}
                                                 </span>
                                             </td>
                                             <td>
@@ -455,8 +454,8 @@ function UserList() {
                                                     className="me-2" // مسافة لليمين
                                                     onClick={() => toggleUserActiveStatus(user)}
                                                     title={user.is_active ? `Deactivate ${user.username}` : `Activate ${user.username}`}
-                                                    // --- (اختياري) تعطيل الزر ---
-                                                    // disabled={user.id === currentUserId || user.is_superuser}
+                                                // --- (اختياري) تعطيل الزر ---
+                                                // disabled={user.id === currentUserId || user.is_superuser}
                                                 >
                                                     {user.is_active ? <ToggleOn /> : <ToggleOff />}
                                                 </Button>
@@ -467,8 +466,8 @@ function UserList() {
                                                     size="sm"
                                                     onClick={() => handleDeleteClick(user)}
                                                     title={`Delete ${user.username}`}
-                                                     // --- (اختياري) تعطيل الزر ---
-                                                    // disabled={user.id === currentUserId || user.is_superuser}
+                                                // --- (اختياري) تعطيل الزر ---
+                                                // disabled={user.id === currentUserId || user.is_superuser}
                                                 >
                                                     <Trash />
                                                 </Button>
@@ -492,19 +491,22 @@ function UserList() {
             {/* مودال تأكيد الحذف */}
             {showDeleteModal && userToDelete && (
                 <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
-                   <Modal.Header closeButton>
-                       <Modal.Title>Confirm User Deletion</Modal.Title>
-                   </Modal.Header>
-                   <Modal.Body>
-                       <p>Are you sure you want to permanently delete the user <strong>{userToDelete.username}</strong> ({userToDelete.full_name || 'N/A'})?</p>
-                       <p className="text-danger fw-bold">This action cannot be undone.</p> {/* تأكيد أقوى */}
-                   </Modal.Body>
-                   <Modal.Footer>
-                       <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                       <Button variant="danger" onClick={confirmDelete}>Delete User</Button>
-                   </Modal.Footer>
-               </Modal>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirm User Deletion</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Are you sure you want to permanently delete the user <strong>{userToDelete.username}</strong> ({userToDelete.full_name || 'N/A'})?</p>
+                        <p className="text-danger fw-bold">This action cannot be undone.</p> {/* تأكيد أقوى */}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                        <Button variant="danger" onClick={confirmDelete}>Delete User</Button>
+                    </Modal.Footer>
+                </Modal>
             )}
+            <div>
+                  <AdminFeedbackManager />
+            </div>
         </div>
     );
 }

@@ -27,10 +27,12 @@ import NotFound from './pages/NotFound.jsx'
 import  ChatBot from './component/ChatBot.js'
 import AdminDashboard from './pages/AdminDashboard';
 import AdminProtectedRoute from './component/AdminProtectedRoute'; 
+import { FeedbackProvider } from './feedback/feedbackcontext.js';
 
 function App() {
   return (
     <div id="root">
+      <FeedbackProvider>
       <BrowserRouter>
         <Navbar />
         <ChatBot/>
@@ -61,6 +63,7 @@ function App() {
         </div>
         <Footer />
       </BrowserRouter>
+      </FeedbackProvider>
     </div>
   );
 }
