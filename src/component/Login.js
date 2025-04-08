@@ -73,8 +73,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "450px", marginTop: "100px", border: "4px solid #FFFFFF", 
-      padding: "20px", borderRadius: "10px", boxShadow: "0 0 10px rgba(182, 179, 179, 0.5)", backgroundColor: "#FFFFFF" }}>
+    <div className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
       <Title titleName="Login" />
       {success && <div className="alert alert-success">{success}</div>}
       {errors.general && <div className="alert alert-danger">{errors.general}</div>}
@@ -106,4 +105,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;

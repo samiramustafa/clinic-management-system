@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import InputField from "../component/Input";
@@ -55,6 +54,7 @@ const Register = () => {
 
   const validate = (field, value) => {
     let error = "";
+    const currentDate = new Date();
     switch (field) {
       case "username":
         if (!value.trim()) error = "Username is required";
@@ -89,7 +89,19 @@ const Register = () => {
         if (formData.role === "patient" && !value) error = "Gender is required";
         break;
       case "date_of_birth":
-        if (formData.role === "patient" && !value) error = "Date of birth is required";
+        if (formData.role === "patient" && !value) {
+          error = "Date of birth is required";
+        } else if (formData.role === "patient" && value) {
+          const birthDate = new Date(value);
+          let age = currentDate.getFullYear() - birthDate.getFullYear();
+          const m = currentDate.getMonth() - birthDate.getMonth();
+          if (m < 0 || (m === 0 && currentDate.getDate() < birthDate.getDate())) {
+            age--;
+          }
+          if (age < 18) {
+            error = "You must be at least 18 years old";
+          }
+        }
         break;
       case "speciality":
         if (formData.role === "doctor" && !value.trim()) error = "Speciality is required";
@@ -142,11 +154,6 @@ const Register = () => {
     });
 
     try {
-            // ... (قبل axios.post)
-      for (let pair of formDataToSend.entries()) {
-        console.log(pair[0]+ ': '+ pair[1]);
-      }
-      // ... (axios.post)
       const response = await axios.post("http://127.0.0.1:8000/api/users/", formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -165,8 +172,7 @@ const Register = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "450px", marginTop: "100px", border: "4px solid #FFFFFF", 
-    padding: "20px", borderRadius: "10px", boxShadow: "0 0 10px rgba(182, 179, 179, 0.5)", backgroundColor: "#FFFFFF" }}>
+    <div className="container" style={{ maxWidth: "400px", marginTop: "100px" }}>
       <Title titleName="Register" />
       {success && <div className="alert alert-success">{success}</div>}
       {errors.general && <div className="alert alert-danger">{errors.general}</div>}
