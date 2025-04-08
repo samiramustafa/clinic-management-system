@@ -1,11 +1,11 @@
-
-
-
-import React, { useContext, useState, useEffect } from "react";
-import AppointmentContext from "../appointment/AppointmentContext";
+import React, { useState, useEffect } from "react";
 
 const DayCard = ({ day, selectedDay, selectedTime, setSelectedDay, setSelectedTime, timeSlots = [], setShowConfirm }) => {
   const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    console.log("DayCard received day:", day);
+  }, [day]);
 
   const isTimeSlotSelected = (startTime, endTime) => {
     return (
@@ -22,18 +22,19 @@ const DayCard = ({ day, selectedDay, selectedTime, setSelectedDay, setSelectedTi
     }
   }, [showAlert]);
 
+  // حساب اسم اليوم من التاريخ إذا لم يكن day.name موجودًا
+  const displayDayName = day?.name || new Date(day?.date).toLocaleDateString("en-US", { weekday: "long" });
+
   return (
-    <div className="card p-2 border text-center shadow-sm bg-light fs-5 fw-bold w-100 mx-auto " style={{ height: "400px" }}>
+    <div className="card p-2 border text-center shadow-sm bg-light fs-5 fw-bold w-100 mx-auto" style={{ height: "400px" }}>
       <h6 className="bg-primary text-white py-2 rounded fs-5 fw-bold">
-        {day?.name} ({day?.date})
+        {displayDayName} ({day?.date})
       </h6>
       <div className="table-responsive mt-5 mb-0 w-100 mx-auto">
         <table className="table table-sm table-bordered">
           <thead>
             <tr className="bg-light text-primary" style={{ height: "50px" }}>
-              <th className="mb-0 fs-5 fw-bold text-capitalize text-center mx-auto" >
-                Start Time
-              </th>
+              <th className="mb-0 fs-5 fw-bold text-capitalize text-center mx-auto">Start Time</th>
               <th style={{ width: "50%" }}>End Time</th>
             </tr>
           </thead>
@@ -47,28 +48,36 @@ const DayCard = ({ day, selectedDay, selectedTime, setSelectedDay, setSelectedTi
 
                 return (
                   <tr key={`${day?.date}-${start_time}-${end_time}-${index}`}>
-                    <td className={cellClass} style={{ cursor: "pointer" }} onClick={() => {
-                      if (selected) {
-                        setSelectedDay(null);
-                        setSelectedTime(null);
-                      } else {
-                        setSelectedDay(day);
-                        setSelectedTime({ start_time, end_time });
-                        setShowConfirm(false);
-                      }
-                    }}>
+                    <td
+                      className={cellClass}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        if (selected) {
+                          setSelectedDay(null);
+                          setSelectedTime(null);
+                        } else {
+                          setSelectedDay(day);
+                          setSelectedTime({ start_time, end_time });
+                          setShowConfirm(false);
+                        }
+                      }}
+                    >
                       {start_time}
                     </td>
-                    <td className={cellClass} style={{ cursor: "pointer" }} onClick={() => {
-                      if (selected) {
-                        setSelectedDay(null);
-                        setSelectedTime(null);
-                      } else {
-                        setSelectedDay(day);
-                        setSelectedTime({ start_time, end_time });
-                        setShowConfirm(false);
-                      }
-                    }}>
+                    <td
+                      className={cellClass}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        if (selected) {
+                          setSelectedDay(null);
+                          setSelectedTime(null);
+                        } else {
+                          setSelectedDay(day);
+                          setSelectedTime({ start_time, end_time });
+                          setShowConfirm(false);
+                        }
+                      }}
+                    >
                       {end_time}
                     </td>
                   </tr>
@@ -91,25 +100,23 @@ const DayCard = ({ day, selectedDay, selectedTime, setSelectedDay, setSelectedTi
             <button type="button" className="btn-close" onClick={() => setShowAlert(false)} aria-label="Close"></button>
           </div>
         )}
-       
-          <button
-            className="btn btn-primary btn-sm w-100 fs-4 fw-bold"
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-            }}
-            onClick={() => {
-              if (selectedDay && selectedTime) {
-                setShowConfirm(true);
-              } else {
-                setShowAlert(true);
-              }
-            }}
-          >
-            Book
-          </button>
-   
+        <button
+          className="btn btn-primary btn-sm w-100 fs-4 fw-bold"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+          }}
+          onClick={() => {
+            if (selectedDay && selectedTime) {
+              setShowConfirm(true);
+            } else {
+              setShowAlert(true);
+            }
+          }}
+        >
+          Book
+        </button>
       </div>
     </div>
   );

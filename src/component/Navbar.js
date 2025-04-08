@@ -8,7 +8,7 @@ const Navbar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState("");
     const [userData, setUserData] = useState(null);
-    const [currentUser,setCurent]=useState(null);
+    const [currentUser, setCurent] = useState(null);
 
     useEffect(() => {
         const updateAuthState = () => {
@@ -21,12 +21,12 @@ const Navbar = () => {
                 axios.get("http://127.0.0.1:8000/api/users/me/", {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-                .then(response => {
-                    setUserData(response.data);
-                    setUserRole(response.data.role);
-                    // console.log("User Data:", response.data);
-                    console.log("User Role:", response.data.role);
-                })
+                    .then(response => {
+                        setUserData(response.data);
+                        setUserRole(response.data.role);
+                        // console.log("User Data:", response.data);
+                        console.log("User Role:", response.data.role);
+                    })
                     .catch(error => console.error("Error fetching user data:", error));
             }
         };
@@ -45,7 +45,7 @@ const Navbar = () => {
         setIsAuthenticated(false);
         setUserRole("");
         setUserData(null);
-        window.dispatchEvent(new Event("authChange")); 
+        window.dispatchEvent(new Event("authChange"));
         history.push("/");
 
     };
@@ -75,10 +75,10 @@ const Navbar = () => {
                                 <NavLink to="/ListDoctors" className="nav-item nav-link" activeClassName="active">Doctors</NavLink>
                             </li>
                             <li className="nav-item" style={{ marginTop: '15px' }}>
-                                    <NavLink
-                                        to="/admin/login"
-                                        className="nav-link"
-                                        style={({ isActive }) => ({
+                                <NavLink
+                                    to="/admin/login"
+                                    className="nav-link"
+                                    style={({ isActive }) => ({
                                         backgroundColor: isActive ? '#000' : '#333',
                                         color: '#fff',
                                         padding: '10px 20px',
@@ -86,12 +86,12 @@ const Navbar = () => {
                                         fontWeight: 'bold',
                                         textDecoration: 'none',
                                         transition: '0.3s',
-                                        margintop:'15px',
+                                        margintop: '15px',
                                         boxShadow: isActive ? '0 4px 10px rgba(0,0,0,0.3)' : '',
-                                        })}
-                                    >
-                                        Admin
-                                    </NavLink>
+                                    })}
+                                >
+                                    Admin
+                                </NavLink>
                             </li>
 
 
@@ -101,10 +101,19 @@ const Navbar = () => {
                             {isAuthenticated ? (
                                 <>
                                     {userRole === "doctor" ? (
-                                        <li className="nav-item">
-                                            <NavLink to="/clinic" className="nav-item nav-link">available-Times</NavLink>
-                                        </li>
-                                       
+                                        <>
+                                            <li className="nav-item">
+                                                <NavLink to="/clinic" className="nav-item nav-link">
+                                                    Available Times
+                                                </NavLink>
+                                            </li>
+                                            <li className="nav-item">
+                                                <NavLink to="/doctor-appointment" className="nav-item nav-link">
+                                                    My Appointments
+                                                </NavLink>
+                                            </li>
+                                        </>
+
                                     ) : userRole === "patient" ? (
                                         <li className="nav-item">
                                             <NavLink to="/patient-appointment" className="nav-item nav-link">My Appointments</NavLink>
