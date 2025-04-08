@@ -504,9 +504,9 @@ function UserList() {
                     </Modal.Footer>
                 </Modal>
             )}
-            <div>
+            {/* <div>
                   <AdminFeedbackManager />
-            </div>
+            </div> */}
         </div>
     );
 }
