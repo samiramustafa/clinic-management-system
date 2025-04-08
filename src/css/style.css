@@ -25,10 +25,12 @@ html, body {
     --secondary: #354F8E;
     --light: #EFF5F9;
     --dark: #1D2A4D;
+    --dark-cyan: #0a6e74; /* Dark cyan for dark mode */
+    --light-cyan: #13C5DD; /* Light cyan for light mode */
 }
-.Clinic{
-    color:#13C5DD;
 
+.Clinic {
+    color: var(--primary);
 }
 
 .nav-item .nav-link.active {
@@ -46,8 +48,9 @@ html, body {
     -moz-box-shadow: 0 8px 6px -6px #555555;
     box-shadow: 0 8px 6px -6px #555555;
 }
-.footer{
-    background-color: #1D2A4D;
+
+.footer {
+    background-color: var(--dark);
 }
 
 .btn-primary {
@@ -86,6 +89,7 @@ html, body {
     z-index: 99;
 }
 
+/* Revert Navbar styles to original state */
 .navbar-light .navbar-nav .nav-link {
     font-family: 'Jost', sans-serif;
     position: relative;
@@ -125,7 +129,7 @@ html, body {
 @media (max-width: 991.98px) {
     .navbar-light .navbar-nav .nav-link  {
         margin-left: 0;
-        padding: 10px 0;
+        padding: 10px auto;
     }
 }
 
@@ -277,21 +281,6 @@ html, body {
     width: 150px;
     height: 150px;
 }
-
-
-/* body {
-    font-family: 'Arial', sans-serif;
-    background-color: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  } */
-  
-
- 
 
  .container1 {
     text-align: center;
@@ -536,6 +525,13 @@ html, body {
   }
 
 
-
+  h1.display-4 {
+    color: var(--text-color-light); /* Light mode uses black */
+    transition: color 0.3s ease;    /* Smooth color transition */
+  }
+  
+  body.dark-mode h1.display-4 {
+    color: var(--text-color-dark); /* Dark mode uses white */
+  }
 
 

@@ -22,7 +22,7 @@ function About() {
                             <h5 className="d-inline-block text-info fw-bold text-uppercase border-bottom border-5">About Us</h5>
                             <h1 className="display-4 fw-bold">Best Medical Care For Yourself and Your Family</h1>
                         </div>
-                        <p>Tempor erat elitr at rebum at at clita aliquyam consetetur. Diam dolor diam ipsum et, tempor voluptua sit consetetur sit. Aliquyam diam amet diam et eos sadipscing labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor consetetur takimata eirmod, dolores takimata consetetur invidunt magna dolores aliquyam dolores dolore. Amet erat amet et magna</p>
+                        <p> Our clinic blends compassion with innovation, offering care powered by cutting-edge technology. From seamless appointments to personalized treatments, we redefine your health journey with precision and empathy. Together, we forge a future where wellness thrives, supported by human touch and digital excellence.</p>
                         <div className="row g-3 pt-3">
                             <div className="col-sm-3 col-6">
                                 <div className="bg-body-secondary text-center rounded-circle py-4">
