@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { useState, useEffect } from "react";
 // import axios from "axios";
 // import InputField from "../component/Input";
@@ -359,6 +360,8 @@
 
 // export default Register;
 //omar
+=======
+>>>>>>> 3940259b494ce1fcd2c9e46a859e2b7d1222e756
 import { useState, useEffect } from "react";
 import axios from "axios";
 import InputField from "../component/Input";

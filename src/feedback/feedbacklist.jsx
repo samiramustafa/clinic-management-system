@@ -99,7 +99,7 @@ function FeedbackList() {
       return;
     }
 
-    axios.put(`http://127.0.0.1:8000/clinic/feedbacks/${editingFeedback.id}/`, {
+    axios.put(`http://127.0.0.1:8000/api/feedbacks/${editingFeedback.id}/`, {
         ...editingFeedback,
         feedback: updatedText,
         rate: updatedRate,
