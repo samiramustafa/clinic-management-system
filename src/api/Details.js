@@ -138,7 +138,7 @@ function Details() {
                 description={doctor.description || "No description available."}
                 city={doctor.city || "-"}             // <-- من doctor.city
                 area={doctor.area || "-"}             // <-- من doctor.area
-                fees={doctor.fees ? `${doctor.fees} EGP` : "N/A"} // <-- إضافة العملة هنا أو داخل Card
+                fees={doctor.fees ? `${doctor.fees} EGP` : "200"} // <-- إضافة العملة هنا أو داخل Card
                 rate={doctor.average_rating != null && doctor.average_rating > 0 ? doctor.average_rating : null}
                 // يمكنك تمرير id الطبيب إذا كان Card يحتاجه داخليًا
                 // doctorId={doctor.id}
