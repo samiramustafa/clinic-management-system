@@ -3,18 +3,20 @@ import "../css/style.css";
 
 function Footer() {
     const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!email) {
-            alert("Please enter a valid email address!");
+            setMessage("Please enter a valid email address!");
             return;
         }
 
-        // Show alert
-        alert("Welcome to our clinic!");
+        // Simulate successful subscription on the frontend
+        setMessage("Thank you for subscribing! You will receive a greeting message shortly.");
+        console.log(`Simulating sending greeting email to: ${email}`);
 
-        // Send email to backend
+        // Optionally, still send the email to the backend for logging or other purposes
         try {
             const response = await fetch("http://127.0.0.1:8000/clinic/send-email/", {
                 method: "POST",
@@ -22,13 +24,16 @@ function Footer() {
                 body: JSON.stringify({ email }),
             });
             if (response.ok) {
-                console.log("Greeting email sent successfully!");
+                console.log("Email address sent to backend for potential logging.");
             } else {
-                console.error("Failed to send email.");
+                console.error("Failed to send email address to backend.");
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error sending email address to backend:", error);
         }
+
+        // Clear the input field after "submission"
+        setEmail("");
     };
 
     return (
@@ -38,7 +43,7 @@ function Footer() {
                     <div className="row g-5">
                         <div className="col-lg-3 col-md-6">
                             <h4 className="d-inline-block Clinic text-uppercase border-bottom border-5 border-secondary mb-4">Get In Touch</h4>
-                            <p className="mb-4">No dolore ipsum accusam no lorem. Invidunt sed clita kasd clita et et dolor sed dolor</p>
+                            <p className="mb-4">Clinic services provide comprehensive care to ensure the well-being of patients. Our team of dedicated professionals is committed to delivering high-quality medical assistance, tailored to meet the unique needs of each individual. </p>
                             <p className="mb-2"><i className="fa fa-map-marker-alt text-primary me-3 text-info"></i>123 Mohandssen St , Cairo, Egypt</p>
                             <p className="mb-2"><i className="fa fa-envelope text-primary me-3 text-info"></i>info@example.com</p>
                             <p className="mb-0 "><i className="fa fa-phone-alt text-primary me-3 text-info"></i>+012 345 67890</p>
@@ -79,6 +84,7 @@ function Footer() {
                                     <button type="submit" className="btn btn-info text-light">Sign Up</button>
                                 </div>
                             </form>
+                            {message && <p className="mt-2 text-warning">{message}</p>}
                             <h6 className="Clinic text-uppercase mt-4 mb-3">Follow Us</h6>
                             <div className="d-flex">
                                 <a className="btn btn-lg btn-info btn-lg-square rounded-circle me-2" href="#"><i className="bi bi-twitter text-light"></i></a>
