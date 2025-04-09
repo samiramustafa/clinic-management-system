@@ -1,6 +1,4 @@
 
-<<<<<<< HEAD
-=======
 // import React, { useEffect, useState } from "react";
 // import axios from "axios"; 
 // import Title from "../component/Title"; 
@@ -376,7 +374,6 @@
 // };
 
 // export default DoctorProfile;
->>>>>>> pay
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Title from "../component/Title";
