@@ -307,8 +307,6 @@ function Appoint() {
         </div>
       )}
 
-     клату
-
       {showToast && <div className="alert alert-success">Appointment Booked Successfully!</div>}
     </div>
   );

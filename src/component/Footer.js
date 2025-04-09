@@ -38,7 +38,7 @@ function Footer() {
                     <div className="row g-5">
                         <div className="col-lg-3 col-md-6">
                             <h4 className="d-inline-block Clinic text-uppercase border-bottom border-5 border-secondary mb-4">Get In Touch</h4>
-                            <p className="mb-4">No dolore ipsum accusam no lorem. Invidunt sed clita kasd clita et et dolor sed dolor</p>
+                            <p className="mb-4">Clinic services provide comprehensive care to ensure the well-being of patients. Our team of dedicated professionals is committed to delivering high-quality medical assistance, tailored to meet the unique needs of each individual.</p>
                             <p className="mb-2"><i className="fa fa-map-marker-alt text-primary me-3 text-info"></i>123 Mohandssen St , Cairo, Egypt</p>
                             <p className="mb-2"><i className="fa fa-envelope text-primary me-3 text-info"></i>info@example.com</p>
                             <p className="mb-0 "><i className="fa fa-phone-alt text-primary me-3 text-info"></i>+012 345 67890</p>

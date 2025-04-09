@@ -75,7 +75,7 @@ const Navbar = () => {
             <div className="container">
                 <nav className="navbar navbar-expand-lg mx navbar-light py-3 py-lg-0">
                     <NavLink to="/" className="navbar-brand">
-                        <h1 className={`m-0 text-uppercase Clinic fw-bold ${isDarkMode ? "text-white" : "text-dark"}`}>
+                        <h1 className={`m-0 text-uppercase Clinic fw-bold ${isDarkMode ? "text-white" : "text-primary"}`}>
                             <i className="fa fa-clinic-medical me-2"></i>Clinic tech
                         </h1>
                     </NavLink>
@@ -159,11 +159,11 @@ const Navbar = () => {
                                                 </li>
                                                 <li className="nav-item">
                                                     <NavLink
-                                                        to="/doctor-appointment"
+                                                        to="/appointmentstatus"
                                                         className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
                                                         onClick={handleMenuClose}
                                                     >
-                                                        My Appointments
+                                                        Appointments
                                                     </NavLink>
                                                 </li>
                                             </>
@@ -174,7 +174,7 @@ const Navbar = () => {
                                                     className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
                                                     onClick={handleMenuClose}
                                                 >
-                                                    My Appointments
+                                                     Appointments
                                                 </NavLink>
                                             </li>
                                         ) : null
@@ -219,13 +219,14 @@ const Navbar = () => {
                                     </li>
                                 </>
                             )}
+                        
                         </ul>
                         {/* Theme toggle button */}
                         <button
-                            className={`btn btn-outline-secondary ms-2 ${isDarkMode ? "btn-light" : "btn-dark"}`}
+                            className={`btn btn-outline-secondary ms-4 ${isDarkMode ? "btn-light" : "btn-dark"}`}
                             onClick={toggleTheme}
                         >
-                            {isDarkMode ? "Light Mode" : "Dark Mode"}
+                            {isDarkMode ? <i class="bi bi-brightness-high"></i>: <i class="bi bi-moon-stars"></i>}
                         </button>
                     </div>
                 </nav>

@@ -26,7 +26,7 @@ function Mycard(props) {
                     )}
                     {props.fees && (
                         <p className="card-text fs-4">
-                            <i className="bi bi-prescription2 text-primary"></i> {props.fees} EGP</p>
+                            <i className="bi bi-cash text-primary"></i> {props.fees} EGP</p>
                     )}
                     {(props.area && props.city) && (
                         <p className="card-text fs-4"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}</p>

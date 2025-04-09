@@ -128,7 +128,7 @@ function DoctorAppointments() {
       setStartTime("");
       setEndTime("");
     } catch (error) {
-      setAlert({ message: "Error adding appointment", type: "success" });
+      setAlert({ message: "Error adding appointment", type: "danger" });
       console.error("Error:", error.response?.data || error);
     }
   };
