@@ -22,28 +22,16 @@ function Mycard(props) {
 
                     {props.Specialist && (
                         <p className="card-text fs-4">
-                            <i className="bi bi-prescription2 text-primary"></i> 
-                             {props.Specialist}</p>
+                            <i className="bi bi-prescription2 text-primary"></i> {props.Specialist}</p>
                     )}
                     {props.fees && (
                         <p className="card-text fs-4">
-                            <i className="bi bi-prescription2 text-primary"></i> 
-                             {props.fees}EGP</p>
+                            <i className="bi bi-prescription2 text-primary"></i> {props.fees} EGP</p>
                     )}
                     {(props.area && props.city) && (
                         <p className="card-text fs-4"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}</p>
                     )}
                     
-                    {props.isAvailable && (
-                        <p className="card-text text-success">
-                            <i className="bi bi-record-circle-fill"></i> <b>Available</b>
-                        </p>
-                    )}
-                    {/* {props.description && (
-                        <p className="card-text fs-4">
-                            <i className="bi bi-prescription2 text-primary"></i> 
-                             {props.description}</p>
-                    )} */}
 
                     <div className="mt-auto">
                         {props.rate && (

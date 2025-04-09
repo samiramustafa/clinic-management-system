@@ -8,8 +8,10 @@ const Navbar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState("");
     const [userData, setUserData] = useState(null);
-    const [currentUser,setCurent]=useState(null);
+    const [isDarkMode, setIsDarkMode] = useState(false); // State for theme toggle
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // State for menu toggle
 
+    // Authentication state and user data management
     useEffect(() => {
         const updateAuthState = () => {
             const token = localStorage.getItem("access_token");
@@ -21,113 +23,210 @@ const Navbar = () => {
                 axios.get("http://127.0.0.1:8000/api/users/me/", {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-                .then(response => {
-                    setUserData(response.data);
-                    setUserRole(response.data.role);
-                    // console.log("User Data:", response.data);
-                    console.log("User Role:", response.data.role);
-                })
+                    .then(response => {
+                        setUserData(response.data);
+                        setUserRole(response.data.role);
+                        // console.log("User Data:", response.data);
+                        console.log("User Role:", response.data.role);
+                    })
                     .catch(error => console.error("Error fetching user data:", error));
             }
         };
 
-        updateAuthState(); // ✅ تحديث الحالة عند تحميل الصفحة
-        window.addEventListener("authChange", updateAuthState); // ✅ استماع لتحديث الحالة فورًا
+        updateAuthState();
+        window.addEventListener("authChange", updateAuthState);
 
         return () => {
             window.removeEventListener("authChange", updateAuthState);
         };
     }, []);
+
     const history = useHistory();
+
     const handleLogout = () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("user_role");
         setIsAuthenticated(false);
         setUserRole("");
         setUserData(null);
-        window.dispatchEvent(new Event("authChange")); 
+        window.dispatchEvent(new Event("authChange"));
+        setIsMenuOpen(false); // Close the menu
         history.push("/");
+    };
 
+    // Toggle theme (dark/light mode)
+    const toggleTheme = () => {
+        setIsDarkMode(!isDarkMode);
+        document.body.className = isDarkMode ? "" : "dark-mode"; // Apply class globally
+    };
+
+    // Toggle menu (open/close)
+    const toggleMenu = () => {
+        setIsMenuOpen((prevState) => !prevState); // Toggle menu visibility
+    };
+
+    // Close menu when navigating
+    const handleMenuClose = () => {
+        setIsMenuOpen(false);
     };
 
     return (
-
-        <div className="container-fluid sticky-top bg-white shadow-sm">
+        <div className={`container-fluid sticky-top ${isDarkMode ? "bg-dark text-white" : "bg-white shadow-sm"}`}>
             <div className="container">
-                <nav className="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
+                <nav className="navbar navbar-expand-lg mx navbar-light py-3 py-lg-0">
                     <NavLink to="/" className="navbar-brand">
-                        <h1 className="m-0 text-uppercase Clinic fw-bold">
+                        <h1 className={`m-0 text-uppercase Clinic fw-bold ${isDarkMode ? "text-white" : "text-dark"}`}>
                             <i className="fa fa-clinic-medical me-2"></i>Clinic tech
                         </h1>
                     </NavLink>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        onClick={toggleMenu}
+                        aria-expanded={isMenuOpen}
+                        aria-controls="navbarNav"
+                        aria-haspopup="true"
+                        aria-label="Toggle navigation"
+                    >
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarCollapse">
+                    <div className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`} id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <NavLink exact to="/" className="nav-item nav-link" activeClassName="active">Home</NavLink>
+                                <NavLink
+                                    exact
+                                    to="/"
+                                    className={`nav-item nav-link ${isDarkMode ? "text-white" : ""}`}
+                                    activeClassName="active"
+                                    onClick={handleMenuClose}
+                                >
+                                    Home
+                                </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/about" className="nav-item nav-link" activeClassName="active">About</NavLink>
+                                <NavLink
+                                    to="/about"
+                                    className={`nav-item nav-link ${isDarkMode ? "text-white" : ""}`}
+                                    activeClassName="active"
+                                    onClick={handleMenuClose}
+                                >
+                                    About
+                                </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/ListDoctors" className="nav-item nav-link" activeClassName="active">Doctors</NavLink>
+                                <NavLink
+                                    to="/list-doctors"
+                                    className={`nav-item nav-link ${isDarkMode ? "text-white" : ""}`}
+                                    activeClassName="active"
+                                    onClick={handleMenuClose}
+                                >
+                                    Doctors
+                                </NavLink>
                             </li>
+                            {/* Admin Link */}
                             <li className="nav-item" style={{ marginTop: '15px' }}>
-                                    <NavLink
-                                        to="/admin/login"
-                                        className="nav-link"
-                                        style={({ isActive }) => ({
+                                <NavLink
+                                    to="/admin/login"
+                                    className="nav-link"
+                                    style={({ isActive }) => ({
                                         backgroundColor: isActive ? '#000' : '#333',
                                         color: '#fff',
-                                        padding: '10px 20px',
+                                        padding: '5px 20px',
                                         borderRadius: '30px',
                                         fontWeight: 'bold',
                                         textDecoration: 'none',
                                         transition: '0.3s',
-                                        margintop:'15px',
+                                        margintop: '15px',
                                         boxShadow: isActive ? '0 4px 10px rgba(0,0,0,0.3)' : '',
-                                        })}
-                                    >
-                                        Admin
-                                    </NavLink>
+                                    })}
+                                >
+                                    Admin
+                                </NavLink>
                             </li>
-
-
-
-
-
                             {isAuthenticated ? (
                                 <>
-                                    {userRole === "doctor" ? (
-                                        <li className="nav-item">
-                                            <NavLink to="/clinic" className="nav-item nav-link">available-Times</NavLink>
-                                        </li>
-                                       
-                                    ) : userRole === "patient" ? (
-                                        <li className="nav-item">
-                                            <NavLink to="/patient-appointment" className="nav-item nav-link">My Appointments</NavLink>
-                                        </li>
-                                    ) : null}
+                                    {
+                                        userRole === "doctor" ? (
+                                            <>
+                                                <li className="nav-item">
+                                                    <NavLink
+                                                        to="/clinic"
+                                                        className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+                                                        onClick={handleMenuClose}
+                                                    >
+                                                        Available Times
+                                                    </NavLink>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <NavLink
+                                                        to="/doctor-appointment"
+                                                        className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+                                                        onClick={handleMenuClose}
+                                                    >
+                                                        My Appointments
+                                                    </NavLink>
+                                                </li>
+                                            </>
+                                        ) : userRole === "patient" ? (
+                                            <li className="nav-item">
+                                                <NavLink
+                                                    to="/patient-appointment"
+                                                    className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+                                                    onClick={handleMenuClose}
+                                                >
+                                                    My Appointments
+                                                </NavLink>
+                                            </li>
+                                        ) : null
+                                    }
                                     <li className="nav-item">
-                                        <Link className="nav-link mr-2" to="/DoctorProfile">Profile</Link>
+                                        <Link
+                                            className={`nav-link ${isDarkMode ? "text-white" : ""}`}
+                                            to="/doctor-profile"
+                                            onClick={handleMenuClose}
+                                        >
+                                            Profile
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <button className="nav-link text-danger" onClick={handleLogout}>Logout</button>
+                                        <button
+                                            className="nav-link text-danger"
+                                            onClick={handleLogout}
+                                        >
+                                            Logout
+                                        </button>
                                     </li>
                                 </>
                             ) : (
                                 <>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/login">Login</Link>
+                                        <Link
+                                            className={`nav-link ${isDarkMode ? "text-white" : ""}`}
+                                            to="/login"
+                                            onClick={handleMenuClose}
+                                        >
+                                            Login
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/register">Register</Link>
+                                        <Link
+                                            className={`nav-link ${isDarkMode ? "text-white" : ""}`}
+                                            to="/register"
+                                            onClick={handleMenuClose}
+                                        >
+                                            Register
+                                        </Link>
                                     </li>
                                 </>
                             )}
                         </ul>
+                        {/* Theme toggle button */}
+                        <button
+                            className={`btn btn-outline-secondary ms-2 ${isDarkMode ? "btn-light" : "btn-dark"}`}
+                            onClick={toggleTheme}
+                        >
+                            {isDarkMode ? "Light Mode" : "Dark Mode"}
+                        </button>
                     </div>
                 </nav>
             </div>
@@ -136,3 +235,236 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+// import React, { useState, useEffect } from "react";
+// import { Link, NavLink, useHistory } from "react-router-dom";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import axios from "axios";
+
+// const Navbar = () => {
+//   const [isAuthenticated, setIsAuthenticated] = useState(false);
+//   const [userRole, setUserRole] = useState("");
+//   const [userData, setUserData] = useState(null);
+//   const [isDarkMode, setIsDarkMode] = useState(false);
+//   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+//   const history = useHistory();
+
+//   useEffect(() => {
+//     const updateAuthState = () => {
+//       const token = localStorage.getItem("access_token");
+//       setIsAuthenticated(!!token);
+//       const storedRole = localStorage.getItem("user_role");
+//       setUserRole(storedRole || "");
+
+//       if (token) {
+//         axios
+//           .get("http://127.0.0.1:8000/api/users/me/", {
+//             headers: { Authorization: `Bearer ${token}` },
+//           })
+//           .then((response) => {
+//             setUserData(response.data);
+//             setUserRole(response.data.role || storedRole || "");
+//             console.log("User Role:", response.data.role);
+//           })
+//           .catch((error) => {
+//             console.error("Error fetching user data:", error);
+//             if (error.response?.status === 401) {
+//               handleLogout();
+//             }
+//           });
+//       }
+//     };
+
+//     updateAuthState();
+//     window.addEventListener("authChange", updateAuthState);
+
+//     return () => {
+//       window.removeEventListener("authChange", updateAuthState);
+//     };
+//   }, []);
+
+//   const handleLogout = () => {
+//     localStorage.removeItem("access_token");
+//     localStorage.removeItem("user_role");
+//     setIsAuthenticated(false);
+//     setUserRole("");
+//     setUserData(null);
+//     window.dispatchEvent(new Event("authChange"));
+//     setIsMenuOpen(false);
+//     history.push("/");
+//   };
+
+//   const toggleTheme = () => {
+//     setIsDarkMode(!isDarkMode);
+//     document.body.className = isDarkMode ? "" : "dark-mode";
+//   };
+
+//   const toggleMenu = () => {
+//     setIsMenuOpen((prevState) => !prevState);
+//   };
+
+//   const handleMenuClose = () => {
+//     setIsMenuOpen(false);
+//   };
+
+//   const handleAdminClick = () => {
+//     history.push("/admin/login");
+//     handleMenuClose();
+//   };
+
+//   return (
+//     <div className={`container-fluid sticky-top ${isDarkMode ? "bg-dark text-white" : "bg-white shadow-sm"}`}>
+//       <div className="container">
+//         <nav className="navbar navbar-expand-lg navbar-light py-3 py-lg-0">
+//           <NavLink to="/" className="navbar-brand" onClick={handleMenuClose}>
+//             <h1 className={`m-0 text-uppercase fw-bold ${isDarkMode ? "text-white" : "text-dark"}`}>
+//               <i className="fa fa-clinic-medical me-2"></i>Clinic tech
+//             </h1>
+//           </NavLink>
+//           <button
+//             className="navbar-toggler"
+//             type="button"
+//             onClick={toggleMenu}
+//             aria-expanded={isMenuOpen}
+//             aria-controls="navbarNav"
+//             aria-label="Toggle navigation"
+//           >
+//             <span className="navbar-toggler-icon"></span>
+//           </button>
+//           <div className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`} id="navbarNav">
+//             <div className="d-flex align-items-center w-100">
+//               {/* Navigation Links */}
+//               <ul className="navbar-nav flex-row flex-grow-1">
+//                 <li className="nav-item">
+//                   <NavLink
+//                     exact
+//                     to="/"
+//                     className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                     activeClassName="active"
+//                     onClick={handleMenuClose}
+//                   >
+//                     Home
+//                   </NavLink>
+//                 </li>
+//                 <li className="nav-item">
+//                   <NavLink
+//                     to="/about"
+//                     className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                     activeClassName="active"
+//                     onClick={handleMenuClose}
+//                   >
+//                     About
+//                   </NavLink>
+//                 </li>
+//                 <li className="nav-item">
+//                   <NavLink
+//                     to="/list-doctors"
+//                     className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                     activeClassName="active"
+//                     onClick={handleMenuClose}
+//                   >
+//                     Doctors
+//                   </NavLink>
+//                 </li>
+//                 {isAuthenticated ? (
+//                   <>
+//                     {userRole === "doctor" && (
+//                       <>
+//                         <li className="nav-item">
+//                           <NavLink
+//                             to="/clinic"
+//                             className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                             onClick={handleMenuClose}
+//                           >
+//                             Available Times
+//                           </NavLink>
+//                         </li>
+//                         <li className="nav-item">
+//                           <NavLink
+//                             to="/doctor-appointment"
+//                             className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                             onClick={handleMenuClose}
+//                           >
+//                             My Appointments
+//                           </NavLink>
+//                         </li>
+//                       </>
+//                     )}
+//                     {userRole === "patient" && (
+//                       <li className="nav-item">
+//                         <NavLink
+//                           to="/patient-appointment"
+//                           className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                           onClick={handleMenuClose}
+//                         >
+//                           My Appointments
+//                         </NavLink>
+//                       </li>
+//                     )}
+//                     <li className="nav-item">
+//                       <Link
+//                         className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                         to="/doctor-profile"
+//                         onClick={handleMenuClose}
+//                       >
+//                         Profile
+//                       </Link>
+//                     </li>
+//                     <li className="nav-item">
+//                       <button
+//                         className="nav-link text-danger btn btn-link"
+//                         onClick={handleLogout}
+//                       >
+//                         Logout
+//                       </button>
+//                     </li>
+//                   </>
+//                 ) : (
+//                   <>
+//                     <li className="nav-item">
+//                       <Link
+//                         className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                         to="/login"
+//                         onClick={handleMenuClose}
+//                       >
+//                         Login
+//                       </Link>
+//                     </li>
+//                     <li className="nav-item">
+//                       <Link
+//                         className={`nav-link ${isDarkMode ? "text-white" : "text-dark"}`}
+//                         to="/register"
+//                         onClick={handleMenuClose}
+//                       >
+//                         Register
+//                       </Link>
+//                     </li>
+//                   </>
+//                 )}
+//               </ul>
+//               {/* Admin and Dark Mode Buttons (stacked vertically) */}
+//               <div className="d-flex flex-column ms-2">
+//                 <button
+//                   className={`btn btn-outline-secondary mb-2 ${isDarkMode ? "btn-light" : "btn-dark"} text-light`}
+//                   onClick={handleAdminClick}
+//                 >
+//                   Admin
+//                 </button>
+//                 <button
+//                   className={`btn btn-outline-secondary ${isDarkMode ? "btn-light" : "btn-dark"} text-light`}
+//                   onClick={toggleTheme}
+//                 >
+//                   {isDarkMode ? "Light Mode" : "Dark Mode"}
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         </nav>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Navbar;
