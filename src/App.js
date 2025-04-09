@@ -60,6 +60,7 @@ function App() {
               </AdminProtectedRoute>
               <Route path="*" component={NotFound} />
             </Switch>
+              {/* abdelrjman 2:40 */}
           </div>
           <ChatBot />
           <Footer />
