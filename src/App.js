@@ -33,7 +33,7 @@ function App() {
         <ChatBot/>
         <div>
         <Switch>
-          <Route path="/clinic-management-system" component={Hero} exact />
+          <Route path="/" component={Hero} exact />
           <Route path="/about" component={About} exact />
           <Route path="/apoint" component={Appoint} exact />
           <Route path="/Register" component={Register} exact />
