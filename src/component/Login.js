@@ -18,8 +18,8 @@ const Login = () => {
     if (field === "username") {
       if (!value.trim()) {
         error = "Username is required and cannot be just spaces";
-      } else if (value.length <= 3) {
-        error = "Username must be more than 3 characters";
+      } else if (value.length < 3) {
+        error = "Username must be  3 characters at least";
       }
     }
     if (field === "password") {

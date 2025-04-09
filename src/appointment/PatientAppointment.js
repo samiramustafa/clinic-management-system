@@ -9,12 +9,58 @@ function Appointments() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const appointmentsPerPage = 4;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
 
   useEffect(() => {
+    const fetchAuthData = async () => {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        setIsAuthenticated(false);
+        return;
+      }
+
+      try {
+        setIsAuthenticated(true);
+
+        const userResponse = await axios.get(
+          "http://127.0.0.1:8000/api/users/me/",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const userId = userResponse.data.id;
+
+        const patientResponse = await axios.get(
+          "http://127.0.0.1:8000/api/patients/",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        const patientData = patientResponse.data.find(
+          (patient) => patient.user === userId
+        );
+
+        if (patientData) {
+          // setUserData(patientData);
+          setCurrentUser(patientData.id); // Set currentUser here
+          console.log("Patient ID:", patientData.id);
+        } else {
+          console.log("No doctor found for this user.");
+        }
+      } catch (error) {
+        console.error("Error fetching auth data:", error);
+      }
+    };
+
+    fetchAuthData();
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) {
     axios
-      .get("http://127.0.0.1:8000/api/appointments/")
+      .get(`http://127.0.0.1:8000/api/appointments/?patient_id=${currentUser}`)
       .then((response) => {
-        setBookedAppointments(response.data);
+        const appointments = response.data
+        setBookedAppointments(appointments);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -23,7 +69,9 @@ function Appointments() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+    }
+  }, [currentUser]);
+
 
   const handleCancel = async () => {
     if (!selectedAppointment) return;

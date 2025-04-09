@@ -32,6 +32,8 @@ import ChatBot from './component/ChatBot.js';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminProtectedRoute from './component/AdminProtectedRoute';
 import { FeedbackProvider } from './feedback/feedbackcontext.js';
+import AppointmentStatus  from './appointment/AppointmentStatus.js'
+
 
 function App() {
   return (
@@ -54,14 +56,18 @@ function App() {
               <Route path="/details/:id/feedback/:feedbackId" component={FeedbackList} exact />
               <Route path="/feedbacklist" component={FeedbackList} exact />
               <Route path="/clinic" component={DoctorAppointments} exact />
+               <Route path="/appointmentstatus" component={AppointmentStatus} exact />
+
+
               <Route path="/admin/login" component={AdminLogin} exact />
               <AdminProtectedRoute path="/admin/dashboard">
                 <AdminDashboard />
               </AdminProtectedRoute>
               <Route path="*" component={NotFound} />
             </Switch>
+              {/* abdelrjman 2:40 */}
           </div>
-          <ChatBot />
+          {/* <ChatBot /> */}
           <Footer />
           {/* Scroll-To-Top Button */}
           <ScrollToTopButton />

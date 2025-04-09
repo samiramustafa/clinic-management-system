@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";

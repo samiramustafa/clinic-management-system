@@ -1,9 +1,9 @@
 
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import DayCard from "./daycard";
 import { useParams } from "react-router-dom";
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; // تأكد من استيراد Bootstrap JS
 
 function Appoint() {
   const [bookedAppointments, setBookedAppointments] = useState([]);
@@ -23,28 +23,34 @@ function Appoint() {
   const [patientId, setPatientId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const { id } = useParams();
+  const carouselRef = useRef(null); // للتحكم في الكاروسيل
 
-  // Fetch available appointments
+
+
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/available-times/?doctor_id=${id}`
-        );
-        setAppointments(response.data);
-        const firstAvailableTimeId = response.data?.[0]?.id || null;
-        setSelectedAvailableTimeId(firstAvailableTimeId);
-        setDoctorId(id);
-      } catch (error) {
-        console.error("Error fetching appointments:", error);
-        setError("Failed to fetch appointments. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchAppointments = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/available-times/?doctor_id=${id}`
+      );
+      const enrichedAppointments = response.data.map((appt) => ({
+        ...appt,
+        day: appt.day || new Date(appt.date).toLocaleDateString("en-US", { weekday: "long" }),
+      }));
+      setAppointments(enrichedAppointments);
+      const firstAvailableTimeId = enrichedAppointments?.[0]?.id || null;
+      setSelectedAvailableTimeId(firstAvailableTimeId);
+      setDoctorId(id);
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+      setError("Failed to fetch appointments. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchAppointments();
-  }, [id]);
+  fetchAppointments();
+}, [id]);
 
   // Fetch authentication data
   useEffect(() => {
@@ -59,11 +65,11 @@ function Appoint() {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const userId = userResponse.data.id;
-        const phone =userResponse.data.phone_number;
+        const phone = userResponse.data.phone_number;
         const user_name = userResponse.data.username;
         setPatientName(user_name);
         setPatientPhone(phone);
-        // console.log("Patient Phone Number:", user_name);
+
         const patientResponse = await axios.get(
           "http://127.0.0.1:8000/api/patients/",
           { headers: { Authorization: `Bearer ${token}` } }
@@ -74,7 +80,6 @@ function Appoint() {
 
         if (patientData) {
           setPatientId(patientData.id);
-          console.log("Patient ID:", patientData);
         } else {
           console.log("No patient found for this user.");
         }
@@ -86,15 +91,25 @@ function Appoint() {
     fetchAuthData();
   }, [id]);
 
-  // Carousel slide handler
+  // Initialize Bootstrap Carousel with no wrap
   useEffect(() => {
-    const carousel = document.getElementById("dayCarousel");
-    if (carousel) {
-      const handleSlide = (event) => setActiveIndex(event.to);
-      carousel.addEventListener("slide.bs.carousel", handleSlide);
-      return () => carousel.removeEventListener("slide.bs.carousel", handleSlide);
+    const carouselElement = carouselRef.current;
+    if (carouselElement && window.bootstrap) {
+      const carousel = new window.bootstrap.Carousel(carouselElement, {
+        wrap: false, // تعطيل الحلقة الدائرية
+      });
+
+      const handleSlide = (event) => {
+        setActiveIndex(event.to); // تحديث الفهرس النشط
+      };
+
+      carouselElement.addEventListener("slide.bs.carousel", handleSlide);
+      return () => {
+        carouselElement.removeEventListener("slide.bs.carousel", handleSlide);
+        carousel.dispose(); // تنظيف الكاروسيل عند إلغاء التثبيت
+      };
     }
-  }, []);
+  }, [appointments]); // يعتمد على appointments لأنه يحدد عدد الشرائح
 
   // Toast auto-close
   useEffect(() => {
@@ -106,22 +121,17 @@ function Appoint() {
 
   const validateForm = () => {
     let errors = {};
-  
- 
     if (!patientName || !patientName.trim()) {
       errors.patientName = "Patient name is required";
     }
-  
     if (!patientPhone || !patientPhone.trim()) {
       errors.patientPhone = "Patient phone is required";
     } else if (!/^\d{10,15}$/.test(patientPhone)) {
       errors.patientPhone = "Phone number must be between 10-15 digits";
     }
-  
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
 
   const handleBookAppointment = async () => {
     if (!selectedDay || !selectedTime || !selectedAvailableTimeId) {
@@ -139,18 +149,15 @@ function Appoint() {
         doctor: doctorId,
         available_time: selectedAvailableTimeId,
         phone_number: patientPhone,
-        patient_name : patientName,
+        patient_name: patientName,
         status: "pending",
       };
-      console.log("New Appointment:", newAppointment);
 
       const { data: bookedAppointment } = await axios.post(
         "http://127.0.0.1:8000/api/appointments/",
         newAppointment,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
 
@@ -158,7 +165,6 @@ function Appoint() {
       setShowToast(true);
       setShowConfirm(false);
 
-      // Reset form fields
       setFormErrors({});
       setSelectedDay(null);
       setSelectedTime(null);
@@ -200,10 +206,16 @@ function Appoint() {
         <i className="fas fa-calendar-check"></i> Doctor Appointment Booking
       </h2>
 
-      <div id="dayCarousel" className="carousel slide mx-auto rounded shadow" style={{ maxWidth: "90%" }}>
+      <div
+        id="dayCarousel"
+        className="carousel slide mx-auto rounded shadow"
+        style={{ maxWidth: "90%" }}
+        ref={carouselRef}
+        data-bs-wrap="false" // تعطيل الحلقة الدائرية مباشرة عبر HTML
+      >
         <div className="carousel-inner">
           {Array.from({ length: totalSlides }).map((_, i) => (
-            <div className={`carousel-item ${i === 0 ? "active" : ""}`} key={i}>
+            <div className={`carousel-item ${i === activeIndex ? "active" : ""}`} key={i}>
               <div className="row justify-content-center">
                 {uniqueDays.slice(i * 3, i * 3 + 3).map((day) => (
                   <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center" key={day.date}>
@@ -301,5 +313,3 @@ function Appoint() {
 }
 
 export default Appoint;
-
-

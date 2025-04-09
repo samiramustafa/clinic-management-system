@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Feedback from "../feedback/feedback";
 
@@ -30,7 +31,7 @@ function Card(props) {
                                     </p>
 
 
-                                    <p className="card-text fs-4 text-dark"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}
+                                    <p className="card-text fs-6 text-dark"><i className="bi bi-geo-alt text-primary"></i> {props.area} - {props.city}
                                     </p>
                                     
 
@@ -69,6 +70,5 @@ function Card(props) {
         </div>
     );
 }
-
 export default Card;
 
