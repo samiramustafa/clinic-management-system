@@ -424,19 +424,6 @@ const DoctorProfile = () => {
                         <fieldset className="border p-3 mb-3 rounded">
                              <legend className="w-auto px-2 fs-5 fw-bold">Patient Details</legend>
 
-                             <div className="mb-3">
-                                <label htmlFor="patient_birth_date" className="form-label fw-bold">Date of Birth:</label>
-                                <input
-                                    type="date"
-                                    id="patient_birth_date"
-                                    className={`form-control ${touched['patient_profile.birth_date'] && errors['patient_profile.birth_date'] ? 'is-invalid' : touched['patient_profile.birth_date'] && formData.patient_profile.birth_date ? 'is-valid' : ''}`}
-                                    name="birth_date"
-                                    value={formData.patient_profile.birth_date || ''}
-                                    onChange={handlePatientProfileChange}
-                                     max={new Date().toISOString().split("T")[0]}
-                                />
-                                {touched['patient_profile.birth_date'] && errors['patient_profile.birth_date'] && <div className="invalid-feedback">{errors['patient_profile.birth_date']}</div>}
-                            </div>
 
                             <div className="mb-3">
                                 <label htmlFor="patient_medical_history" className="form-label fw-bold">Medical History:</label>
