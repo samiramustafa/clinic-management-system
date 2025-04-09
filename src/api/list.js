@@ -431,7 +431,7 @@ function ListDoctors() {
                                 // مرر أي props أخرى يحتاجها Mycard (مثل phone_number لو أضفته)
                                 // phone={doctor.phone_number || "-"}
                                 // rate={doctor.average_rating > 0 ? doctor.average_rating : null} // التعامل مع null و 0
-                                fees={doctor.fees || "N/A"} 
+                                fees={doctor.fees || "200"} 
                                 description={doctor.description || "No description available."} // وصف افتراضي
                                 style={{ height: "100%" }} // للتأكد أن الكارت يملأ المساحة العمودية
                             />
