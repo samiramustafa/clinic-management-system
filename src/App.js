@@ -67,7 +67,7 @@ function App() {
             </Switch>
               {/* abdelrjman 2:40 */}
           </div>
-          <ChatBot />
+          {/* <ChatBot /> */}
           <Footer />
           {/* Scroll-To-Top Button */}
           <ScrollToTopButton />
