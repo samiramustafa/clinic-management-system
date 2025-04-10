@@ -145,10 +145,8 @@ const Navbar = () => {
                                 <NavLink to="/list-doctors" className="nav-link px-3 py-2" activeClassName="active" onClick={handleMenuClose} > Doctors </NavLink>
                             </li>
 
-                            {/* Conditional Links based on Auth/Role */}
                             {isAuthenticated ? (
                                 <>
-                                    {/* Doctor Specific */}
                                     {userRole === "doctor" && (
                                         <>
                                             <li className="nav-item">
@@ -159,26 +157,21 @@ const Navbar = () => {
                                             </li>
                                         </>
                                     )}
-                                    {/* Patient Specific */}
                                     {userRole === "patient" && (
                                         <li className="nav-item">
                                             <NavLink to="/patient-appointment" className="nav-link px-3 py-2" activeClassName="active" onClick={handleMenuClose}> My Appointments </NavLink>
                                         </li>
                                     )}
-                                    {/* Common Authenticated Links */}
                                     <li className="nav-item">
-                                         {/* Use Link component if NavLink active state isn't needed */}
                                         <Link className="nav-link px-3 py-2" to="/doctor-profile" onClick={handleMenuClose}>
                                             <i className="fas fa-user me-1"></i> Profile {/* Added Icon */}
                                         </Link>
                                     </li>
-                                     {/* Separator for buttons on large screens */}
                                     <li className="nav-item d-none d-lg-block mx-lg-1"></li>
                                     <li className="nav-item">
-                                        {/* Styled Logout Button */}
                                         <button
-                                            className="btn btn-outline-danger btn-sm my-2 my-lg-0 ms-lg-2" // Button styling
-                                            onClick={handleLogout} // Logout directly, no need for menu close here
+                                            className="btn btn-outline-danger btn-sm my-2 my-lg-0 ms-lg-2"
+                                            onClick={handleLogout} 
                                         >
                                             <i className="fas fa-sign-out-alt me-1"></i> Logout {/* Added Icon */}
                                         </button>
@@ -186,8 +179,7 @@ const Navbar = () => {
                                 </>
                             ) : (
                                 <>
-                                    {/* Links for Non-Authenticated Users */}
-                                    {/* Separator for buttons on large screens */}
+                                  
                                     <li className="nav-item d-none d-lg-block mx-lg-1"></li>
                                     <li className="nav-item">
                                         <Link className="btn btn-outline-primary btn-sm my-2 my-lg-0" to="/login" onClick={handleMenuClose}> Login </Link>
@@ -197,7 +189,6 @@ const Navbar = () => {
                                     </li>
                                 </>
                             )}
-                             {/* Admin Link - Styled as a distinct button */}
                             <li className="nav-item">
                                 <NavLink
                                     to="/admin/login"
@@ -208,14 +199,12 @@ const Navbar = () => {
                                 </NavLink>
                             </li>
 
-                           {/* Theme Toggle - Placed last, styled as small button */}
                             <li className="nav-item ms-lg-3">
                                 <button
                                     className="btn btn-secondary btn-sm my-2 my-lg-0"
                                     onClick={toggleTheme}
                                     aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                                 >
-                                    {/* Use different icons for light/dark */}
                                     {isDarkMode ? <i className="fas fa-sun"></i> : <i className="fas fa-moon"></i>}
                                 </button>
                             </li>
