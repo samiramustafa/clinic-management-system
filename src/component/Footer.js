@@ -3,18 +3,20 @@ import "../css/style.css";
 
 function Footer() {
     const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!email) {
-            alert("Please enter a valid email address!");
+            setMessage("Please enter a valid email address!");
             return;
         }
 
-        // Show alert
-        alert("Welcome to our clinic!");
+        // Simulate successful subscription on the frontend
+        setMessage("Thank you for subscribing! You will receive a greeting message shortly.");
+        console.log(`Simulating sending greeting email to: ${email}`);
 
-        // Send email to backend
+        // Optionally, still send the email to the backend for logging or other purposes
         try {
             const response = await fetch("http://127.0.0.1:8000/clinic/send-email/", {
                 method: "POST",
@@ -22,13 +24,16 @@ function Footer() {
                 body: JSON.stringify({ email }),
             });
             if (response.ok) {
-                console.log("Greeting email sent successfully!");
+                console.log("Email address sent to backend for potential logging.");
             } else {
-                console.error("Failed to send email.");
+                console.error("Failed to send email address to backend.");
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error sending email address to backend:", error);
         }
+
+        // Clear the input field after "submission"
+        setEmail("");
     };
 
     return (
@@ -79,6 +84,7 @@ function Footer() {
                                     <button type="submit" className="btn btn-info text-light">Sign Up</button>
                                 </div>
                             </form>
+                            {message && <p className="mt-2 text-warning">{message}</p>}
                             <h6 className="Clinic text-uppercase mt-4 mb-3">Follow Us</h6>
                             <div className="d-flex">
                                 <a className="btn btn-lg btn-info btn-lg-square rounded-circle me-2" href="#"><i className="bi bi-twitter text-light"></i></a>
