@@ -126,13 +126,13 @@ function FeedbackList() {
         currentFeed.map((fb) => (
           <div key={fb.id} className="card mb-3 shadow-sm">
             <div className="card-body d-flex">
-              <img
+              {/* <img
                 src={fb.patient?.avatar || "default-avatar.png"}
                 alt="Avatar"
                 className="rounded-circle me-3"
                 width="50"
                 height="50"
-              />
+              /> */}
               <div>
                 <h6 className="mb-1">{fb.patient_name || "Unknown Patient"}</h6>
                 <p className="mt-2 mb-1">{fb.feedback}</p>

@@ -40,7 +40,6 @@ function Appointments() {
         );
 
         if (patientData) {
-          // setUserData(patientData);
           setCurrentUser(patientData.id); // Set currentUser here
           console.log("Patient ID:", patientData.id);
         } else {
@@ -84,7 +83,6 @@ function Appointments() {
       setBookedAppointments(updatedAppointments);
       setSelectedAppointment(null);
       
-      // Adjust current page if necessary
       const totalPages = Math.ceil(updatedAppointments.length / appointmentsPerPage);
       if (currentPage > totalPages) {
         setCurrentPage(totalPages || 1);
@@ -95,7 +93,6 @@ function Appointments() {
     }
   };
 
-  // Pagination logic
   const indexOfLastAppointment = currentPage * appointmentsPerPage;
   const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
   const currentAppointments = bookedAppointments.slice(
@@ -154,7 +151,6 @@ function Appointments() {
                 ))}
               </div>
 
-              {/* Pagination Controls */}
               <nav className="mt-4">
                 <ul className="pagination justify-content-center">
                   <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>

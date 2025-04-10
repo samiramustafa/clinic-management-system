@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import DayCard from "./daycard";
 import { useParams } from "react-router-dom";
-import "bootstrap/dist/js/bootstrap.bundle.min.js"; // تأكد من استيراد Bootstrap JS
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
 
 function Appoint() {
   const [bookedAppointments, setBookedAppointments] = useState([]);
@@ -23,7 +23,7 @@ function Appoint() {
   const [patientId, setPatientId] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const { id } = useParams();
-  const carouselRef = useRef(null); // للتحكم في الكاروسيل
+  const carouselRef = useRef(null);
 
 
 
@@ -52,7 +52,6 @@ function Appoint() {
   fetchAppointments();
 }, [id]);
 
-  // Fetch authentication data
   useEffect(() => {
     const fetchAuthData = async () => {
       const token = localStorage.getItem("access_token");
@@ -91,27 +90,25 @@ function Appoint() {
     fetchAuthData();
   }, [id]);
 
-  // Initialize Bootstrap Carousel with no wrap
   useEffect(() => {
     const carouselElement = carouselRef.current;
     if (carouselElement && window.bootstrap) {
       const carousel = new window.bootstrap.Carousel(carouselElement, {
-        wrap: false, // تعطيل الحلقة الدائرية
+        wrap: false,
       });
 
       const handleSlide = (event) => {
-        setActiveIndex(event.to); // تحديث الفهرس النشط
+        setActiveIndex(event.to); 
       };
 
       carouselElement.addEventListener("slide.bs.carousel", handleSlide);
       return () => {
         carouselElement.removeEventListener("slide.bs.carousel", handleSlide);
-        carousel.dispose(); // تنظيف الكاروسيل عند إلغاء التثبيت
+        carousel.dispose(); 
       };
     }
-  }, [appointments]); // يعتمد على appointments لأنه يحدد عدد الشرائح
+  }, [appointments]); 
 
-  // Toast auto-close
   useEffect(() => {
     if (showToast) {
       const timer = setTimeout(() => setShowToast(false), 2000);
@@ -211,7 +208,7 @@ function Appoint() {
         className="carousel slide mx-auto rounded shadow"
         style={{ maxWidth: "90%" }}
         ref={carouselRef}
-        data-bs-wrap="false" // تعطيل الحلقة الدائرية مباشرة عبر HTML
+        data-bs-wrap="false" 
       >
         <div className="carousel-inner">
           {Array.from({ length: totalSlides }).map((_, i) => (

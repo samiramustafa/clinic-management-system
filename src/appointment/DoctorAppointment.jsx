@@ -138,14 +138,12 @@ function DoctorAppointments() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Check if the newly added appointment is in the future before adding to state
       const newApptEndDateTime = new Date(`${response.data.date}T${response.data.end_time}`);
       if (newApptEndDateTime > new Date()) {
           const newApptWithDay = {
             ...response.data,
             day: response.data.day || new Date(response.data.date).toLocaleDateString('en-US', { weekday: 'long' })
           };
-          // Add to the existing list (which should already be filtered)
           setAppointments(prevAppointments => [...prevAppointments, newApptWithDay]);
       }
 

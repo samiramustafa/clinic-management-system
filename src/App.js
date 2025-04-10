@@ -33,16 +33,60 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminProtectedRoute from './component/AdminProtectedRoute';
 import { FeedbackProvider } from './feedback/feedbackcontext.js';
 import AppointmentStatus  from './appointment/AppointmentStatus.js'
+import AdminFeedbackManager from './component/admin/AdminFeedbackManager'; // <-- استيراد مكون الفيدباك
 
 
+// function App() {
+//   return (
+//     <div id="root">
+//       <BrowserRouter>
+//         <FeedbackProvider> {/* Wrap the entire app */}
+//           <Navbar />
+//           <div className="main-content">
+//             <Switch>
+//               <Route path="/" component={Hero} exact />
+//               <Route path="/about" component={About} exact />
+//               <Route path="/apoint" component={Appoint} exact />
+//               <Route path="/register" component={Register} exact />
+//               <Route path="/doctor-profile" component={DoctorProfile} exact />
+//               <Route path="/patient-profile" component={PatientProfile} exact />
+//               <Route path="/patient-appointment" component={PatientAppointment} />
+//               <Route path="/login" component={Login} exact />
+//               <Route path="/list-doctors" component={ListDoctors} exact />
+//               <Route path="/details/:id" component={Details} exact />
+//               <Route path="/details/:id/feedback/:feedbackId" component={FeedbackList} exact />
+//               <Route path="/feedbacklist" component={FeedbackList} exact />
+//               <Route path="/clinic" component={DoctorAppointments} exact />
+//                <Route path="/appointmentstatus" component={AppointmentStatus} exact />
+
+
+//               <Route path="/admin/login" component={AdminLogin} exact />
+//               <AdminProtectedRoute path="/admin/dashboard">
+//                 <AdminDashboard />
+//               </AdminProtectedRoute>
+//               <Route path="*" component={NotFound} />
+//             </Switch>
+//               {/* abdelrjman 2:40 */}
+//           </div>
+//           {/* <ChatBot /> */}
+//           <Footer />
+//           <ScrollToTopButton />
+//         </FeedbackProvider>
+//       </BrowserRouter>
+//     </div>
+//   );
+// }
+
+// export default App;
 function App() {
   return (
     <div id="root">
       <BrowserRouter>
-        <FeedbackProvider> {/* Wrap the entire app */}
+        <FeedbackProvider>
           <Navbar />
           <div className="main-content">
             <Switch>
+              {/* --- Public Routes --- */}
               <Route path="/" component={Hero} exact />
               <Route path="/about" component={About} exact />
               <Route path="/apoint" component={Appoint} exact />
@@ -56,20 +100,25 @@ function App() {
               <Route path="/details/:id/feedback/:feedbackId" component={FeedbackList} exact />
               <Route path="/feedbacklist" component={FeedbackList} exact />
               <Route path="/clinic" component={DoctorAppointments} exact />
-               <Route path="/appointmentstatus" component={AppointmentStatus} exact />
+              <Route path="/appointmentstatus" component={AppointmentStatus} exact />
 
 
+              {/* --- Admin Routes --- */}
               <Route path="/admin/login" component={AdminLogin} exact />
-              <AdminProtectedRoute path="/admin/dashboard">
+
+              <AdminProtectedRoute path="/admin/dashboard" exact>
                 <AdminDashboard />
               </AdminProtectedRoute>
+
+              <AdminProtectedRoute path="/admin/feedback" exact>
+                <AdminFeedbackManager />
+              </AdminProtectedRoute>
+
+           
               <Route path="*" component={NotFound} />
             </Switch>
-              {/* abdelrjman 2:40 */}
           </div>
-          {/* <ChatBot /> */}
           <Footer />
-          {/* Scroll-To-Top Button */}
           <ScrollToTopButton />
         </FeedbackProvider>
       </BrowserRouter>

@@ -1,22 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// --- 👇 استيراد الأيقونات والمودال ---
 import { CheckCircleFill, XCircleFill, ToggleOn, ToggleOff, PencilSquare, Trash3 } from 'react-bootstrap-icons';
-import FeedbackEditModal from './FeedbackEditModal'; // تأكد من المسار الصحيح
-import { Modal, Button } from 'react-bootstrap'; // لاستيراد مكونات المودال
+import FeedbackEditModal from './FeedbackEditModal'; 
+import { Modal, Button } from 'react-bootstrap'; 
 
 function AdminFeedbackManager() {
     const [feedbacks, setFeedbacks] = useState([]);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [filter, setFilter] = useState('all');
-    // --- 👇 حالات جديدة للمودالات ---
-    const [editingFeedbackData, setEditingFeedbackData] = useState(null); // بيانات التقييم للتعديل
+    const [editingFeedbackData, setEditingFeedbackData] = useState(null); 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [feedbackToDelete, setFeedbackToDelete] = useState(null); // بيانات التقييم للحذف
+    const [feedbackToDelete, setFeedbackToDelete] = useState(null);
 
-    // ... (fetchAdminFeedbacks كما هي) ...
     const fetchAdminFeedbacks = useCallback(async () => {
          setIsLoading(true);
          setError(null);
@@ -38,40 +35,33 @@ function AdminFeedbackManager() {
     }, [fetchAdminFeedbacks]);
 
 
-    // --- 👇 دالة لفتح مودال التعديل ---
     const handleEditClick = (feedback) => {
         setEditingFeedbackData(feedback);
     };
 
-    // --- 👇 دالة لحفظ التعديلات (تُمرر للمودال) ---
     const handleSaveChanges = useCallback(async (feedbackId, updatedData) => {
         const token = localStorage.getItem('access_token');
         if (!token) {
-            throw new Error("Authentication required."); // ارمِ خطأ ليعالجه المودال
+            throw new Error("Authentication required.");
         }
 
         try {
-            // --- استدعاء API التحديث (PUT أو PATCH) ---
-            const response = await axios.put( // استخدام PUT لتحديث شامل
+            const response = await axios.put( 
                 `http://127.0.0.1:8000/api/admin/feedbacks/${feedbackId}/`,
-                updatedData, // البيانات المحدثة من المودال
+                updatedData, 
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             console.log("Feedback updated successfully:", response.data);
-            // --- تحديث الحالة في الفرونت إند ---
             setFeedbacks(prevFeedbacks =>
                 prevFeedbacks.map(fb => (fb.id === feedbackId ? response.data : fb))
             );
-            setError(null); // مسح أي خطأ سابق عند النجاح
-             // يمكنك إضافة رسالة نجاح هنا
+            setError(null); 
         } catch (err) {
             console.error("Error saving feedback:", err.response || err.message);
-            // رمي الخطأ مرة أخرى ليعرضه المودال أو يعالجه بشكل مناسب
             throw err;
         }
-    }, []); // لا تعتمد على شيء يتغير كثيرًا، أو أضف التبعيات اللازمة
+    }, []); 
 
-    // --- 👇 دوال الحذف ---
     const handleDeleteClick = (feedback) => {
         setFeedbackToDelete(feedback);
         setShowDeleteModal(true);
@@ -87,7 +77,6 @@ function AdminFeedbackManager() {
              });
              setFeedbacks(prevFeedbacks => prevFeedbacks.filter(fb => fb.id !== feedbackToDelete.id));
              setShowDeleteModal(false);
-            //  console.log(`Feedback ${feedbackToDelete.id} deleted successfully.`);
              setFeedbackToDelete(null);
              setError(null);
          } catch (err) {
@@ -97,16 +86,13 @@ function AdminFeedbackManager() {
          }
     };
 
-    // --- 👇 دالة تبديل الحالة (لم نعد بحاجة لها إذا كان التعديل يتم عبر المودال) ---
-    // const toggleFeedbackStatus = async (feedback) => { ... };
+
 
     return (
         <div className="card shadow-sm mt-4">
             <div className="card-header d-flex justify-content-between align-items-center">
-                {/* ... (العنوان وأزرار الفلترة كما هي) ... */}
             </div>
             <div className="card-body">
-                {/* ... (عرض التحميل والخطأ كما هو) ... */}
                 {!isLoading && !error && (
                     <div className="table-responsive">
                         <table className="table table-striped table-hover align-middle">
@@ -116,10 +102,10 @@ function AdminFeedbackManager() {
                                     <th>Patient</th>
                                     <th>Doctor</th>
                                     <th>Rating</th>
-                                    <th style={{minWidth: '200px'}}>Feedback</th> {/* تحديد عرض أدنى */}
+                                    <th style={{minWidth: '200px'}}>Feedback</th> 
                                     <th>Date</th>
                                     <th>Status</th>
-                                    <th>Admin Notes</th> {/* إضافة عمود الملاحظات */}
+                                    <th>Admin Notes</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -138,10 +124,8 @@ function AdminFeedbackManager() {
                                                     {fb.is_active ? 'Active' : 'Inactive'}
                                                 </span>
                                             </td>
-                                            {/* عرض ملاحظات الأدمن */}
                                             <td>{fb.admin_notes || '-'}</td>
                                             <td>
-                                                {/* --- 👇 أزرار التعديل والحذف --- */}
                                                 <button
                                                     className="btn btn-sm btn-outline-primary me-2"
                                                     onClick={() => handleEditClick(fb)}
@@ -170,18 +154,16 @@ function AdminFeedbackManager() {
                 )}
             </div>
 
-            {/* --- 👇 مودال التعديل --- */}
             {editingFeedbackData && (
                 <FeedbackEditModal
                     show={!!editingFeedbackData}
                     onClose={() => setEditingFeedbackData(null)}
                     feedbackData={editingFeedbackData}
-                    onSave={handleSaveChanges} // تمرير دالة الحفظ
-                    onError={(msg) => setError(msg)} // تمرير دالة لعرض الخطأ من المودال
+                    onSave={handleSaveChanges} 
+                    onError={(msg) => setError(msg)} 
                 />
             )}
 
-             {/* --- 👇 مودال تأكيد الحذف --- */}
             {showDeleteModal && feedbackToDelete && (
                 <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
                    <Modal.Header closeButton>

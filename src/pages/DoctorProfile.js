@@ -1,12 +1,10 @@
 
 
-// export default DoctorProfile;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Title from "../component/Title";
 import InputField from "../component/Input";
 
-// const specialitiesList = [ ... ]; // Define if needed
 
 const DoctorProfile = () => {
     const [user, setUser] = useState(null);
@@ -80,10 +78,7 @@ const DoctorProfile = () => {
                               errorMsg = "Fees must be 100 or greater";
                           }
                       }
-                      // Add this if fees become required:
-                      // else if (!trimmedFees) {
-                      //    errorMsg = "Fees are required";
-                      // }
+                      
                  }
                  break;
             default:
@@ -133,7 +128,7 @@ const DoctorProfile = () => {
                     gender: userData.patient_profile.gender || "male"
                 };
             } else if (userData.role === 'doctor') {
-                 let initialFees = "100"; // Default value
+                 let initialFees = "100"; 
                  if (userData.doctor_profile?.fees !== null && userData.doctor_profile?.fees !== undefined) {
                      initialFees = String(userData.doctor_profile.fees);
                  }
@@ -328,7 +323,6 @@ const DoctorProfile = () => {
                      image: updatedUserData.doctor_profile.image || null
                  };
              } else if (updatedUserData.role === 'doctor' && !updatedUserData.doctor_profile) {
-                 // Ensure fees defaults if profile is somehow null after update
                  updatedFormDataState.doctor_profile.fees = "100";
              }
 

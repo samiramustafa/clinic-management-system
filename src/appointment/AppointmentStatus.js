@@ -81,7 +81,7 @@ const AppointmentsTable = () => {
                   <td>{appointment.phone_number}</td>
                   <td className="text-capitalize">{appointment.status}</td>
                  
-                  <td>
+                  {/* <td>
   <div className="d-flex gap-2 justify-content-center">
     {appointment.status === 'pending' ? (
       <>
@@ -114,6 +114,39 @@ const AppointmentsTable = () => {
         }}
       >
         {appointment.status === 'accepted' ? 'Reject' : 'Accept'}
+      </button>
+    )}
+  </div>
+</td> */}
+<td>
+  <div className="d-flex gap-2 justify-content-center">
+    {appointment.status === 'pending' ? (
+      <>
+        <button
+          className="btn btn-success"
+          onClick={(e) => {
+            e.preventDefault();
+            updateStatus(appointment.id, 'accepted');
+          }}
+        >
+          Accept
+        </button>
+        <button
+          className="btn btn-danger"
+          onClick={(e) => {
+            e.preventDefault();
+            updateStatus(appointment.id, 'rejected');
+          }}
+        >
+          Reject
+        </button>
+      </>
+    ) : (
+      <button
+        className={`btn ${appointment.status === 'accepted' ? 'btn-success' : 'btn-danger'}`}
+        disabled={appointment.status === 'accepted'}
+      >
+        {appointment.status === 'accepted' ? 'Accepted' : 'Rejected'}
       </button>
     )}
   </div>
